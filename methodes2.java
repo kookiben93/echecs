@@ -38,15 +38,24 @@ public class methodes {
             pionB(tab, ligne, colonne);
         }
         else if (tab[ligne][colonne] == 7 || tab[ligne][colonne] == 1) {
-            if ((tab[ligne-1][colonne]>5) || (tab[ligne][colonne+1]>5) || (tab[ligne][colonne-1]>5) ||
-                (tab[ligne][colonne-1]>5)){
-                System.out.println("Impossible de bouger cette pièce");
-                coordonnees(tab);
+            if(pieceAutour(tab, ligne, colonne, 7)==true){
+                    System.out.println("Impossible de bouger cette pièce");
+                    coordonnees(tab);
             }
-            else{
+            else {
                 tour(tab, ligne, colonne);
             }
         }
+            /*if(tab[ligne][colonne] == 1){
+                if ((tab[ligne-1][colonne]<6) && (tab[ligne][colonne+1]<6) && (tab[ligne][colonne-1]<6) &&
+                    (tab[ligne+1][colonne]<6)){
+                    System.out.println("Impossible de bouger cette pièce");
+                    coordonnees(tab);
+                }
+                else{
+                    tour(tab, ligne, colonne);
+                }
+            }*/
         else if (tab[ligne][colonne] == 9 || tab[ligne][colonne] == 3) {
             fou(tab, ligne, colonne);
         }
@@ -59,6 +68,36 @@ public class methodes {
         else {
             System.out.println("Case vide, veuillez recommencez");
         }
+    }
+
+    public static boolean pieceAutour(int[][] tab, int ligne, int colonne, int couleur){
+        boolean piece=false;
+            
+        if(tab[ligne][colonne] == 7){
+            if((ligne==7 && colonne==0) && (tab[ligne-1][colonne]>5 && tab[ligne][colonne+1]>5)){
+                piece = true;
+            }
+            else if((ligne==7 && colonne==7) && (tab[ligne][colonne-1]>5 && tab[ligne+1][colonne]>5)){
+                piece = true;
+            }
+            else if ((ligne-1>=0 && tab[ligne-1][colonne]>5) && (colonne+1<8 && tab[ligne][colonne+1]>5) && 
+                (colonne-1>=0 && tab[ligne][colonne-1]>5) && (ligne+1<8 && tab[ligne+1][colonne]>5)){
+                piece = true;
+            }
+        }
+        /*else if (tab[ligne][colonne] == 1){
+            if((ligne==0 && colonne==0) && (tab[ligne-1][colonne]>5 && tab[ligne][colonne+1]>5)){
+                piece = true;
+            }
+            else if((ligne==0 && colonne==7) && (tab[ligne][colonne-1]>5 && tab[ligne+1][colonne]>5)){
+                piece = true;
+            }
+            else if ((ligne-1>=0 && tab[ligne-1][colonne]>5) && (colonne+1<8 && tab[ligne][colonne+1]>5) && 
+                (colonne-1>=0 && tab[ligne][colonne-1]>5) && (ligne+1<8 && tab[ligne+1][colonne]>5)){
+                piece = true;
+            }
+        }*/
+        return piece;
     }
 
     public static void plateau(int[][] tab) {
