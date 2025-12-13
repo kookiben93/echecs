@@ -11,19 +11,19 @@ public class methodes {
         int colonne;
         int ligne;
 
-        System.out.println("Quelle pièce voulez vous jouer ? ");
-        System.out.println("Entrez le numéro de la ligne : ");
+        System.out.print("Quelle pièce voulez vous jouer ? ");
+        System.out.print("Entrez le numéro de la ligne : ");
         ligne = (scanner.nextInt()) - 1;
         while (ligne < 0 || ligne > 7) {
             System.out.println("Coordonnées impossible");
-            System.out.println("Entrez le numéro de la ligne : ");
+            System.out.print("Entrez le numéro de la ligne : ");
             ligne = (scanner.nextInt()) - 1;
         }
-        System.out.println("Entrez le numéro de la colonne : ");
+        System.out.print("Entrez le numéro de la colonne : ");
         colonne = (scanner.nextInt()) - 1;
         while (colonne < 0 || colonne > 7) {
            System.out.println("Coordonnées impossible");
-           System.out.println("Entrez le numéro de la colonne : ");
+           System.out.print("Entrez le numéro de la colonne : ");
            colonne = (scanner.nextInt()) - 1;
        }
        appelPiece(tab, ligne, colonne);
@@ -40,7 +40,7 @@ public class methodes {
         else if (tab[ligne][colonne] == 7 || tab[ligne][colonne] == 1) {
             if ((tab[ligne-1][colonne]>5) || (tab[ligne][colonne+1]>5) || (tab[ligne][colonne-1]>5) ||
                 (tab[ligne][colonne-1]>5)){
-                System.out.print("Impossible de bouger cette pièce");
+                System.out.println("Impossible de bouger cette pièce");
                 coordonnees(tab);
             }
             else{
@@ -291,46 +291,46 @@ public class methodes {
             /*} while (choix != 1 && choix != 2);*/
             tab[ligne][colonne] = 0;
             while(tab[ligne-choix][colonne]>5){ 
-                System.out.print("impossible d'avancer jusque là");
+                System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
             }
         tab[ligne-choix][colonne] = couleur;
 
         } else if (direction == 3 && tab[ligne][colonne+1] == 0) {    //aller à droite
-            System.out.println("Tu veux avancer de combien ? ");
+            System.out.print("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
             tab[ligne][colonne] = 0;
 
             while(tab[ligne][colonne+choix]>5){ 
-                System.out.print("impossible d'avancer jusque là");
+                System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
             }
         tab[ligne][colonne+choix] = couleur;
 
         } else if (direction == 2 && tab[ligne][colonne - 1] == 0) {    //aller à gauche
-            System.out.println("Tu veux avancer de combien ? ");
+            System.out.print("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
             tab[ligne][colonne] = 0;
 
             while(tab[ligne][colonne-choix]>5){ 
-                System.out.print("impossible d'avancer jusque là");
+                System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
             }
         tab[ligne][colonne-choix] = couleur;
 
         } else if (direction == 4 && tab[ligne][colonne-1] == 0){       //aller en bas
-            System.out.println("Tu veux avancer de combien ? ");
+            System.out.print("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
             tab[ligne][colonne] = 0;
 
             while(tab[ligne+choix][colonne]>5){ 
-                System.out.print("impossible d'avancer jusque là");
+                System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
             }
