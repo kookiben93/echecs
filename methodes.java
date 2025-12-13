@@ -12,10 +12,20 @@ public class methodes {
         int ligne;
 
         System.out.println("Quelle pièce voulez vous jouer ? ");
-        System.out.print("ligne : ");
+        System.out.println("Entrez le numéro de la ligne : ");
         ligne = (scanner.nextInt()) - 1;
-        System.out.print("colonne : ");
+        while (ligne < 0 || ligne > 7) {
+            System.out.println("Coordonnées impossible");
+            System.out.println("Entrez le numéro de la ligne : ");
+            ligne = (scanner.nextInt()) - 1;
+        }
+        System.out.println("Entrez le numéro de la colonne : ");
         colonne = (scanner.nextInt()) - 1;
+        while (colonne < 0 || colonne > 7) {
+           System.out.println("Coordonnées impossible");
+           System.out.println("Entrez le numéro de la colonne : ");
+           colonne = (scanner.nextInt()) - 1;
+       }
 
         //appel des méthodes en fonction de la pièce jouée
         if (tab[ligne][colonne] == 6){
@@ -32,6 +42,12 @@ public class methodes {
         }
         else if (tab[ligne][colonne] == 10){
             roiB(tab, ligne, colonne);
+        }
+        else if (tab[ligne][colonne] == 5){
+            roiN(tab, ligne, colonne);
+        }
+        else {
+            System.out.println("Case vide, veuillez recommencez");
         }
         return tab;
     }
@@ -84,46 +100,50 @@ public class methodes {
 
     //Affichage des pièces sur le plateau
     public static void remplir(int[][] tab) {
+        String RESET  = "\u001B[0m";
+        String BLEU   = "\u001B[34m";
+        String JAUNE  = "\u001B[33m";
+
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
                 if (tab[i][j] == 1){
-                    System.out.print("[ Tour_N ]");
+                    System.out.print("[" + JAUNE + "   Tour   " + RESET + "]");
                 }
                 else if (tab[i][j] == 2){
-                    System.out.print("[Cheval_N]");
+                    System.out.print("[" + JAUNE + " Cavalier " + RESET + "]");
                 }
                 else if (tab[i][j] == 3){
-                    System.out.print("[ Fou_N  ]");
+                    System.out.print("[" + JAUNE + "   Fou    " + RESET + "]");
                 }
                 else if (tab[i][j] == 4){
-                    System.out.print("[ Roi_N  ]");
+                    System.out.print("[" + JAUNE + "   Dame   " + RESET + "]");
                 }
                 else if (tab[i][j] == 5){
-                    System.out.print("[ Dame_N ]");
+                    System.out.print("[" + JAUNE + "   Roi    " + RESET + "]");
                 }
                 else if (tab[i][j] == 6){
-                    System.out.print("[ Pion_N ]");
+                    System.out.print("[" + JAUNE + "   Pion   " + RESET + "]");
                 }
                 else if(tab[i][j] == 7){
-                    System.out.print("[ Tour_B ]");
+                    System.out.print("[" + BLEU + "   Tour   " + RESET + "]");
                 }
                 else if (tab[i][j] == 8){
-                    System.out.print("[Cheval_B]");
+                    System.out.print("[" + BLEU + " Cavalier " + RESET + "]");
                 }
                 else if (tab[i][j] == 9){
-                    System.out.print("[ Fou_B  ]");
+                    System.out.print("[" + BLEU + "   Fou    " + RESET + "]");
                 }
                 else if (tab[i][j] == 10){
-                    System.out.print("[ Roi_B  ]");
+                    System.out.print("[" + BLEU + "   Roi    " + RESET + "]");
                 }
                 else if (tab[i][j] == 11){
-                    System.out.print("[ Dame_B ]");
+                    System.out.print("[" + BLEU + "   Dame   " + RESET + "]");
                 }
                 else if (tab[i][j] == 12){
-                    System.out.print("[ Pion_B ]");
+                    System.out.print("[" + BLEU + "   Pion   " + RESET + "]");
                 }
                 else{
-                    System.out.print("[        ]");
+                    System.out.print("[          ]");
                 }
             }
             System.out.println();
@@ -132,7 +152,7 @@ public class methodes {
         System.out.println();
     }
 
-    //Méthode pour le pion Blanc
+    //Méthode pour le Pion Bleu
     public static void pionB(int[][] tab, int ligne, int colonne){
         Scanner sc = new Scanner(System.in);
         int choix = 0; //il veut avancer de combien
@@ -186,7 +206,7 @@ public class methodes {
         }
     }
 
-    //Méthode pour le Pion Noir
+    //Méthode pour le Pion Jaune
     public static void pionN(int[][] tab, int ligne, int colonne) {
         Scanner sc = new Scanner(System.in);
         int choix; //il veut avancer de combien
@@ -200,7 +220,7 @@ public class methodes {
 
         if (manger == 1) {
             if (colonne + 1 <= 7 && tab[ligne + 1][colonne + 1] >= 7) {
-                System.out.println("prendre la pièce en digonale droite ? (1 pour oui 0 pour non)");
+                System.out.println("Prendre la pièce en digonale droite ? (1 pour oui 0 pour non)");
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 1) {
                     tab[ligne][colonne] = 0;
@@ -208,7 +228,7 @@ public class methodes {
                 }
             }
             if (colonne - 1 >= 0 && tab[ligne + 1][colonne - 1] >= 7) {
-                System.out.println("prendre la pièce en digonale gauche ? (2 pour oui)");
+                System.out.println("Prendre la pièce en digonale gauche ? (2 pour oui)");
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 2) {
                     tab[ligne][colonne] = 0;
@@ -275,11 +295,11 @@ public class methodes {
             tab[ligne][colonne] = 0;
             tab[ligne][colonne - choix] = 7;
         } else if (direction == 4 && tab[ligne][colonne-1] == 0){
-                System.out.println("Tu veux avancer de combien ? ");
-                choix = Integer.parseInt(sc.nextLine());
-                /*} while (choix != 1 && choix != 2);*/
-                tab[ligne][colonne] = 0;
-                tab[ligne+choix][colonne] = 7;
+            System.out.println("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+            /*} while (choix != 1 && choix != 2);*/
+            tab[ligne][colonne] = 0;
+            tab[ligne+choix][colonne] = 7;
         } else {
             System.out.println("Impossible d'avancer ");
         }
@@ -332,7 +352,7 @@ public class methodes {
         }
     }
 
-    //Méthode pour le Roi Blanc
+    //Méthode pour le Roi Bleu
     public static void roiB(int[][] tab, int ligne, int colonne){
         Scanner sc = new Scanner(System.in);
         int choix1 = 0;
@@ -346,52 +366,133 @@ public class methodes {
                 || (colonne != 0 && tab[ligne][colonne-1] <= 6)
                 || (ligne != 0 && colonne != 7 && tab[ligne-1][colonne+1] <= 6)
                 || (ligne != 0 && colonne != 0 && tab[ligne-1][colonne-1] <= 6)){
-            System.out.println("Tu veux aller en ligne droite (tape 1) ou allez en diagonale (tape 2) ");
+            System.out.println("1 pour aller en ligne droite, 2 pour aller en diagonale");
             choix1 = Integer.parseInt(sc.nextLine());
         }
 
         if (choix1 == 1 && ((ligne != 7 && tab[ligne+1][colonne] <= 6 ) || (ligne != 0 && tab[ligne-1][colonne] <= 6) || (colonne != 7 && tab[ligne][colonne+1] <= 6) || (colonne != 0 && tab[ligne][colonne-1] <= 6))){
-            System.out.println("Tu veux aller en bas (tape 1), en haut (tape 2), a gauche (tape 3) ou a droite (tape 4) ");
+            System.out.println("1 pour aller en bas, 2 pour aller en haut, 3 pour aller à gauche, 4 pour aller à droite");
             choix2 = Integer.parseInt(sc.nextLine());
-            if (choix2 == 1){
+            if (choix2 == 1 && (ligne != 7 && tab[ligne+1][colonne] <= 6 )){
                 tab[ligne][colonne] = 0;
                 tab[ligne+1][colonne] = 10;
             }
-            else if (choix2 == 2){
+            else if (choix2 == 2 && (ligne != 0 && tab[ligne-1][colonne] <= 6)){
                 tab[ligne][colonne] = 0;
                 tab[ligne-1][colonne] = 10;
             }
-            else if (choix2 == 3){
+            else if (choix2 == 3 && (colonne != 0 && tab[ligne][colonne-1] <= 6)){
                 tab[ligne][colonne] = 0;
                 tab[ligne][colonne-1] = 10;
             }
-            else{
+            else if (choix2 == 4 && (colonne != 7 && tab[ligne][colonne+1] <= 6)){
                 tab[ligne][colonne] = 0;
                 tab[ligne][colonne+1] = 10;
             }
+            else {
+                System.out.println("Impossible d'avancer ");
+            }
         }
         else if (choix1 == 2 && ((ligne != 7 && colonne != 7 && tab[ligne+1][colonne+1] <= 6) || (ligne != 7 && colonne != 0 && tab[ligne+1][colonne-1] <= 6) || (ligne != 0 && colonne != 7 && tab[ligne-1][colonne+1] <= 6) || (ligne != 0 && colonne != 0 && tab[ligne-1][colonne-1] <= 6))){
-            System.out.println("Tu veux aller en bas a gauche(tape 1), en haut a gauche (tape 2), en bas a droite (tape 3) ou en haut a droite (tape 4) ");
+            System.out.println("1 diagonale bas gauche, 2 diagonale haut gauche, 3 diagonale bas droite, 4 diagonale haut droite");
             choix2 = Integer.parseInt(sc.nextLine());
-            if (choix2 == 1){
+            if (choix2 == 1 && (ligne != 7 && colonne != 0 && tab[ligne+1][colonne-1] <= 6)){
                 tab[ligne][colonne] = 0;
                 tab[ligne+1][colonne-1] = 10;
             }
-            else if (choix2 == 2){
+            else if (choix2 == 2 && (ligne != 0 && colonne != 0 && tab[ligne-1][colonne-1] <= 6)){
                 tab[ligne][colonne] = 0;
                 tab[ligne-1][colonne-1] = 10;
             }
-            else if (choix2 == 3){
+            else if (choix2 == 3 && (ligne != 7 && colonne != 7 && tab[ligne+1][colonne+1] <= 6)){
                 tab[ligne][colonne] = 0;
                 tab[ligne+1][colonne+1] = 10;
             }
-            else{
+            else if (choix2 == 4 && (ligne != 0 && colonne != 7 && tab[ligne-1][colonne+1] <= 6)){
                 tab[ligne][colonne] = 0;
                 tab[ligne-1][colonne+1] = 10;
             }
+            else {
+                System.out.println("Impossible d'avancer ");
+            }
 
+        } else {
+            System.out.println("Impossible d'avancer ");
         }
-        else {
+
+    }
+
+    //Méthode pour le Roi Jaune
+    public static void roiN(int[][] tab, int ligne, int colonne){
+        Scanner sc = new Scanner(System.in);
+        int choix1 = 0;
+        int choix2 = 0;
+
+        if ((ligne != 7 && (tab[ligne+1][colonne] >= 7 || tab[ligne+1][colonne] == 0))
+                || (ligne != 0 && (tab[ligne-1][colonne] >= 7 || tab[ligne-1][colonne] == 0))
+                || (colonne != 7 && (tab[ligne][colonne+1] >= 7 || tab[ligne][colonne+1] == 0))
+                || (colonne != 0 && (tab[ligne][colonne-1] >= 7 || tab[ligne][colonne-1] == 0))
+                || (ligne != 7 && colonne != 7 && (tab[ligne+1][colonne+1] >= 7 || tab[ligne+1][colonne+1] == 0))
+                || (ligne != 7 && colonne != 0 && (tab[ligne+1][colonne-1] >= 7 || tab[ligne+1][colonne-1] == 0))
+                || (ligne != 0 && colonne != 7 && (tab[ligne-1][colonne+1] >= 7 || tab[ligne-1][colonne+1] == 0))
+                || (ligne != 0 && colonne != 0 && (tab[ligne-1][colonne-1] >= 7 || tab[ligne-1][colonne-1] == 0))){
+            System.out.println("1 pour aller en ligne droite, 2 pour aller en diagonale");
+            choix1 = Integer.parseInt(sc.nextLine());
+        }
+
+        if (choix1 == 1 && ((ligne != 7 && (tab[ligne+1][colonne] >= 7 || tab[ligne+1][colonne] == 0))
+                || (ligne != 0 && (tab[ligne-1][colonne] >= 7 || tab[ligne-1][colonne] == 0))
+                || (colonne != 7 && (tab[ligne][colonne+1] >= 7 || tab[ligne][colonne+1] == 0))
+                || (colonne != 0 && (tab[ligne][colonne-1] >= 7 || tab[ligne][colonne-1] == 0)))){
+            System.out.println("1 pour aller en bas, 2 pour aller en haut, 3 pour aller à gauche, 4 pour aller à droite");
+            choix2 = Integer.parseInt(sc.nextLine());
+            if (choix2 == 1 && (ligne != 7 && (tab[ligne+1][colonne] >= 7 || tab[ligne+1][colonne] == 0))){
+                tab[ligne][colonne] = 0;
+                tab[ligne+1][colonne] = 5;
+            }
+            else if (choix2 == 2 && (ligne != 0 && (tab[ligne-1][colonne] >= 7 || tab[ligne-1][colonne] == 0))){
+                tab[ligne][colonne] = 0;
+                tab[ligne-1][colonne] = 5;
+            }
+            else if (choix2 == 3 && (colonne != 0 && (tab[ligne][colonne-1] >= 7 || tab[ligne][colonne-1] == 0))){
+                tab[ligne][colonne] = 0;
+                tab[ligne][colonne-1] = 5;
+            }
+            else if (choix2 == 4 && (colonne != 7 && (tab[ligne][colonne+1] >= 7 || tab[ligne][colonne+1] == 0))){
+                tab[ligne][colonne] = 0;
+                tab[ligne][colonne+1] = 5;
+            }
+            else {
+                System.out.println("Impossible d'avancer ");
+            }
+        }
+        else if (choix1 == 2 && ((ligne != 7 && colonne != 7 && (tab[ligne+1][colonne+1] >= 7 || tab[ligne+1][colonne+1] == 0))
+                || (ligne != 7 && colonne != 0 && (tab[ligne+1][colonne-1] >= 7 || tab[ligne+1][colonne-1] == 0))
+                || (ligne != 0 && colonne != 7 && (tab[ligne-1][colonne+1] >= 7 || tab[ligne-1][colonne+1] == 0))
+                || (ligne != 0 && colonne != 0 && (tab[ligne-1][colonne-1] >= 7 || tab[ligne-1][colonne-1] == 0)))){
+            System.out.println("1 diagonale bas gauche, 2 diagonale haut gauche, 3 diagonale bas droite, 4 diagonale haut droite");
+            choix2 = Integer.parseInt(sc.nextLine());
+            if (choix2 == 1 && (ligne != 7 && colonne != 0 && (tab[ligne+1][colonne-1] >= 7 || tab[ligne+1][colonne-1] == 0))){
+                tab[ligne][colonne] = 0;
+                tab[ligne+1][colonne-1] = 5;
+            }
+            else if (choix2 == 2 && (ligne != 0 && colonne != 0 && (tab[ligne-1][colonne-1] >= 7 || tab[ligne-1][colonne-1] == 0))){
+                tab[ligne][colonne] = 0;
+                tab[ligne-1][colonne-1] = 5;
+            }
+            else if (choix2 == 3 && (ligne != 7 && colonne != 7 && (tab[ligne+1][colonne+1] >= 7 || tab[ligne+1][colonne+1] == 0))){
+                tab[ligne][colonne] = 0;
+                tab[ligne+1][colonne+1] = 5;
+            }
+            else if (choix2 == 4 && (ligne != 0 && colonne != 7 && (tab[ligne-1][colonne+1] >= 7 || tab[ligne-1][colonne+1] == 0))){
+                tab[ligne][colonne] = 0;
+                tab[ligne-1][colonne+1] = 5;
+            }
+            else {
+                System.out.println("Impossible d'avancer ");
+            }
+
+        } else {
             System.out.println("Impossible d'avancer ");
         }
 
