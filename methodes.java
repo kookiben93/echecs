@@ -56,45 +56,51 @@ public class methodes {
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
                 tab[i][j] = 0; //case vide
-                tab[1][j] = 6; //Pion Noir
-                tab[6][j] = 12; //Pion Blanc
+                tab[1][j] = 6; //Pion Jaune
+                tab[6][j] = 12; //Pion Bleu
             }
         }
+        int c = 21;
+        for (int i = 0; i < tab.length; i++){
+            tab[8][i] = c;
+            tab[i][8] = c;
+            c++;
+        }
 
-        //Tour Noire
+        //Tour Jaune
         tab[0][0] = 1;
         tab[0][7] = 1;
 
-        //Tour Blanche
+        //Tour Bleu
         tab[7][0] = 7;
         tab[7][7] = 7;
 
-        //Cheval Noir
+        //Cheval Jaune
         tab[0][1] = 2;
         tab[0][6] = 2;
 
-        //Cheval blanc
+        //Cheval Bleu
         tab[7][1] = 8;
         tab[7][6] = 8;
 
-        //Fou noir
+        //Fou Jaune
         tab[0][2] = 3;
         tab[0][5] = 3;
 
-        //Fou Blanc
+        //Fou Bleu
         tab[7][2] = 9;
         tab[7][5] = 9;
 
-        //Roi Noir
+        //Roi Jaune
         tab[0][3] = 4;
 
-        //Roi Blanc
+        //Roi Bleu
         tab[7][4] = 10;
 
-        //Dame Noire
+        //Dame Jaune
         tab[0][4] = 5;
 
-        //Dame Blanche
+        //Dame Bleu
         tab[7][3] = 11;
     }
 
@@ -142,7 +148,31 @@ public class methodes {
                 else if (tab[i][j] == 12){
                     System.out.print("[" + BLEU + "   Pion   " + RESET + "]");
                 }
-                else{
+                else if (tab[i][j] == 21){
+                    System.out.print("     1      ");
+                }
+                else if (tab[i][j] == 22){
+                    System.out.print("     2      ");
+                }
+                else if (tab[i][j] == 23){
+                    System.out.print("     3      ");
+                }
+                else if (tab[i][j] == 24){
+                    System.out.print("     4      ");
+                }
+                else if (tab[i][j] == 25){
+                    System.out.print("     5      ");
+                }
+                else if (tab[i][j] == 26){
+                    System.out.print("     6      ");
+                }
+                else if (tab[i][j] == 27){
+                    System.out.print("     7      ");
+                }
+                else if (tab[i][j] == 28){
+                    System.out.print("     8      ");
+                }
+                else if (tab[i][j] == 0){
                     System.out.print("[          ]");
                 }
             }
@@ -164,13 +194,12 @@ public class methodes {
             manger = Integer.parseInt(sc.nextLine());
         }
         if (manger == 1) {
-
             if (colonne + 1 <= 7 && tab[ligne-1][colonne+1] <= 6 && tab[ligne-1][colonne+1] != 0) {
                 System.out.println("prendre la pièce en digonale droite ? (1 pour oui 0 pour non)");
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 1) {
                     tab[ligne][colonne] = 0;
-                    tab[ligne + 1][colonne + 1] = 12;
+                    tab[ligne - 1][colonne + 1] = 12;
                 }
             }
             if (colonne - 1 >= 0 && tab[ligne-1][colonne-1] <= 6 && tab[ligne-1][colonne-1] != 0) {
@@ -178,12 +207,12 @@ public class methodes {
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 2) {
                     tab[ligne][colonne] = 0;
-                    tab[ligne + 1][colonne - 1] = 12;
+                    tab[ligne - 1][colonne - 1] = 12;
                 }
             }
         }
         else {
-            if (ligne == 6 && tab[ligne - 2][colonne] == 0) {
+            if (ligne == 6 && tab[ligne - 1][colonne] == 0 && tab[ligne - 2][colonne] == 0) {
                 do {
                     System.out.println("Tu veux avancer de 1 ou de 2 ");
                     choix = Integer.parseInt(sc.nextLine());
@@ -213,21 +242,21 @@ public class methodes {
         int manger = 0; //il veut prendre un pièce en général
         int prise = -1; //il veut prendre une pièce précisément
 
-        if((colonne != 7 && tab[ligne + 1][colonne + 1] >= 7) || (colonne != 0 && tab[ligne + 1][colonne - 1] >= 7)) {
+        if((colonne != 7 && tab[ligne + 1][colonne + 1] >= 7 && tab[ligne + 1][colonne + 1] < 20) || (colonne != 0 && tab[ligne + 1][colonne - 1] >= 7 && tab[ligne + 1][colonne - 1] < 20)) {
             System.out.println("Veux tu prendre une pièce ? (1 pour oui)");
             manger = Integer.parseInt(sc.nextLine());
         }
 
         if (manger == 1) {
-            if (colonne + 1 <= 7 && tab[ligne + 1][colonne + 1] >= 7) {
-                System.out.println("Prendre la pièce en digonale droite ? (1 pour oui 0 pour non)");
-                prise = Integer.parseInt(sc.nextLine());
+            if (colonne + 1 <= 7 && tab[ligne + 1][colonne + 1] >= 7 && tab[ligne + 1][colonne + 1] < 20) {
+                    System.out.println("Prendre la pièce en digonale droite ? (1 pour oui)");
+                    prise = Integer.parseInt(sc.nextLine());
                 if (prise == 1) {
                     tab[ligne][colonne] = 0;
                     tab[ligne + 1][colonne + 1] = 6;
                 }
             }
-            if (colonne - 1 >= 0 && tab[ligne + 1][colonne - 1] >= 7) {
+            if (colonne - 1 >= 0 && tab[ligne + 1][colonne - 1] >= 7 && tab[ligne + 1][colonne - 1] < 20) {
                 System.out.println("Prendre la pièce en digonale gauche ? (2 pour oui)");
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 2) {
@@ -236,7 +265,7 @@ public class methodes {
                 }
             }
         } else {
-            if (ligne == 1 && tab[ligne + 2][colonne] == 0) {
+            if (ligne == 1 && tab[ligne + 1][colonne] == 0 && tab[ligne + 2][colonne] == 0) {
                 do {
                     System.out.println("Tu veux avancer de 1 ou de 2 ");
                     choix = Integer.parseInt(sc.nextLine());
@@ -273,7 +302,7 @@ public class methodes {
             couleur=1;
         }
 
-        System.out.print("1 pour aller devant, 2 pour aller à gauche, 3 pour aller à droite ");
+        System.out.println("1 pour aller devant, 2 pour aller à gauche, 3 pour aller à droite, 4 pour aller en arrière :");
         direction = Integer.parseInt(sc.nextLine());
 
         if (direction == 1 && tab[ligne - 1][colonne] == 0) {
@@ -320,7 +349,7 @@ public class methodes {
             couleur=3;
         }
 
-        System.out.print("1 diagonale haut gauche, 2 diagonale haut droite, 3 diagonale bas droite, 4 diagonale bas gauche ");
+        System.out.println("1 diagonale haut gauche, 2 diagonale haut droite, 3 diagonale bas droite, 4 diagonale bas gauche :");
         direction = Integer.parseInt(sc.nextLine());
 
         if (direction == 1 && tab[ligne-1][colonne-1] == 0) {
