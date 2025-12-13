@@ -271,7 +271,6 @@ public class methodes {
     public static void tour(int[][] tab, int ligne, int colonne) {
         Scanner sc = new Scanner(System.in);
         int choix; //il veut avancer de combien
-        int manger = 0; //il veut prendre une pièce en général
         int direction;
         int couleur=0; //couleur de la pièce
 
@@ -297,19 +296,6 @@ public class methodes {
             }
         tab[ligne-choix][colonne] = couleur;
 
-        } else if (direction == 3 && tab[ligne][colonne+1] == 0) {    //aller à droite
-            System.out.print("Tu veux avancer de combien ? ");
-            choix = Integer.parseInt(sc.nextLine());
-            /*} while (choix != 1 && choix != 2);*/
-            tab[ligne][colonne] = 0;
-
-            while(tab[ligne][colonne+choix]>5){ 
-                System.out.println("impossible d'avancer jusque là");
-                System.out.print("de combien veux-tu avancer ? : ");
-                choix = Integer.parseInt(sc.nextLine());
-            }
-        tab[ligne][colonne+choix] = couleur;
-
         } else if (direction == 2 && tab[ligne][colonne - 1] == 0) {    //aller à gauche
             System.out.print("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
@@ -322,6 +308,19 @@ public class methodes {
                 choix = Integer.parseInt(sc.nextLine());
             }
         tab[ligne][colonne-choix] = couleur;
+
+        } else if (direction == 3 && tab[ligne][colonne+1] == 0) {    //aller à droite
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+            /*} while (choix != 1 && choix != 2);*/
+            tab[ligne][colonne] = 0;
+
+            while(tab[ligne][colonne+choix]>5){ 
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+        tab[ligne][colonne+choix] = couleur;
 
         } else if (direction == 4 && tab[ligne][colonne-1] == 0){       //aller en bas
             System.out.print("Tu veux avancer de combien ? ");
@@ -341,33 +340,10 @@ public class methodes {
         }
     }
 
-    /*public static void manger(int[][] tab, int ligne, int colonne, int couleur){
-        Scanner sc = new Scanner(System.in);
-        int manger=0;
-
-        System.out.print("Voulez vous manger la pièce ? (1 pour oui) : ");
-        manger = Integer.parseInt(sc.nextLine());
-
-
-        if(manger==1)
-            tab[ligne][colonne] = couleur;
-        else
-            System.out.print("impossible de passer par là");
-    }*/
-
-        /*public static int[] blancs(int couleur){
-            int[] tab = new int[9];
-            tab[0] = 1;
-            tab[1] = 2;
-            tab[2] = 3;
-            tab[]
-        }*/
-
     //Méthode pour le Fou
     public static void fou(int[][] tab, int ligne, int colonne) {
         Scanner sc = new Scanner(System.in);
         int choix; //il veut avancer de combien
-        int manger = 0; //il veut prendre une pièce en général
         int direction;
         int couleur=0; //couleur de la pièce
 
@@ -381,25 +357,25 @@ public class methodes {
         System.out.print("1 diagonale haut gauche, 2 diagonale haut droite, 3 diagonale bas droite, 4 diagonale bas gauche ");
         direction = Integer.parseInt(sc.nextLine());
 
-        if (direction == 1 && tab[ligne-1][colonne-1] == 0) {
+        if (direction == 1 && tab[ligne-1][colonne-1] == 0) {               //aller en haut gauche
             System.out.println("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
             tab[ligne][colonne] = 0;
             tab[ligne-choix][colonne-choix] = couleur;
-        } else if (direction == 3 && tab[ligne-1][colonne+1] == 0) {
-            System.out.println("Tu veux avancer de combien ? ");
-            choix = Integer.parseInt(sc.nextLine());
-            /*} while (choix != 1 && choix != 2);*/
-            tab[ligne][colonne] = 0;
-            tab[ligne+choix][colonne+choix] = couleur;
-        } else if (direction == 2 && tab[ligne-1][colonne+1] == 0) {
+        } else if (direction == 2 && tab[ligne-1][colonne+1] == 0) {        //aller en haut droite
             System.out.println("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
             tab[ligne][colonne] = 0;
             tab[ligne-choix][colonne+choix] = couleur;
-        } else if (direction == 4 && tab[ligne+1][colonne-1] == 0) {
+        } else if (direction == 3 && tab[ligne-1][colonne+1] == 0) {        //aller en bas droite
+            System.out.println("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+            /*} while (choix != 1 && choix != 2);*/
+            tab[ligne][colonne] = 0;
+            tab[ligne+choix][colonne+choix] = couleur;
+        } else if (direction == 4 && tab[ligne+1][colonne-1] == 0) {        //aller en bas gauche
             System.out.println("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
