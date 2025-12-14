@@ -38,7 +38,7 @@ public class methodes {
             pionB(tab, ligne, colonne);
         }
         else if (tab[ligne][colonne] == 7 || tab[ligne][colonne] == 1) {
-            if(pieceAutour(tab, ligne, colonne, 7)==true){
+            if(pieceAutour(tab, ligne, colonne)==true){
                     System.out.println("Impossible de bouger cette pièce");
                     coordonnees(tab);
             }
@@ -46,16 +46,6 @@ public class methodes {
                 tour(tab, ligne, colonne);
             }
         }
-            /*if(tab[ligne][colonne] == 1){
-                if ((tab[ligne-1][colonne]<6) && (tab[ligne][colonne+1]<6) && (tab[ligne][colonne-1]<6) &&
-                    (tab[ligne+1][colonne]<6)){
-                    System.out.println("Impossible de bouger cette pièce");
-                    coordonnees(tab);
-                }
-                else{
-                    tour(tab, ligne, colonne);
-                }
-            }*/
         else if (tab[ligne][colonne] == 9 || tab[ligne][colonne] == 3) {
             fou(tab, ligne, colonne);
         }
@@ -67,39 +57,45 @@ public class methodes {
         }
         else {
             System.out.println("Case vide, veuillez recommencez");
+            coordonnees(tab);
         }
     }
 
-    public static boolean pieceAutour(int[][] tab, int ligne, int colonne, int couleur){
-        boolean piece=false;
-            
-        if(tab[ligne][colonne] == 7){
-            if((ligne==7 && colonne==0) && (tab[ligne-1][colonne]>5 && tab[ligne][colonne+1]>5)){
-                piece = true;
-            }
-            else if((ligne==7 && colonne==7) && (tab[ligne][colonne-1]>5 && tab[ligne+1][colonne]>5)){
-                piece = true;
-            }
-            else if ((ligne-1>=0 && tab[ligne-1][colonne]>5) && (colonne+1<8 && tab[ligne][colonne+1]>5) && 
-                (colonne-1>=0 && tab[ligne][colonne-1]>5) && (ligne+1<8 && tab[ligne+1][colonne]>5)){
-                piece = true;
-            }
-        }
-        /*else if (tab[ligne][colonne] == 1){
-            if((ligne==0 && colonne==0) && (tab[ligne-1][colonne]>5 && tab[ligne][colonne+1]>5)){
-                piece = true;
-            }
-            else if((ligne==0 && colonne==7) && (tab[ligne][colonne-1]>5 && tab[ligne+1][colonne]>5)){
-                piece = true;
-            }
-            else if ((ligne-1>=0 && tab[ligne-1][colonne]>5) && (colonne+1<8 && tab[ligne][colonne+1]>5) && 
-                (colonne-1>=0 && tab[ligne][colonne-1]>5) && (ligne+1<8 && tab[ligne+1][colonne]>5)){
-                piece = true;
-            }
-        }*/
-        return piece;
+    //booleen qui prend que les cases valide du plateau
+    static boolean caseValide(int ligne, int colonne) {
+        return (ligne >= 0 && ligne < 8) && (colonne >= 0 && colonne < 8);
     }
 
+    //méthode qui vérifie que les cases+1 du haut, du bas, de gauche et de droite
+    //sont disponibles pour la pièce jouée actuelle
+    public static boolean pieceAutour(int[][] tab, int ligne, int colonne){
+        int piece = tab[ligne][colonne];
+        int nouvelleL = 0;
+        int nouvelleC = 0;
+        boolean bleu = piece > 6;
+
+        int[] lignes = {0, 0, -1, 1};
+        int[] colonnes = {-1, 1, 0, 0};
+
+        for(int i=0; i<4; i++){
+            nouvelleL = ligne+lignes[i];
+            nouvelleC = colonne+colonnes[i];
+
+            if(caseValide(nouvelleL, nouvelleC)==true){
+                if(tab[nouvelleL][nouvelleC]==0){
+                    return false;
+                }
+                boolean pieceEnFace = tab[nouvelleL][nouvelleC] > 6;
+
+                if (pieceEnFace != bleu) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    //affichage du plateau
     public static void plateau(int[][] tab) {
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
