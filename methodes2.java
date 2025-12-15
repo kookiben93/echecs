@@ -22,11 +22,11 @@ public class methodes {
         System.out.print("Entrez le numéro de la colonne : ");
         colonne = (scanner.nextInt()) - 1;
         while (colonne < 0 || colonne > 7) {
-           System.out.println("Coordonnées impossible");
-           System.out.print("Entrez le numéro de la colonne : ");
-           colonne = (scanner.nextInt()) - 1;
-       }
-       appelPiece(tab, ligne, colonne);
+            System.out.println("Coordonnées impossible");
+            System.out.print("Entrez le numéro de la colonne : ");
+            colonne = (scanner.nextInt()) - 1;
+        }
+        appelPiece(tab, ligne, colonne);
     }
 
     //appel des méthodes en fonction de la pièce jouée
@@ -39,8 +39,8 @@ public class methodes {
         }
         else if (tab[ligne][colonne] == 7 || tab[ligne][colonne] == 1) {
             if(pieceAutour(tab, ligne, colonne)==true){
-                    System.out.println("Impossible de bouger cette pièce");
-                    coordonnees(tab);
+                System.out.println("Impossible de bouger cette pièce");
+                coordonnees(tab);
             }
             else {
                 tour(tab, ligne, colonne);
@@ -54,6 +54,9 @@ public class methodes {
         }
         else if (tab[ligne][colonne] == 5){
             roiN(tab, ligne, colonne);
+        }
+        else if (tab[ligne][colonne] == 4 || tab[ligne][colonne] == 11){
+            dame(tab, ligne, colonne);
         }
         else {
             System.out.println("Case vide, veuillez recommencez");
@@ -70,8 +73,8 @@ public class methodes {
     //sont disponibles pour la pièce jouée actuelle
     public static boolean pieceAutour(int[][] tab, int ligne, int colonne){
         int piece = tab[ligne][colonne];
-        int nouvelleL = 0;
-        int nouvelleC = 0;
+        int nouvelleL;
+        int nouvelleC;
         boolean bleu = piece > 6;
 
         int[] lignes = {0, 0, -1, 1};
@@ -103,6 +106,12 @@ public class methodes {
                 tab[1][j] = 6; //Pion Noir
                 tab[6][j] = 12; //Pion Blanc
             }
+        }
+        int c = 21;
+        for (int i = 0; i < tab.length; i++){
+            tab[8][i] = c;
+            tab[i][8] = c;
+            c++;
         }
 
         //Tour Noire
@@ -186,7 +195,31 @@ public class methodes {
                 else if (tab[i][j] == 12){
                     System.out.print("[" + BLEU + "   Pion   " + RESET + "]");
                 }
-                else{
+                else if (tab[i][j] == 21){
+                    System.out.print("     1      ");
+                }
+                else if (tab[i][j] == 22){
+                    System.out.print("     2      ");
+                }
+                else if (tab[i][j] == 23){
+                    System.out.print("     3      ");
+                }
+                else if (tab[i][j] == 24){
+                    System.out.print("     4      ");
+                }
+                else if (tab[i][j] == 25){
+                    System.out.print("     5      ");
+                }
+                else if (tab[i][j] == 26){
+                    System.out.print("     6      ");
+                }
+                else if (tab[i][j] == 27){
+                    System.out.print("     7      ");
+                }
+                else if (tab[i][j] == 28){
+                    System.out.print("     8      ");
+                }
+                else if (tab[i][j] == 0) {
                     System.out.print("[          ]");
                 }
             }
@@ -204,13 +237,13 @@ public class methodes {
         int prise = -1; //il veut prendre une pièce précisément
 
         if((colonne != 7 && tab[ligne-1][colonne+1] <= 6 && tab[ligne-1][colonne+1] != 0) || (colonne != 0 && tab[ligne-1][colonne-1] <= 6 && tab[ligne-1][colonne-1] != 0)){
-            System.out.println("Veux tu prendre une pièce ? (1 pour oui, n'importe pour non)");
+            System.out.print("Veux tu prendre une pièce ? (1 pour oui, n'importe pour non) : ");
             manger = Integer.parseInt(sc.nextLine());
         }
         if (manger == 1) {
 
             if (colonne + 1 <= 7 && tab[ligne-1][colonne+1] <= 6 && tab[ligne-1][colonne+1] != 0) {
-                System.out.println("prendre la pièce en digonale droite ? (1 pour oui 0 pour non)");
+                System.out.print("prendre la pièce en digonale droite ? (1 pour oui 0 pour non) : ");
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 1) {
                     tab[ligne][colonne] = 0;
@@ -218,7 +251,7 @@ public class methodes {
                 }
             }
             if (colonne - 1 >= 0 && tab[ligne-1][colonne-1] <= 6 && tab[ligne-1][colonne-1] != 0) {
-                System.out.println("prendre la pièce en digonale gauche ? (2 pour oui)");
+                System.out.print("prendre la pièce en digonale gauche ? (2 pour oui) : ");
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 2) {
                     tab[ligne][colonne] = 0;
@@ -229,7 +262,7 @@ public class methodes {
         else {
             if (ligne == 6 && tab[ligne - 2][colonne] == 0) {
                 do {
-                    System.out.println("Tu veux avancer de 1 ou de 2 ");
+                    System.out.print("Tu veux avancer de 1 ou de 2 : ");
                     choix = Integer.parseInt(sc.nextLine());
                 } while (choix != 1 && choix != 2);
                 if (choix == 1) {
@@ -240,7 +273,7 @@ public class methodes {
                     tab[ligne - 2][colonne] = 12;
                 }
             } else if (tab[ligne - 1][colonne] == 0) {
-                System.out.println("Le pion avance de 1 ");
+                System.out.println("Le pion avance de 1");
                 tab[ligne][colonne] = 0;
                 tab[ligne - 1][colonne] = 12;
             } else {
@@ -258,13 +291,13 @@ public class methodes {
         int prise = -1; //il veut prendre une pièce précisément
 
         if((colonne != 7 && tab[ligne + 1][colonne + 1] >= 7) || (colonne != 0 && tab[ligne + 1][colonne - 1] >= 7)) {
-            System.out.println("Veux tu prendre une pièce ? (1 pour oui)");
+            System.out.println("Veux tu prendre une pièce ? (1 pour oui) : ");
             manger = Integer.parseInt(sc.nextLine());
         }
 
         if (manger == 1) {
             if (colonne + 1 <= 7 && tab[ligne + 1][colonne + 1] >= 7) {
-                System.out.println("Prendre la pièce en digonale droite ? (1 pour oui 0 pour non)");
+                System.out.print("Prendre la pièce en digonale droite ? (1 pour oui 0 pour non) : ");
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 1) {
                     tab[ligne][colonne] = 0;
@@ -272,7 +305,7 @@ public class methodes {
                 }
             }
             if (colonne - 1 >= 0 && tab[ligne + 1][colonne - 1] >= 7) {
-                System.out.println("Prendre la pièce en digonale gauche ? (2 pour oui)");
+                System.out.print("Prendre la pièce en digonale gauche ? (2 pour oui) : ");
                 prise = Integer.parseInt(sc.nextLine());
                 if (prise == 2) {
                     tab[ligne][colonne] = 0;
@@ -282,7 +315,7 @@ public class methodes {
         } else {
             if (ligne == 1 && tab[ligne + 2][colonne] == 0) {
                 do {
-                    System.out.println("Tu veux avancer de 1 ou de 2 ");
+                    System.out.print("Tu veux avancer de 1 ou de 2 : ");
                     choix = Integer.parseInt(sc.nextLine());
                 } while (choix != 1 && choix != 2);
                 if (choix == 1) {
@@ -293,7 +326,7 @@ public class methodes {
                     tab[ligne + 2][colonne] = 6;
                 }
             } else if (tab[ligne + 1][colonne] == 0) {
-                System.out.println("Le pion avance de 1 ");
+                System.out.println("Le pion avance de 1");
                 tab[ligne][colonne] = 0;
                 tab[ligne + 1][colonne] = 6;
             } else {
@@ -302,12 +335,35 @@ public class methodes {
         }
     }
 
+    public static int valeurDeplacement(int[][] tab, int ligne, int colonne){
+        int valeur=0;
+
+        if(caseValide(ligne-1, colonne) && tab[ligne-1][colonne] == 0) {
+            System.out.println("Tu veux avancer de combien ? ");
+            valeur=valeur+4;
+        }
+        if(caseValide(ligne, colonne-1) && tab[ligne][colonne-1] == 0) {
+            System.out.println("2 pour aller à gauche ");
+            valeur=valeur+2;
+        }
+        if(caseValide(ligne, colonne+1) && tab[ligne][colonne+1] == 0) {
+            System.out.print("3 pour aller à droite ");
+            valeur=valeur+1;
+        }
+        if(caseValide(ligne+1, colonne) && tab[ligne+1][colonne] == 0) {
+            System.out.print("4 pour aller en bas ");
+            valeur=valeur+10;
+        }
+        return valeur;
+    }
+
     //Méthode pour la Tour
     public static void tour(int[][] tab, int ligne, int colonne) {
         Scanner sc = new Scanner(System.in);
         int choix; //il veut avancer de combien
-        int direction;
+        int direction=0;
         int couleur=0; //couleur de la pièce
+        int valeurDep = valeurDeplacement(tab, ligne, colonne);
 
         if (tab[ligne][colonne] == 7) {
             couleur=7;
@@ -316,59 +372,90 @@ public class methodes {
             couleur=1;
         }
 
-        System.out.print("1 pour aller en haut, 2 pour aller à gauche, 3 pour aller à droite, 4 pour aller en bas ");
-        direction = Integer.parseInt(sc.nextLine());
+        if(valeurDep==7) {                 //haut+gauche+droite
+            System.out.print("1 pour aller en haut, 2 pour aller à gauche, 3 pour aller à droite : ");
+        }
+        else if(valeurDep==13) {           //gauche+droite+bas
+            System.out.print("2 pour aller à gauche, 3 pour aller à droite, 4 pour aller en bas : ");
+        }
+        else if(valeurDep==16) {           //haut+gauche+bas
+            System.out.print("1 pour aller en haut, 2 pour aller à gauche, 4 pour aller en bas : ");
+        }
+        else if(valeurDep==15) {           //haut+droite+bas
+            System.out.print("1 pour aller en haut, 3 pour aller à droite, 4 pour aller en bas : ");
+        }
+        else if(valeurDep==6) {            //haut+gauche
+            System.out.print("1 pour aller en haut, 2 pour aller à gauche : ");
+        }
+        else if(valeurDep==5) {            //haut+droite
+            System.out.print("1 pour aller en haut, 3 pour aller à droite : ");
+        }
+        else if(valeurDep==14) {           //haut+bas
+            System.out.print("1 pour aller en haut, 4 pour aller en bas : ");
+        }
+        else if(valeurDep==3) {            //gauche+droite
+            System.out.print("2 pour aller à gauche, 3 pour aller à droite : ");
+        }
+        else if(valeurDep==12) {           //gauche+bas
+            System.out.print("2 pour aller à gauche, 4 pour aller en bas : ");
+        }
+        else if(valeurDep==11) {           //bas+droite
+            System.out.print("3 pour aller à droite, 4 pour aller en bas : ");
+            direction = Integer.parseInt(sc.nextLine());
+        }
+        /*System.out.print("1 pour aller en haut, 2 pour aller à gauche, 3 pour aller à droite, 4 pour aller en bas ");
+        direction = Integer.parseInt(sc.nextLine());*/
 
-        if (direction == 1 && tab[ligne-1][colonne] == 0) {         //aller en haut
+        if (valeurDep==4 || (direction == 1 && tab[ligne-1][colonne] == 0)) {         //aller en haut
             System.out.println("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
-            tab[ligne][colonne] = 0;
-            while(tab[ligne-choix][colonne]>5){ 
+            while(!(caseValide(ligne-1, colonne))){
                 System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
             }
-        tab[ligne-choix][colonne] = couleur;
+            tab[ligne][colonne] = 0;
+            tab[ligne-choix][colonne] = couleur;
 
-        } else if (direction == 2 && tab[ligne][colonne - 1] == 0) {    //aller à gauche
+        } else if (valeurDep==2 || (direction == 2 && tab[ligne][colonne-1] == 0)) {    //aller à gauche
             System.out.print("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
-            tab[ligne][colonne] = 0;
 
-            while(tab[ligne][colonne-choix]>5){ 
+            while(!(caseValide(ligne, colonne-1))){
                 System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
             }
-        tab[ligne][colonne-choix] = couleur;
+            tab[ligne][colonne] = 0;
+            tab[ligne][colonne-choix] = couleur;
 
-        } else if (direction == 3 && tab[ligne][colonne+1] == 0) {    //aller à droite
+        } else if (valeurDep==1 || (direction == 3 && tab[ligne][colonne+1] == 0)){    //aller à droite
             System.out.print("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
-            tab[ligne][colonne] = 0;
 
-            while(tab[ligne][colonne+choix]>5){ 
+            while(!(caseValide(ligne, colonne+1))){
                 System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
             }
-        tab[ligne][colonne+choix] = couleur;
+            tab[ligne][colonne] = 0;
+            tab[ligne][colonne+choix] = couleur;
 
-        } else if (direction == 4 && tab[ligne][colonne-1] == 0){       //aller en bas
+        } else if (valeurDep==10 || (direction == 4 && tab[ligne+1][colonne] == 0)){       //aller en bas
             System.out.print("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());
             /*} while (choix != 1 && choix != 2);*/
-            tab[ligne][colonne] = 0;
 
-            while(tab[ligne+choix][colonne]>5){ 
+            while(!(caseValide(ligne+1, colonne))){
                 System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
             }
-        tab[ligne+choix][colonne] = couleur;
+            tab[ligne][colonne] = 0;
+            tab[ligne+choix][colonne] = couleur;
 
         } else {
             System.out.println("Impossible d'avancer ");
@@ -565,5 +652,21 @@ public class methodes {
             System.out.println("Impossible d'avancer ");
         }
 
+    }
+
+    public static void dame(int[][] tab, int ligne, int colonne) {
+        Scanner sc = new Scanner(System.in);
+        int choix;
+
+        do {
+            System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale");
+            choix = Integer.parseInt(sc.nextLine());
+        } while (choix != 1 && choix != 2);
+
+        if (choix == 1) {
+            tour(tab, ligne, colonne);
+        } else {
+            fou(tab, ligne, colonne);
+        }
     }
 }
