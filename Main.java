@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
 
-        int[][] tab = new int[8][8];
+        int[][] tab = new int[9][9];
         methodes.plateau(tab);
 
         methodes.remplir(tab);
