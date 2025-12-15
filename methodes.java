@@ -46,6 +46,9 @@ public class methodes {
         else if (tab[ligne][colonne] == 5){
             roiN(tab, ligne, colonne);
         }
+        else if (tab[ligne][colonne] == 4 || tab[ligne][colonne] == 11){
+            dame(tab, ligne, colonne);
+        }
         else {
             System.out.println("Case vide, veuillez recommencez");
         }
@@ -91,13 +94,13 @@ public class methodes {
         tab[7][2] = 9;
         tab[7][5] = 9;
 
-        //Roi Jaune
+        //Dame Jaune
         tab[0][3] = 4;
 
         //Roi Bleu
         tab[7][4] = 10;
 
-        //Dame Jaune
+        //Roi Jaune
         tab[0][4] = 5;
 
         //Dame Bleu
@@ -524,6 +527,26 @@ public class methodes {
         } else {
             System.out.println("Impossible d'avancer ");
         }
+
+    }
+
+    public static void dame(int[][] tab, int ligne, int colonne){
+        Scanner sc = new Scanner(System.in);
+        int choix;
+
+        do {
+            System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale");
+            choix = Integer.parseInt(sc.nextLine());
+        } while (choix != 1 && choix != 2);
+
+        if (choix == 1){
+            tour(tab, ligne, colonne);
+        }
+
+        else{
+            fou(tab, ligne, colonne);
+        }
+
 
     }
 }
