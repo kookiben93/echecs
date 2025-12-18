@@ -83,14 +83,22 @@ public class methodes {
     }
 
     public static boolean mouvementCavalier(int[][] tab, int ligne, int colonne, int nvLigne, int nvColonne) {
-        if(caseValide(nvLigne, nvColonne) &&
-                (tab[nvLigne][nvColonne]!=tab[ligne-2][colonne+1] && tab[nvLigne][nvColonne]!=tab[ligne+2][colonne+1] &&
-                tab[nvLigne][nvColonne]!=tab[ligne-2][colonne-1] && tab[nvLigne][nvColonne]!=tab[ligne+2][colonne-1] &&
-                tab[nvLigne][nvColonne]!=tab[ligne-1][colonne+2] && tab[nvLigne][nvColonne]!=tab[ligne+1][colonne+2] &&
-                tab[nvLigne][nvColonne]!=tab[ligne-1][colonne-2] && tab[nvLigne][nvColonne]!=tab[ligne+1][colonne-2])){
-            return false;
+        boolean valeur=true;
+
+        if(nvLigne-ligne==2 || nvLigne-ligne==-2){
+            if(nvColonne-colonne!=1 && nvColonne-colonne!=-1){
+                valeur=false;
+            }
         }
-        return true;
+        else if(nvLigne-ligne==1 || nvLigne-ligne==-1){
+            if(nvColonne-colonne!=2 && nvColonne-colonne!=-2){
+                valeur=false;
+            }
+        }
+        else{
+            valeur=false;
+        }
+        return valeur;
     }
 
     //méthode qui vérifie que les cases+1 du haut, du bas, de gauche et de droite
