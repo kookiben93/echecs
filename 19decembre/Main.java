@@ -2,15 +2,16 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        int[][] plateau = new int[8][8];
+
+        methodes.plateau(plateau);
+
+        methodes.remplir(plateau);
+
         Scanner scanner = new Scanner(System.in);
 
-        int joueur1=0;
-        int joueur2=0;
-
-        int[][] tab = new int[8][8];
-        methodes.plateau(tab);
-
-        methodes.remplir(tab);
+        String pseudoBlanc="";
+        String pseudoNoir="";
 
         System.out.print("Joueur 1 entrez votre pseudo : ");
         String pseudo1 = scanner.nextLine();
@@ -18,31 +19,33 @@ public class Main {
         System.out.print("Joueur 2 entrez votre pseudo : ");
         String pseudo2 = scanner.nextLine();
 
-        System.out.print(pseudo1 + "Veux-tu jouer les bleus (blancs) ou les jaunes (noirs) ?");
+        System.out.print(pseudo1 + " veux-tu jouer les bleus (blancs) ou les jaunes (noirs) ? ");
         String choix = scanner.nextLine();
 
         while(!choix.equals("blancs") && !choix.equals("noirs")){
-            System.out.print(pseudo1 + "Veux-tu jouer les bleus (blancs) ou les jaunes (noirs) ? ");
+            System.out.print(pseudo1 + " veux-tu jouer les bleus (blancs) ou les jaunes (noirs) ? ");
             choix = scanner.nextLine();
         }
 
         if (choix.equals("blancs")) {
-            joueur1=1;
-            joueur2=2;
+            pseudoBlanc=pseudo1;
+            pseudoNoir=pseudo2;
         }
         else if (choix.equals("noirs")) {
-            joueur1=2;
-            joueur2=1;
+            pseudoBlanc=pseudo2;
+            pseudoNoir=pseudo1;
         }
 
-        for(int i = 0; i < 100; i++){
-            if(i%2==0) {
-                methodes.coordonnees(tab, joueur1);
+        for(int tour = 0; tour < 100; tour++){
+            if(tour%2==0) {
+                System.out.println("Au tour de " + pseudoBlanc);
+                methodes.coordonnees(plateau, 'B');
             }
             else{
-                methodes.coordonnees(tab, joueur2);
+                System.out.println("Au tour de " + pseudoNoir);
+                methodes.coordonnees(plateau, 'N');
             }
-            methodes.remplir(tab);
+            methodes.remplir(plateau);
         }
     }
 }
