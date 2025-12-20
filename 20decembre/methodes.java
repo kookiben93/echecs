@@ -292,42 +292,45 @@ public class methodes {
         System.out.println("        8           7           6           5           4           3           2           1");
         for (int i = 0; i < plateau.length; i++) {
             System.out.print(8-i + " ");
+
             for (int j = 0; j < plateau[i].length; j++) {
-                if (plateau[i][j] == 1){
-                    System.out.print("|" + BLEU + "   Tour   " + RESET + "|");
-                }
-                else if (plateau[i][j] == 2){
-                    System.out.print("|" + BLEU + " Cavalier " + RESET + "|");
-                }
-                else if (plateau[i][j] == 3){
-                    System.out.print("|" + BLEU + "   Fou    " + RESET + "|");
-                }
-                else if (plateau[i][j] == 4){
-                    System.out.print("|" + BLEU + "   Dame   " + RESET + "|");
-                }
-                else if (plateau[i][j] == 5){
-                    System.out.print("|" + BLEU + "   Roi    " + RESET + "|");
-                }
-                else if (plateau[i][j] == 6){
-                    System.out.print("|" + BLEU + "   Pion   " + RESET + "|");
-                }
-                else if(plateau[i][j] == 7){
+                int piece = plateau[7-i][7-j];
+
+                if (piece == 1){
                     System.out.print("|" + JAUNE + "   Tour   " + RESET + "|");
                 }
-                else if (plateau[i][j] == 8){
+                else if (piece == 2){
                     System.out.print("|" + JAUNE + " Cavalier " + RESET + "|");
                 }
-                else if (plateau[i][j] == 9){
+                else if (piece == 3){
                     System.out.print("|" + JAUNE + "   Fou    " + RESET + "|");
                 }
-                else if (plateau[i][j] == 10){
-                    System.out.print("|" + JAUNE + "   Roi    " + RESET + "|");
-                }
-                else if (plateau[i][j] == 11){
+                else if (piece == 4){
                     System.out.print("|" + JAUNE + "   Dame   " + RESET + "|");
                 }
-                else if (plateau[i][j] == 12){
+                else if (piece == 5){
+                    System.out.print("|" + JAUNE + "   Roi    " + RESET + "|");
+                }
+                else if (piece == 6){
                     System.out.print("|" + JAUNE + "   Pion   " + RESET + "|");
+                }
+                else if(piece == 7){
+                    System.out.print("|" + BLEU + "   Tour   " + RESET + "|");
+                }
+                else if (piece == 8){
+                    System.out.print("|" + BLEU + " Cavalier " + RESET + "|");
+                }
+                else if (piece == 9){
+                    System.out.print("|" + BLEU + "   Fou    " + RESET + "|");
+                }
+                else if (piece == 10){
+                    System.out.print("|" + BLEU + "   Roi    " + RESET + "|");
+                }
+                else if (piece == 11){
+                    System.out.print("|" + BLEU + "   Dame   " + RESET + "|");
+                }
+                else if (piece == 12){
+                    System.out.print("|" + BLEU + "   Pion   " + RESET + "|");
                 }
                 else {
                     System.out.print("|          |");
@@ -337,6 +340,9 @@ public class methodes {
         }
         System.out.println();
     }
+
+
+
 
     //méthode qui vérifie si le mouvement est possible en vérifiant
     //s'il y a des pièces empêchant un mouvement de plusieurs
