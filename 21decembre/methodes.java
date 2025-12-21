@@ -7,7 +7,7 @@ public class methodes {
 
     }
 
-    public static void coordonnees(int[][] plateau, char joueur){
+    public static void coordonnees(int[][] plateau, char joueur, int mode){
         Scanner scanner = new Scanner(System.in);
         int colonne;
         int ligne;
@@ -27,11 +27,11 @@ public class methodes {
             System.out.print("Entrez le numéro de la colonne : ");
             colonne = (scanner.nextInt()) - 1;
         }
-        appelPiece(plateau, ligne, colonne, joueur);
+        appelPiece(plateau, ligne, colonne, joueur, mode);
     }
 
     //appel des méthodes en fonction de la pièce jouée
-    public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur){
+    public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
 
         if(couleurJoueur(plateau, ligne, colonne, joueur)) {
 
@@ -42,36 +42,36 @@ public class methodes {
             } else if (plateau[ligne][colonne] == 7 || plateau[ligne][colonne] == 1) {
                 if (pieceAutour(plateau, ligne, colonne)) {
                     System.out.println("Impossible de bouger cette pièce");
-                    coordonnees(plateau, joueur);
+                    coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.tour(plateau, ligne, colonne);
+                    pieces.tour(plateau, ligne, colonne, mode);
                 }
             } else if (plateau[ligne][colonne] == 9 || plateau[ligne][colonne] == 3) {
                 if (pieceAutour2(plateau, ligne, colonne)) {
                     System.out.println("Impossible de bouger cette pièce");
-                    coordonnees(plateau, joueur);
+                    coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.fou(plateau, ligne, colonne);
+                    pieces.fou(plateau, ligne, colonne, mode);
                 }
             } else if (plateau[ligne][colonne] == 10 || plateau[ligne][colonne] == 5) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
                     System.out.println("Impossible de bouger cette pièce");
-                    coordonnees(plateau, joueur);
+                    coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.roi(plateau, ligne, colonne);
                 }
             } else if (plateau[ligne][colonne] == 8 || plateau[ligne][colonne] == 2) {
                 pieces.cavalier(plateau, ligne, colonne);
             } else if (plateau[ligne][colonne] == 4 || plateau[ligne][colonne] == 11) {
-                pieces.dame(plateau, ligne, colonne);
+                pieces.dame(plateau, ligne, colonne, mode);
             } else {
                 System.out.println("Case vide, veuillez recommencez");
-                coordonnees(plateau, joueur);
+                coordonnees(plateau, joueur, mode);
             }
         }
         else{
             System.out.print("Ce ne sont pas vos pièces ! ");
-            coordonnees(plateau, joueur);
+            coordonnees(plateau, joueur, mode);
         }
     }
 
@@ -369,9 +369,6 @@ public class methodes {
         }
         System.out.println();
     }
-
-
-
 
     //méthode qui vérifie si le mouvement est possible en vérifiant
     //s'il y a des pièces empêchant un mouvement de plusieurs
