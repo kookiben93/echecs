@@ -7,7 +7,7 @@ public class Main {
         int modeJeu=0;
         int[][] plateau = new int[8][8];
 
-        methodes3.plateau(plateau);
+        methodes.plateau(plateau);
 
         String pseudoBlanc="";
         String pseudoNoir="";
@@ -38,7 +38,7 @@ public class Main {
             pseudoNoir=pseudo1;
         }
 
-        methodes3.remplir(plateau);
+        methodes.remplir(plateau);
 
         for(int tour = 0; tour < 100; tour++){
             if(tour%2==0) {
