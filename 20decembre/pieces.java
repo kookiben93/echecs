@@ -131,13 +131,13 @@ public class pieces {
         Scanner sc = new Scanner(System.in);
         int choix; //il veut avancer de combien
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
-        int direction = methodes.affichageDirections(plateau, ligne, colonne, couleur);
-
+        
         boolean haut = (methodes.caseValide(ligne-1, colonne) && (plateau[ligne-1][colonne] == 0 || !(methodes.memeCouleur(plateau, ligne-1, colonne, couleur)))); //haut
         boolean gauche = (methodes.caseValide(ligne, colonne-1) && (plateau[ligne][colonne-1] == 0 || !(methodes.memeCouleur(plateau, ligne, colonne-1, couleur)))); //gauche
         boolean droite = (methodes.caseValide(ligne, colonne+1) && (plateau[ligne][colonne+1] == 0 || !(methodes.memeCouleur(plateau, ligne, colonne+1, couleur)))); //droite
         boolean bas = (methodes.caseValide(ligne+1, colonne) && (plateau[ligne+1][colonne] == 0 || !(methodes.memeCouleur(plateau, ligne+1, colonne, couleur)))); //bas
 
+        int direction = methodes.affichageDirections(haut, gauche, droite, bas);
 
         if ((haut && !gauche && !droite && !bas) || direction == 1) {           //aller en haut
             System.out.print("Tu veux avancer de combien ? ");
