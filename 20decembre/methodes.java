@@ -384,15 +384,19 @@ public class methodes {
         return bleu == pieceEnFace;
     }
 
+    public static boolean memeCouleurEtVide(int[][] plateau, int ligne, int colonne, int couleur) {
+        if (plateau[ligne][colonne] == 0) return true;
+
+        boolean bleu = couleur > 6;
+        boolean pieceEnFace = plateau[ligne][colonne] > 6;
+
+        return bleu == pieceEnFace;
+    }
+
     //affichage des directions en fonctions de la position de la pièce actuelle
-    public static int affichageDirections(int[][] plateau, int ligne, int colonne, int couleur){
+    public static int affichageDirections(boolean haut, boolean gauche, boolean droite, boolean bas){
         Scanner sc = new Scanner(System.in);
         int direction=0;
-
-        boolean haut = (caseValide(ligne-1, colonne) && (plateau[ligne-1][colonne] == 0 || !(memeCouleur(plateau, ligne-1, colonne, couleur)))); //haut
-        boolean gauche = (caseValide(ligne, colonne-1) && (plateau[ligne][colonne-1] == 0 || !(memeCouleur(plateau, ligne, colonne-1, couleur)))); //gauche
-        boolean droite = (caseValide(ligne, colonne+1) && (plateau[ligne][colonne+1] == 0 || !(memeCouleur(plateau, ligne, colonne+1, couleur)))); //droite
-        boolean bas = (caseValide(ligne+1, colonne) && (plateau[ligne+1][colonne] == 0 || !(memeCouleur(plateau, ligne+1, colonne, couleur)))); //bas
 
         if (haut){
             if (gauche){
@@ -454,45 +458,38 @@ public class methodes {
                 }
             }
         }
-
-
-        /*
-        if (haut && gauche && droite && !bas){          //haut+gauche+droite
-            System.out.print("1 pour aller en haut, 2 pour aller à gauche, 3 pour aller à droite : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(haut && gauche && droite && bas) {    //haut+gauche+droite+bas
-            System.out.print("1 pour aller en haut, 2 pour aller à gauche, 3 pour aller à droite, 4 pour aller en bas ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(!haut && gauche && droite && !bas){   //gauche+droite+bas
-            System.out.print("2 pour aller à gauche, 3 pour aller à droite, 4 pour aller en bas : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(haut && gauche && !droite && bas){     //haut+gauche+bas
-            System.out.print("1 pour aller en haut, 2 pour aller à gauche, 4 pour aller en bas : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(haut && !gauche && droite && bas) {   //haut+droite+bas
-            System.out.print("1 pour aller en haut, 3 pour aller à droite, 4 pour aller en bas : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(haut && gauche && !droite && !bas){   //haut+gauche
-            System.out.print("1 pour aller en haut, 2 pour aller à gauche : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(haut && !gauche && droite && !bas){   //haut+droite
-            System.out.print("1 pour aller en haut, 3 pour aller à droite : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(haut && !gauche && !droite && bas){   //haut+bas
-            System.out.print("1 pour aller en haut, 4 pour aller en bas : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(!haut && gauche && droite && !bas){   //gauche+droite
-            System.out.print("2 pour aller à gauche, 3 pour aller à droite : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(!haut && gauche && !droite && bas){   //gauche+bas
-            System.out.print("2 pour aller à gauche, 4 pour aller en bas : ");
-            direction = Integer.parseInt(sc.nextLine());
-        } else if(!haut && !gauche && droite && bas){   //droite+bas
-            System.out.print("3 pour aller à droite, 4 pour aller en bas : ");
-            direction = Integer.parseInt(sc.nextLine());
-        }
-         */
-
         return direction;
+    }
+
+
+    public static int affichageChoixPion(boolean diagoDroite, boolean diagoGauche, boolean avanceUn) {
+        Scanner sc = new Scanner(System.in);
+        int choix = 0;
+
+        if (diagoDroite){
+            if(diagoGauche){
+                if(avanceUn){           //diagoDroite+diagoGauche+avanceUn
+                    System.out.print("1 prendre la pièce en diagonale gauche, 2 prendre la pièce en diagonale droite, 3 avancer : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                } else{                 //diagoDroite+diagoGauche
+                    System.out.print("1 prendre la pièce en diagonale gauche, 2 prendre la pièce en diagonale droite : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+            } else{
+                if(avanceUn){          //diagoDroite+avanceUn
+                    System.out.print("2 prendre la pièce en diagonale droite, 3 avancer : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+            }
+        } else{
+            if(diagoGauche){
+                if(avanceUn){       //diagoGauche+avanceUn
+                    System.out.print("1 prendre la pièce en diagonale gauche, 3 avancer : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+            }
+        }
+
+        return choix;
     }
 }
