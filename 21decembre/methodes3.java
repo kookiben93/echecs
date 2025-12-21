@@ -1,0 +1,568 @@
+import java.sql.SQLOutput;
+import java.util.Scanner;
+
+public class methodes3 {
+
+    public static void main(String[] args) {
+
+    }
+
+    public static void coordonnees(int[][] plateau, char joueur, int mode){
+        Scanner scanner = new Scanner(System.in);
+        int colonne;
+        int ligne;
+
+        System.out.println("Quelle pièce voulez vous jouer ? ");
+        System.out.print("Entrez le numéro de la ligne : ");
+        ligne = (scanner.nextInt()) - 1;
+        while (ligne < 0 || ligne > 7) {
+            System.out.println("Coordonnées impossible");
+            System.out.print("Entrez le numéro de la ligne : ");
+            ligne = (scanner.nextInt()) - 1;
+        }
+        System.out.print("Entrez le numéro de la colonne : ");
+        colonne = (scanner.nextInt()) - 1;
+        while (colonne < 0 || colonne > 7) {
+            System.out.println("Coordonnées impossible");
+            System.out.print("Entrez le numéro de la colonne : ");
+            colonne = (scanner.nextInt()) - 1;
+        }
+        appelPiece(plateau, ligne, colonne, joueur, mode);
+    }
+
+    //appel des méthodes en fonction de la pièce jouée
+    public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
+
+        if(couleurJoueur(plateau, ligne, colonne, joueur)) {
+
+            if (plateau[ligne][colonne] == 6) {
+                pieces.pionJ(plateau, ligne, colonne);
+            } else if (plateau[ligne][colonne] == 12) {
+                pieces.pionB(plateau, ligne, colonne);
+            } else if (plateau[ligne][colonne] == 7 || plateau[ligne][colonne] == 1) {
+                if (pieceAutour(plateau, ligne, colonne)) {
+                    System.out.println("Impossible de bouger cette pièce");
+                    coordonnees(plateau, joueur, mode);
+                } else {
+                    pieces.tour(plateau, ligne, colonne, mode);
+                }
+            } else if (plateau[ligne][colonne] == 9 || plateau[ligne][colonne] == 3) {
+                if (pieceAutour2(plateau, ligne, colonne)) {
+                    System.out.println("Impossible de bouger cette pièce");
+                    coordonnees(plateau, joueur, mode);
+                } /*else {
+                    pieces.fou(plateau, ligne, colonne);
+                }*/
+            } else if (plateau[ligne][colonne] == 10 || plateau[ligne][colonne] == 5) {
+                if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
+                    System.out.println("Impossible de bouger cette pièce");
+                    coordonnees(plateau, joueur, mode);
+                } else {
+                    pieces.roi(plateau, ligne, colonne);
+                }
+            } else if (plateau[ligne][colonne] == 8 || plateau[ligne][colonne] == 2) {
+                pieces.cavalier(plateau, ligne, colonne);
+            } else if (plateau[ligne][colonne] == 4 || plateau[ligne][colonne] == 11) {
+                pieces.dame(plateau, ligne, colonne, mode);
+            } else {
+                System.out.println("Case vide, veuillez recommencez");
+                coordonnees(plateau, joueur, mode);
+            }
+        }
+        else{
+            System.out.print("Ce ne sont pas vos pièces ! ");
+            coordonnees(plateau, joueur, mode);
+        }
+    }
+
+    public static boolean couleurJoueur(int[][] plateau, int ligne, int colonne, char joueur){
+        boolean valeur=true;
+
+        if(joueur=='B'){
+            if(plateau[ligne][colonne]<6){
+                valeur = false;
+            }
+        }
+        else {
+            if(plateau[ligne][colonne]>6) {
+                valeur = false;
+            }
+        }
+        return valeur;
+    }
+
+    //booleen qui prend que les cases valide du plateau
+    public static boolean caseValide(int ligne, int colonne) {
+        return (ligne >= 0 && ligne < 8) && (colonne >= 0 && colonne < 8);
+    }
+
+    public static boolean mouvementCavalier(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
+        boolean valeur=true;
+
+        if(nvLigne-ligne==2 || nvLigne-ligne==-2){
+            if(nvColonne-colonne!=1 && nvColonne-colonne!=-1){
+                valeur=false;
+            }
+        }
+        else if(nvLigne-ligne==1 || nvLigne-ligne==-1){
+            if(nvColonne-colonne!=2 && nvColonne-colonne!=-2){
+                valeur=false;
+            }
+        }
+        else{
+            valeur=false;
+        }
+        return valeur;
+    }
+
+    public static boolean ligneCavalier(int[][] plateau, int ligne, int nvLigne){
+        boolean valeur=false;
+
+        if(nvLigne-ligne==2 || nvLigne-ligne==-2 || nvLigne-ligne==1 || nvLigne-ligne==-1){
+            valeur=true;
+        }
+        return valeur;
+    }
+
+    //méthode qui vérifie que les cases+1 du haut, du bas, de gauche et de droite
+    //sont disponibles pour la pièce jouée actuelle
+    public static boolean pieceAutour(int[][] plateau, int ligne, int colonne){
+        int piece = plateau[ligne][colonne];
+        int nouvelleL;
+        int nouvelleC;
+        boolean bleu = piece > 6;
+
+        int[] lignes = {0, 0, -1, 1};
+        int[] colonnes = {-1, 1, 0, 0};
+
+        for(int i=0; i<4; i++){
+            nouvelleL = ligne+lignes[i];
+            nouvelleC = colonne+colonnes[i];
+
+            if(caseValide(nouvelleL, nouvelleC)==true){
+                if(plateau[nouvelleL][nouvelleC]==0){
+                    return false;
+                }
+                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;
+
+                if (pieceEnFace != bleu) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    //méthode qui vérifie que les cases+1 du haut, du bas, de gauche, de droite
+    //et les 4 diagonales sont disponibles pour la pièce jouée actuelle
+    public static boolean pieceAutour2(int[][] plateau, int ligne, int colonne){
+        int piece = plateau[ligne][colonne];
+        int nouvelleL;
+        int nouvelleC;
+        boolean bleu = piece > 6;
+
+        int[] lignes = {-1, 1, -1, 1};
+        int[] colonnes = {-1, 1, 1, -1};
+
+        for(int i=0; i<4; i++){
+            nouvelleL = ligne+lignes[i];
+            nouvelleC = colonne+colonnes[i];
+
+            if(caseValide(nouvelleL, nouvelleC)==true){
+                if(plateau[nouvelleL][nouvelleC]==0){
+                    return false;
+                }
+                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;
+
+                if (pieceEnFace != bleu) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    //affichage du plateau
+    public static void plateau(int[][] plateau) {
+        for (int i = 0; i < plateau.length; i++) {
+            for (int j = 0; j < plateau[i].length; j++) {
+                plateau[i][j] = 0; //case vide
+                plateau[1][j] = 6; //Pion Noir
+                plateau[6][j] = 12; //Pion Blanc
+            }
+        }
+
+        //Tour Jaune
+        plateau[0][0] = 1;
+        plateau[0][7] = 1;
+
+        //Tour Bleu
+        plateau[7][0] = 7;
+        plateau[7][7] = 7;
+
+        //Cavalier Jaune
+        plateau[0][1] = 2;
+        plateau[0][6] = 2;
+
+        //Cavalier Bleu
+        plateau[7][1] = 8;
+        plateau[7][6] = 8;
+
+        //Fou Jaune
+        plateau[0][2] = 3;
+        plateau[0][5] = 3;
+
+        //Fou Bleu
+        plateau[7][2] = 9;
+        plateau[7][5] = 9;
+
+        //Dame Jaune
+        plateau[0][3] = 4;
+
+        //Roi Bleu
+        plateau[7][4] = 10;
+
+        //Roi Jaune
+        plateau[0][4] = 5;
+
+        //Dame Bleu
+        plateau[7][3] = 11;
+    }
+
+    //Affichage des pièces sur le plateau
+    public static void remplir(int[][] plateau) {
+        String RESET  = "\u001B[0m";
+        String BLEU   = "\u001B[34m";
+        String JAUNE  = "\u001B[33m";
+
+        System.out.println("        1           2           3           4           5           6           7           8");
+        for (int i = 0; i < plateau.length; i++) {
+            System.out.print(i+1 + " ");
+            for (int j = 0; j < plateau[i].length; j++) {
+                if (plateau[i][j] == 1){
+                    System.out.print("|" + JAUNE + "   Tour   " + RESET + "|");
+                }
+                else if (plateau[i][j] == 2){
+                    System.out.print("|" + JAUNE + " Cavalier " + RESET + "|");
+                }
+                else if (plateau[i][j] == 3){
+                    System.out.print("|" + JAUNE + "   Fou    " + RESET + "|");
+                }
+                else if (plateau[i][j] == 4){
+                    System.out.print("|" + JAUNE + "   Dame   " + RESET + "|");
+                }
+                else if (plateau[i][j] == 5){
+                    System.out.print("|" + JAUNE + "   Roi    " + RESET + "|");
+                }
+                else if (plateau[i][j] == 6){
+                    System.out.print("|" + JAUNE + "   Pion   " + RESET + "|");
+                }
+                else if(plateau[i][j] == 7){
+                    System.out.print("|" + BLEU + "   Tour   " + RESET + "|");
+                }
+                else if (plateau[i][j] == 8){
+                    System.out.print("|" + BLEU + " Cavalier " + RESET + "|");
+                }
+                else if (plateau[i][j] == 9){
+                    System.out.print("|" + BLEU + "   Fou    " + RESET + "|");
+                }
+                else if (plateau[i][j] == 10){
+                    System.out.print("|" + BLEU + "   Roi    " + RESET + "|");
+                }
+                else if (plateau[i][j] == 11){
+                    System.out.print("|" + BLEU + "   Dame   " + RESET + "|");
+                }
+                else if (plateau[i][j] == 12){
+                    System.out.print("|" + BLEU + "   Pion   " + RESET + "|");
+                }
+                else {
+                    System.out.print("|          |");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public static void remplir2(int[][] plateau) {
+        String RESET  = "\u001B[0m";
+        String BLEU   = "\u001B[34m";
+        String JAUNE  = "\u001B[33m";
+
+        System.out.println("        8           7           6           5           4           3           2           1");
+        for (int i = 0; i < plateau.length; i++) {
+            System.out.print(8-i + " ");
+
+            for (int j = 0; j < plateau[i].length; j++) {
+                int piece = plateau[7-i][7-j];
+
+                if (piece == 1){
+                    System.out.print("|" + JAUNE + "   Tour   " + RESET + "|");
+                }
+                else if (piece == 2){
+                    System.out.print("|" + JAUNE + " Cavalier " + RESET + "|");
+                }
+                else if (piece == 3){
+                    System.out.print("|" + JAUNE + "   Fou    " + RESET + "|");
+                }
+                else if (piece == 4){
+                    System.out.print("|" + JAUNE + "   Dame   " + RESET + "|");
+                }
+                else if (piece == 5){
+                    System.out.print("|" + JAUNE + "   Roi    " + RESET + "|");
+                }
+                else if (piece == 6){
+                    System.out.print("|" + JAUNE + "   Pion   " + RESET + "|");
+                }
+                else if(piece == 7){
+                    System.out.print("|" + BLEU + "   Tour   " + RESET + "|");
+                }
+                else if (piece == 8){
+                    System.out.print("|" + BLEU + " Cavalier " + RESET + "|");
+                }
+                else if (piece == 9){
+                    System.out.print("|" + BLEU + "   Fou    " + RESET + "|");
+                }
+                else if (piece == 10){
+                    System.out.print("|" + BLEU + "   Roi    " + RESET + "|");
+                }
+                else if (piece == 11){
+                    System.out.print("|" + BLEU + "   Dame   " + RESET + "|");
+                }
+                else if (piece == 12){
+                    System.out.print("|" + BLEU + "   Pion   " + RESET + "|");
+                }
+                else {
+                    System.out.print("|          |");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+
+
+
+    //méthode qui vérifie si le mouvement est possible en vérifiant
+    //s'il y a des pièces empêchant un mouvement de plusieurs
+    //lignes (sah g la flemme de bien expliquer sorry)
+    public static boolean empechement (int[][] plateau, int ligne, int colonne, int distance, int direction){
+        int dLigne = 0;
+        int dColonne = 0;
+
+        if (direction == 1) {          // haut
+            dLigne = -1;
+        } else if (direction == 2) {   // gauche
+            dColonne = -1;
+        } else if (direction == 3) {   // droite
+            dColonne = 1;
+        } else if (direction == 4) {   // bas
+            dLigne = 1;
+        }
+
+        for (int i = 1; i < distance; i++) {
+            int l = ligne + i * dLigne;
+            int c = colonne + i * dColonne;
+
+            if (i<distance && caseValide(l, c) && plateau[l][c] != 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //méthode qui vérifie si la pièce actuelle est de la même couleur que
+    //celle de la couleur de la pièce de notre choix en fonction de sa
+    //position dans le plateauleau
+    public static boolean memeCouleur(int[][] plateau, int ligne, int colonne, int couleur) {
+        if (plateau[ligne][colonne] == 0) return false;
+
+        boolean bleu = couleur > 6;
+        boolean pieceEnFace = plateau[ligne][colonne] > 6;
+
+        return bleu == pieceEnFace;
+    }
+
+    public static boolean memeCouleurEtVide(int[][] plateau, int ligne, int colonne, int couleur) {
+        if (plateau[ligne][colonne] == 0) return true;
+
+        boolean bleu = couleur > 6;
+        boolean pieceEnFace = plateau[ligne][colonne] > 6;
+
+        return bleu == pieceEnFace;
+    }
+
+    //affichage des directions en fonctions de la position de la pièce actuelle
+    public static int affichageDirections(boolean haut, boolean gauche, boolean droite, boolean bas){
+        Scanner sc = new Scanner(System.in);
+        int direction=0;
+
+        if (haut){
+            if (gauche){
+                if (droite){
+                    if (bas){   //haut+gauche+droite+bas
+                        System.out.print("1 pour aller en haut, 2 pour aller à gauche, 3 pour aller à droite, 4 pour aller en bas ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    } else{     //haut+gauche+droite
+                        System.out.print("1 pour aller en haut, 2 pour aller à gauche, 3 pour aller à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                } else{
+                    if (bas){   //haut+gauche+bas
+                        System.out.print("1 pour aller en haut, 2 pour aller à gauche, 4 pour aller en bas : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    } else{      //haut+gauche
+                        System.out.print("1 pour aller en haut, 2 pour aller à gauche : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                }
+            } else {
+                if (droite){
+                    if (bas){   //haut+droite+bas
+                        System.out.print("1 pour aller en haut, 3 pour aller à droite, 4 pour aller en bas : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    } else{     //haut+droite
+                        System.out.print("1 pour aller en haut, 3 pour aller à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                } else{
+                    if (bas){   //haut+bas
+                        System.out.print("1 pour aller en haut, 4 pour aller en bas : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                }
+            }
+        } else {
+            if (gauche){
+                if (droite){
+                    if (bas){   //gauche+droite+bas
+                        System.out.print("2 pour aller à gauche, 3 pour aller à droite, 4 pour aller en bas : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    } else{     //gauche+droite
+                        System.out.print("2 pour aller à gauche, 3 pour aller à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                } else{
+                    if (bas){   //gauche+bas
+                        System.out.print("2 pour aller à gauche, 4 pour aller en bas : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                }
+            } else{
+                if (droite){
+                    if (bas){   //droite+bas
+                        System.out.print("3 pour aller à droite, 4 pour aller en bas : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                }
+            }
+        }
+        return direction;
+    }
+
+
+    public static int affichageChoixPion(boolean diagoDroite, boolean diagoGauche, boolean avanceUn) {
+        Scanner sc = new Scanner(System.in);
+        int choix = 0;
+
+        if (diagoDroite){
+            if(diagoGauche){
+                if(avanceUn){           //diagoDroite+diagoGauche+avanceUn
+                    System.out.print("1 prendre la pièce en diagonale gauche, 2 prendre la pièce en diagonale droite, 3 avancer : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                } else{                 //diagoDroite+diagoGauche
+                    System.out.print("1 prendre la pièce en diagonale gauche, 2 prendre la pièce en diagonale droite : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+            } else{
+                if(avanceUn){          //diagoDroite+avanceUn
+                    System.out.print("2 prendre la pièce en diagonale droite, 3 avancer : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+            }
+        } else{
+            if(diagoGauche){
+                if(avanceUn){       //diagoGauche+avanceUn
+                    System.out.print("1 prendre la pièce en diagonale gauche, 3 avancer : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+            }
+        }
+
+        return choix;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public static boolean mouvementTour(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
+        boolean valeur=true;
+
+        if(nvLigne!=ligne){
+            if(nvColonne!=colonne){
+                valeur=false;
+            }
+        }
+        else if(nvColonne!=colonne){
+            if(nvLigne!=ligne){
+                valeur=false;
+            }
+        }
+        else{
+            valeur=false;
+        }
+        return valeur;
+    }
+
+    public static boolean mouvementFou(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
+        boolean valeur=true;
+
+        if(nvLigne==ligne || nvColonne==colonne){          
+                valeur=false;
+        }
+
+        return valeur;
+    }
+
+    public static void destinationPiece(int[][] plateau, int ligne, int colonne, int piece){
+        Scanner sc = new Scanner(System.in);
+        int NvLigne, NvColonne;
+        boolean mouvementValide=false;
+
+        System.out.println("Où veux-tu aller ?");
+        System.out.print("Entrez le numéro de la ligne : ");
+        NvLigne = (sc.nextInt())-1;
+            
+        System.out.print("Entrez le numéro de la colonne : ");
+        NvColonne = (sc.nextInt())-1;
+
+        do {
+            if(piece==1 || piece==2){
+                mouvementValide = mouvementTour(plateau, ligne, colonne, NvLigne, NvColonne);
+            }
+            else if(piece==3 || piece==9){
+                mouvementValide = mouvementFou(plateau, ligne, colonne, NvLigne, NvColonne);
+            }
+            
+            if((NvColonne<0 || NvColonne>7) || memeCouleur(plateau, NvLigne, NvColonne, piece)){
+                System.out.println("La pièce ne peut pas aller là");
+                System.out.print("Entrez un autre numéro de ligne : ");
+                NvLigne = (sc.nextInt())-1;
+                System.out.print("Entrez un autre numéro de colonne : ");
+                NvColonne = (sc.nextInt())-1;
+            }
+        } while (!mouvementValide);
+
+        plateau[ligne][colonne] = 0;
+        plateau[NvLigne][NvColonne] = piece;
+    }
+}
