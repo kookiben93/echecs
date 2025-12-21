@@ -184,75 +184,76 @@ public class pieces {
         }
     }
 
-
-
-
-
-
-
-
-
     //Méthode pour le Fou
-    /*public static void fou(int[][] plateau, int ligne, int colonne, int mode) {
+    public static void fou(int[][] plateau, int ligne, int colonne, int mode) {
         Scanner sc = new Scanner(System.in);
         int choix; //il veut avancer de combien
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
-        int valeurDep = methodes3.valeurDeplacement(plateau, ligne, colonne, couleur);
-        int direction = methodes3.affichageDirections(plateau, ligne, colonne, couleur);
 
+        if(mode==1){
+            boolean hautGauche = methodes.caseValide(ligne-1, colonne-1) && (plateau[ligne-1][colonne-1] == 0 || !(methodes.memeCouleur(plateau, ligne-1, colonne-1, couleur))); //hautGauche
+            boolean hautDroite = methodes.caseValide(ligne-1, colonne+1) && (plateau[ligne-1][colonne+1] == 0 || !(methodes.memeCouleur(plateau, ligne-1, colonne+1, couleur))); //hautDroite
+            boolean basGauche = methodes.caseValide(ligne+1, colonne-1) && (plateau[ligne+1][colonne-1] == 0 || !(methodes.memeCouleur(plateau, ligne+1, colonne-1, couleur))); //basGauche
+            boolean basDroite = methodes.caseValide(ligne+1, colonne+1) && (plateau[ligne+1][colonne+1] == 0 || !(methodes.memeCouleur(plateau, ligne+1, colonne+1, couleur))); //basDroite
 
-        if (valeurDep == 8 || direction == 5) {           //aller en haut-gauche
-            System.out.print("Tu veux avancer de combien ? ");
-            choix = Integer.parseInt(sc.nextLine());
+            int direction = methodes.affichageDirectionsFou(hautGauche, hautDroite, basGauche, basDroite);
 
-            while (!(methodes3.caseValide(ligne - choix, colonne - choix)) || methodes3.empechement(plateau, ligne, colonne, choix, 5) || methodes3.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
-                System.out.println("impossible d'avancer jusque là");
-                System.out.print("de combien veux-tu avancer ? : ");
+            if ((hautGauche && !hautDroite && !basGauche && !basDroite) || direction == 1) {           //aller en haut-gauche
+                System.out.print("Tu veux avancer de combien ? ");
                 choix = Integer.parseInt(sc.nextLine());
-            }
-            plateau[ligne][colonne] = 0;
-            plateau[ligne - choix][colonne - choix] = couleur;
 
-        } else if (valeurDep == 16 || direction == 6) {    //aller en haut-droite
-            System.out.print("Tu veux avancer de combien ? ");
-            choix = Integer.parseInt(sc.nextLine());
+                while (!(methodes.caseValide(ligne - choix, colonne - choix)) || methodes.empechement(plateau, ligne, colonne, choix, 5) || methodes.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
+                    System.out.println("impossible d'avancer jusque là");
+                    System.out.print("de combien veux-tu avancer ? : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+                plateau[ligne][colonne] = 0;
+                plateau[ligne - choix][colonne - choix] = couleur;
 
-            while (!(methodes3.caseValide(ligne - choix, colonne - choix)) || methodes3.empechement(plateau, ligne, colonne, choix, 6) || methodes3.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
-                System.out.println("impossible d'avancer jusque là");
-                System.out.print("de combien veux-tu avancer ? : ");
+            } else if ((!hautGauche && hautDroite && !basGauche && !basDroite) || direction == 2) {    //aller en haut-droite
+                System.out.print("Tu veux avancer de combien ? ");
                 choix = Integer.parseInt(sc.nextLine());
-            }
-            plateau[ligne][colonne] = 0;
-            plateau[ligne - choix][colonne + choix] = couleur;
 
-        } else if (valeurDep == 32 || direction == 7) {     //aller en bas-gauche
-            System.out.print("Tu veux avancer de combien ? ");
-            choix = Integer.parseInt(sc.nextLine());
+                while (!(methodes.caseValide(ligne - choix, colonne - choix)) || methodes.empechement(plateau, ligne, colonne, choix, 6) || methodes.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
+                    System.out.println("impossible d'avancer jusque là");
+                    System.out.print("de combien veux-tu avancer ? : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+                plateau[ligne][colonne] = 0;
+                plateau[ligne - choix][colonne + choix] = couleur;
 
-            while (!(methodes3.caseValide(ligne + choix, colonne + choix)) || methodes3.empechement(plateau, ligne, colonne, choix, 7) || methodes3.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
-                System.out.println("impossible d'avancer jusque là");
-                System.out.print("de combien veux-tu avancer ? : ");
+            } else if ((!hautGauche && !hautDroite && basGauche && !basDroite) || direction == 3) {     //aller en bas-gauche
+                System.out.print("Tu veux avancer de combien ? ");
                 choix = Integer.parseInt(sc.nextLine());
-            }
-            plateau[ligne][colonne] = 0;
-            plateau[ligne + choix][colonne - choix] = couleur;
 
-        } else if (valeurDep == 64 || direction == 8) {    //aller en bas-droite
-            System.out.print("Tu veux avancer de combien ? ");
-            choix = Integer.parseInt(sc.nextLine());
+                while (!(methodes.caseValide(ligne + choix, colonne + choix)) || methodes.empechement(plateau, ligne, colonne, choix, 7) || methodes.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
+                    System.out.println("impossible d'avancer jusque là");
+                    System.out.print("de combien veux-tu avancer ? : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+                plateau[ligne][colonne] = 0;
+                plateau[ligne + choix][colonne - choix] = couleur;
 
-            while (!(methodes3.caseValide(ligne + choix, colonne + choix)) || methodes3.empechement(plateau, ligne, colonne, choix, 8) || methodes3.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
-                System.out.println("impossible d'avancer jusque là");
-                System.out.print("de combien veux-tu avancer ? : ");
+            } else if ((!hautGauche && !hautDroite && !basGauche && basDroite) || direction == 4) {    //aller en bas-droite
+                System.out.print("Tu veux avancer de combien ? ");
                 choix = Integer.parseInt(sc.nextLine());
-            }
-            plateau[ligne][colonne] = 0;
-            plateau[ligne + choix][colonne + choix] = couleur;
 
-        } else {
-            System.out.println("Impossible d'avancer ");
+                while (!(methodes.caseValide(ligne + choix, colonne + choix)) || methodes.empechement(plateau, ligne, colonne, choix, 8) || methodes.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
+                    System.out.println("impossible d'avancer jusque là");
+                    System.out.print("de combien veux-tu avancer ? : ");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+                plateau[ligne][colonne] = 0;
+                plateau[ligne + choix][colonne + choix] = couleur;
+
+            } else {
+                System.out.println("Impossible d'avancer ");
+            }
         }
-    }*/
+        else{
+            methodes.destinationPiece(plateau, ligne, colonne, couleur);
+        }
+    }
 
     //Méthode pour le Roi
     public static void roi(int[][] plateau, int ligne, int colonne) {
@@ -363,9 +364,9 @@ public class pieces {
 
             if (choix == 1) {
                 tour(plateau, ligne, colonne, mode);
-            } /*else {
+            } else {
                 fou(plateau, ligne, colonne);
-            }*/
+            }
         }
     }
 
