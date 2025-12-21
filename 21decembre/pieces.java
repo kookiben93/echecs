@@ -127,7 +127,6 @@ public class pieces {
         }
     }
 
-
     //Méthode pour la Tour
     public static void tour(int[][] plateau, int ligne, int colonne, int mode) {
         int NvColonne;  //Colonne après les choix de l'utilisateur
@@ -178,22 +177,7 @@ public class pieces {
         }
 
         else if(mode==2){
-            System.out.println("Où veux-tu aller ?");
-            System.out.print("Entrez le numéro de la ligne : ");
-            NvLigne = (sc.nextInt())-1;
-            
-            System.out.print("Entrez le numéro de la colonne : ");
-            NvColonne = (sc.nextInt())-1;*/
-
-            while ((NvColonne<0 || NvColonne>7) || !methodesM.mouvementTour(plateau, ligne, colonne, NvLigne, NvColonne) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
-                System.out.println("La Tour ne peut pas aller là");
-                System.out.print("Entrez un autre numéro de ligne : ");
-                NvLigne = (sc.nextInt())-1;
-                System.out.print("Entrez un autre numéro de colonne : ");
-                NvColonne = (sc.nextInt())-1;
-            }
-            plateau[ligne][colonne] = 0;
-            plateau[NvLigne][NvColonne] = couleur;
+            methodesM.destinationPiece(plateau, ligne, colonne, couleur)
         }
     }
 
