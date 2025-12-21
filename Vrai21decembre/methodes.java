@@ -1,7 +1,7 @@
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
-public class methodes3 {
+public class methodes {
 
     public static void main(String[] args) {
 
@@ -365,7 +365,7 @@ public class methodes3 {
             int l = ligne + i * dLigne;
             int c = colonne + i * dColonne;
 
-            if (i<distance && caseValide(l, c) && plateau[l][c] != 0){
+            if (caseValide(l, c) && plateau[l][c] != 0){
                 return true;
             }
         }
