@@ -147,8 +147,8 @@ public class pieces {
 
             int direction = methodes.affichageDirections(haut, gauche, droite, bas);
 
-            int hautBas = 0;    //valeur pour le mouvement Haut ou Bas selon la demande
-            int gaucheDroite = 0;   //valeur pour le mouvement gauche ou droite selon la demande
+            int hautBas=0;    //valeur pour le mouvement Haut ou Bas selon la demande
+            int gaucheDroite=0;   //valeur pour le mouvement gauche ou droite selon la demande
 
             switch(direction){
                 case 1: hautBas = -1;   //hautBas prend la valeur de -1 si l'utilisateur veut aller en haut
