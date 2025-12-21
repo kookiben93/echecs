@@ -129,12 +129,75 @@ public class pieces {
 
 
     //Méthode pour la Tour
-    public static void tour(int[][] plateau, int ligne, int colonne) {
+    public static void tour(int[][] plateau, int ligne, int colonne, int mode) {
         Scanner sc = new Scanner(System.in);
         int NvColonne;
         int NvLigne;
+        int choix; //il veut avancer de combien
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
 
+        if(mode==1){
+        boolean haut = (methodes.caseValide(ligne-1, colonne) && (plateau[ligne-1][colonne] == 0 || !(methodes.memeCouleur(plateau, ligne-1, colonne, couleur)))); //haut
+        boolean gauche = (methodes.caseValide(ligne, colonne-1) && (plateau[ligne][colonne-1] == 0 || !(methodes.memeCouleur(plateau, ligne, colonne-1, couleur)))); //gauche
+        boolean droite = (methodes.caseValide(ligne, colonne+1) && (plateau[ligne][colonne+1] == 0 || !(methodes.memeCouleur(plateau, ligne, colonne+1, couleur)))); //droite
+        boolean bas = (methodes.caseValide(ligne+1, colonne) && (plateau[ligne+1][colonne] == 0 || !(methodes.memeCouleur(plateau, ligne+1, colonne, couleur)))); //bas
+
+        int direction = methodes.affichageDirections(haut, gauche, droite, bas);
+
+        if ((haut && !gauche && !droite && !bas) || direction == 1) {           //aller en haut
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            while (!(methodes.caseValide(ligne-choix, colonne)) || methodes.empechement(plateau, ligne, colonne, choix, 1) || methodes.memeCouleur(plateau, ligne-choix, colonne, couleur)) {
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+            plateau[ligne][colonne] = 0;
+            plateau[ligne - choix][colonne] = couleur;
+
+        } else if ((!haut && gauche && !droite && !bas) || direction == 2) {    //aller à gauche
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            while (!(methodes.caseValide(ligne, colonne-choix)) || methodes.empechement(plateau, ligne, colonne, choix, 2) || methodes.memeCouleur(plateau, ligne, colonne-choix, couleur)) {
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+            plateau[ligne][colonne] = 0;
+            plateau[ligne][colonne-choix] = couleur;
+
+        } else if ((!haut && !gauche && droite && !bas) || direction == 3) {     //aller à droite
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            while (!(methodes.caseValide(ligne, colonne + choix)) || methodes.empechement(plateau, ligne, colonne, choix, 3) || methodes.memeCouleur(plateau, ligne, colonne + choix, couleur)) {
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+            plateau[ligne][colonne] = 0;
+            plateau[ligne][colonne + choix] = couleur;
+
+        } else if ((!haut && !gauche && !droite && bas) || direction == 4) {    //aller en bas
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            while (!(methodes.caseValide(ligne + choix, colonne)) || methodes.empechement(plateau, ligne, colonne, choix, 4) || methodes.memeCouleur(plateau, ligne + choix, colonne, couleur)) {
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+            plateau[ligne][colonne] = 0;
+            plateau[ligne + choix][colonne] = couleur;
+
+        } else {
+            System.out.println("Impossible d'avancer ");
+        }
+        }
+
+        else if(mode==2){
         System.out.println("Où veux-tu aller ?");
         System.out.print("Entrez le numéro de la ligne : ");
         NvLigne = (sc.nextInt())-1;
@@ -150,10 +213,11 @@ public class pieces {
         }
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = couleur;
+        }
     }
 
     //Méthode pour le Fou
-    public static void fou(int[][] plateau, int ligne, int colonne) {
+    public static void fou(int[][] plateau, int ligne, int colonne, int mode) {
        Scanner sc = new Scanner(System.in);
         int NvColonne;
         int NvLigne;
@@ -274,7 +338,7 @@ public class pieces {
         plateau[NvLigne][NvColonne] = couleur;
     }
 
-        public static void dame(int[][] plateau, int ligne, int colonne) {
+        public static void dame(int[][] plateau, int ligne, int colonne, int mode) {
             Scanner sc = new Scanner(System.in);
             int choix;
 
@@ -284,10 +348,9 @@ public class pieces {
             } while (choix != 1 && choix != 2);
 
             if (choix == 1) {
-                tour(plateau, ligne, colonne);
+                tour(plateau, ligne, colonne, mode);
             } /*else {
-                fou(plateau, ligne, colonne);
+                fou(plateau, ligne, colonne, mode);
             }*/
         }
     }
-
