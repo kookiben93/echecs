@@ -202,7 +202,7 @@ public class pieces {
                 System.out.print("Tu veux avancer de combien ? ");
                 choix = Integer.parseInt(sc.nextLine());
 
-                while (!(methodes.caseValide(ligne - choix, colonne - choix)) || methodes.empechement(plateau, ligne, colonne, choix, 5) || methodes.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
+                while (!(methodes.caseValide(ligne - choix, colonne - choix)) || /*methodes.empechement(plateau, ligne, colonne, choix, 5) ||*/ methodes.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
                     System.out.println("impossible d'avancer jusque là");
                     System.out.print("de combien veux-tu avancer ? : ");
                     choix = Integer.parseInt(sc.nextLine());
@@ -214,7 +214,7 @@ public class pieces {
                 System.out.print("Tu veux avancer de combien ? ");
                 choix = Integer.parseInt(sc.nextLine());
 
-                while (!(methodes.caseValide(ligne - choix, colonne - choix)) || methodes.empechement(plateau, ligne, colonne, choix, 6) || methodes.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
+                while (!(methodes.caseValide(ligne - choix, colonne + choix)) || /*methodes.empechement(plateau, ligne, colonne, choix, 6) ||*/ methodes.memeCouleur(plateau, ligne - choix, colonne + choix, couleur)) {
                     System.out.println("impossible d'avancer jusque là");
                     System.out.print("de combien veux-tu avancer ? : ");
                     choix = Integer.parseInt(sc.nextLine());
@@ -226,7 +226,7 @@ public class pieces {
                 System.out.print("Tu veux avancer de combien ? ");
                 choix = Integer.parseInt(sc.nextLine());
 
-                while (!(methodes.caseValide(ligne + choix, colonne + choix)) || methodes.empechement(plateau, ligne, colonne, choix, 7) || methodes.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
+                while (!(methodes.caseValide(ligne + choix, colonne - choix)) || /*methodes.empechement(plateau, ligne, colonne, choix, 7) ||*/ methodes.memeCouleur(plateau, ligne + choix, colonne - choix, couleur)) {
                     System.out.println("impossible d'avancer jusque là");
                     System.out.print("de combien veux-tu avancer ? : ");
                     choix = Integer.parseInt(sc.nextLine());
@@ -238,7 +238,7 @@ public class pieces {
                 System.out.print("Tu veux avancer de combien ? ");
                 choix = Integer.parseInt(sc.nextLine());
 
-                while (!(methodes.caseValide(ligne + choix, colonne + choix)) || methodes.empechement(plateau, ligne, colonne, choix, 8) || methodes.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
+                while (!(methodes.caseValide(ligne + choix, colonne + choix)) || /*methodes.empechement(plateau, ligne, colonne, choix, 8) ||*/ methodes.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
                     System.out.println("impossible d'avancer jusque là");
                     System.out.print("de combien veux-tu avancer ? : ");
                     choix = Integer.parseInt(sc.nextLine());
