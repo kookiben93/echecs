@@ -150,17 +150,14 @@ public class pieces {
             int hautBas=0;    //valeur pour le mouvement Haut ou Bas selon la demande
             int gaucheDroite=0;   //valeur pour le mouvement gauche ou droite selon la demande
 
-            switch(direction){
-                case 1: hautBas = -1;   //hautBas prend la valeur de -1 si l'utilisateur veut aller en haut
-                    break;
-                case 2: gaucheDroite = -1;  //gaucheDroite prend la valeur de -1 si l'utilisateur veut aller en gauche
-                    break;
-                case 3: gaucheDroite = 1;   //gaucheDroite prend la valeur de 1 si l'utilisateur veut aller à droite
-                    break;
-                case 4: hautBas = 1;    //hautBas prend la valeur de 1 si l'utilisateur veut aller en bas
-                    break;
-                default:
-                    break;
+            if(haut && !gauche && !droite && !bas || direction==1)
+                hautBas = -1;
+            else if(!haut && gauche && !droite && !bas || direction==2)
+                gaucheDroite = -1;
+            else if(!haut && !gauche && droite && !bas || direction==3)
+                gaucheDroite = 1;
+            else if(!haut && !gauche && !droite && bas || direction==4)
+                hautBas = 1;
             }
 
             System.out.print("Tu veux avancer de combien ? ");
@@ -169,7 +166,7 @@ public class pieces {
             NvLigne = ligne+(hautBas*choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
             NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
-            while (!(methodes.caseValide(NvLigne, NvColonne)) || methodes.empechement(plateau, ligne, colonne, choix, direction) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
+            while (!(methodes.caseValide(NvLigne, NvColonne)) || /*methodes.empechement(plateau, ligne, colonne, choix, direction) ||*/ methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
                 System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
