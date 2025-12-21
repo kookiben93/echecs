@@ -7,15 +7,15 @@ public class pieces {
         int avancer; //il veut avancer de combien
 
         //si la case en diagonale droite est dans le plateau et est une pièce bleue
-        boolean diagoDroite = methodes.caseValide(ligne - 1, colonne + 1) && !methodes.memeCouleurEtVide(plateau, ligne - 1, colonne + 1, plateau[ligne][colonne]);
+        boolean diagoDroite = methodes3.caseValide(ligne - 1, colonne + 1) && !methodes3.memeCouleurEtVide(plateau, ligne - 1, colonne + 1, plateau[ligne][colonne]);
         //si la case en diagonale gauche est dans le plateau et est une pièce bleue
-        boolean diagoGauche = methodes.caseValide(ligne - 1, colonne - 1) && !methodes.memeCouleurEtVide(plateau, ligne - 1, colonne - 1, plateau[ligne][colonne]);
+        boolean diagoGauche = methodes3.caseValide(ligne - 1, colonne - 1) && !methodes3.memeCouleurEtVide(plateau, ligne - 1, colonne - 1, plateau[ligne][colonne]);
         //si la première case devant le pion est vide
         boolean avanceUn = plateau[ligne - 1][colonne] == 0;
         //si le pion n'a pas bougé la deuxième case devant lui est vide
         boolean avanceDeux = ligne == 6 && plateau[ligne - 2][colonne] == 0;
 
-        int choix = methodesF.affichageChoixPion(diagoDroite, diagoGauche, avanceUn);    //il veut prendre une pièce ou avancer
+        int choix = methodes3.affichageChoixPion(diagoDroite, diagoGauche, avanceUn);    //il veut prendre une pièce ou avancer
 
         if ((diagoGauche && !diagoDroite && !avanceUn) || choix == 1) {
             System.out.println("Le pion prend la pièce en diagonale gauche");
@@ -67,15 +67,15 @@ public class pieces {
         int avancer; //il veut avancer de combien
 
         //si la case en diagonale droite est dans le plateau et est une pièce bleue
-        boolean diagoDroite = methodes.caseValide(ligne + 1, colonne + 1) && !methodes.memeCouleurEtVide(plateau, ligne+1, colonne+1, plateau[ligne][colonne]);
+        boolean diagoDroite = methodes3.caseValide(ligne + 1, colonne + 1) && !methodes3.memeCouleurEtVide(plateau, ligne+1, colonne+1, plateau[ligne][colonne]);
         //si la case en diagonale gauche est dans le plateau et est une pièce bleue
-        boolean diagoGauche = methodes.caseValide(ligne + 1, colonne - 1) && !methodes.memeCouleurEtVide(plateau, ligne+1, colonne-1, plateau[ligne][colonne]);
+        boolean diagoGauche = methodes3.caseValide(ligne + 1, colonne - 1) && !methodes3.memeCouleurEtVide(plateau, ligne+1, colonne-1, plateau[ligne][colonne]);
         //si la première case devant le pion est vide
         boolean avanceUn = plateau[ligne + 1][colonne] == 0;
         //si le pion n'a pas bougé la deuxième case devant lui est vide
         boolean avanceDeux = ligne == 1 && plateau[ligne + 2][colonne] == 0;
 
-        int choix = methodesF.affichageChoixPion(diagoDroite, diagoGauche, avanceUn);    //il veut prendre une pièce ou avancer
+        int choix = methodes3.affichageChoixPion(diagoDroite, diagoGauche, avanceUn);    //il veut prendre une pièce ou avancer
 
         if ((diagoGauche && !diagoDroite && !avanceUn) || choix == 1) {
             System.out.println("Le pion prend la pièce en diagonale gauche");
@@ -126,7 +126,6 @@ public class pieces {
                 System.out.println("Le pion n'a pas de mouvement ");
         }
     }
-
     //Méthode pour la Tour
     public static void tour(int[][] plateau, int ligne, int colonne, int mode) {
         int NvColonne;  //Colonne après les choix de l'utilisateur
@@ -135,12 +134,12 @@ public class pieces {
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
 
         if(mode==1){
-            boolean haut = (methodes.caseValide(ligne-1, colonne) && (plateau[ligne-1][colonne] == 0 || !(methodes.memeCouleur(plateau, ligne-1, colonne, couleur)))); //haut
-            boolean gauche = (methodes.caseValide(ligne, colonne-1) && (plateau[ligne][colonne-1] == 0 || !(methodes.memeCouleur(plateau, ligne, colonne-1, couleur)))); //gauche
-            boolean droite = (methodes.caseValide(ligne, colonne+1) && (plateau[ligne][colonne+1] == 0 || !(methodes.memeCouleur(plateau, ligne, colonne+1, couleur)))); //droite
-            boolean bas = (methodes.caseValide(ligne+1, colonne) && (plateau[ligne+1][colonne] == 0 || !(methodes.memeCouleur(plateau, ligne+1, colonne, couleur)))); //bas
+            boolean haut = (methodes3.caseValide(ligne-1, colonne) && (plateau[ligne-1][colonne] == 0 || !(methodes3.memeCouleur(plateau, ligne-1, colonne, couleur)))); //haut
+            boolean gauche = (methodes3.caseValide(ligne, colonne-1) && (plateau[ligne][colonne-1] == 0 || !(methodes3.memeCouleur(plateau, ligne, colonne-1, couleur)))); //gauche
+            boolean droite = (methodes3.caseValide(ligne, colonne+1) && (plateau[ligne][colonne+1] == 0 || !(methodes3.memeCouleur(plateau, ligne, colonne+1, couleur)))); //droite
+            boolean bas = (methodes3.caseValide(ligne+1, colonne) && (plateau[ligne+1][colonne] == 0 || !(methodes3.memeCouleur(plateau, ligne+1, colonne, couleur)))); //bas
 
-            int direction = methodesF.affichageDirections(haut, gauche, droite, bas);
+            int direction = methodes3.affichageDirections(haut, gauche, droite, bas);
 
             int hautBas = 0;    //valeur pour le mouvement Haut ou Bas selon la demande
             int gaucheDroite = 0;   //valeur pour le mouvement gauche ou droite selon la demande
@@ -164,7 +163,7 @@ public class pieces {
             NvLigne = ligne+(hautBas*choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
             NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
-            while (!(methodes.caseValide(NvLigne, NvColonne)) || methodes.empechement(plateau, ligne, colonne, choix, direction) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
+            while (!(methodes3.caseValide(NvLigne, NvColonne)) || methodes3.empechement(plateau, ligne, colonne, choix, direction) || methodes3.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
                 System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
@@ -177,33 +176,71 @@ public class pieces {
         }
 
         else if(mode==2){
-            methodesM.destinationPiece(plateau, ligne, colonne, couleur)
+            methodes3.destinationPiece(plateau, ligne, colonne, couleur);
         }
     }
 
     //Méthode pour le Fou
-    public static void fou(int[][] plateau, int ligne, int colonne, int mode) {
+    /*public static void fou(int[][] plateau, int ligne, int colonne) {
         Scanner sc = new Scanner(System.in);
-        int NvColonne;
-        int NvLigne;
+        int choix; //il veut avancer de combien
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
+        int valeurDep = methodes3.valeurDeplacement(plateau, ligne, colonne, couleur);
+        int direction = methodes3.affichageDirections(plateau, ligne, colonne, couleur);
 
-        System.out.println("Où veux-tu aller ?");
-        System.out.print("Entrez le numéro de la ligne : ");
-        NvLigne = (sc.nextInt())-1;
-        
-        System.out.print("Entrez le numéro de la colonne : ");
-        NvColonne = (sc.nextInt())-1;
-        while ((NvColonne<0 || NvColonne>7) || !methodesM.mouvementFou(plateau, ligne, colonne, NvLigne, NvColonne) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
-            System.out.println("Le Fou ne peut pas aller là");
-            System.out.print("Entrez un autre numéro de ligne : ");
-            NvLigne = (sc.nextInt())-1;
-            System.out.print("Entrez un autre numéro de colonne : ");
-            NvColonne = (sc.nextInt())-1;
+
+        if (valeurDep == 8 || direction == 5) {           //aller en haut-gauche
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            while (!(methodes3.caseValide(ligne - choix, colonne - choix)) || methodes3.empechement(plateau, ligne, colonne, choix, 5) || methodes3.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+            plateau[ligne][colonne] = 0;
+            plateau[ligne - choix][colonne - choix] = couleur;
+
+        } else if (valeurDep == 16 || direction == 6) {    //aller en haut-droite
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            while (!(methodes3.caseValide(ligne - choix, colonne - choix)) || methodes3.empechement(plateau, ligne, colonne, choix, 6) || methodes3.memeCouleur(plateau, ligne - choix, colonne - choix, couleur)) {
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+            plateau[ligne][colonne] = 0;
+            plateau[ligne - choix][colonne + choix] = couleur;
+
+        } else if (valeurDep == 32 || direction == 7) {     //aller en bas-gauche
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            while (!(methodes3.caseValide(ligne + choix, colonne + choix)) || methodes3.empechement(plateau, ligne, colonne, choix, 7) || methodes3.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+            plateau[ligne][colonne] = 0;
+            plateau[ligne + choix][colonne - choix] = couleur;
+
+        } else if (valeurDep == 64 || direction == 8) {    //aller en bas-droite
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            while (!(methodes3.caseValide(ligne + choix, colonne + choix)) || methodes3.empechement(plateau, ligne, colonne, choix, 8) || methodes3.memeCouleur(plateau, ligne + choix, colonne + choix, couleur)) {
+                System.out.println("impossible d'avancer jusque là");
+                System.out.print("de combien veux-tu avancer ? : ");
+                choix = Integer.parseInt(sc.nextLine());
+            }
+            plateau[ligne][colonne] = 0;
+            plateau[ligne + choix][colonne + choix] = couleur;
+
+        } else {
+            System.out.println("Impossible d'avancer ");
         }
-        plateau[ligne][colonne] = 0;
-        plateau[NvLigne][NvColonne] = couleur;
-    }
+    }*/
 
     //Méthode pour le Roi
     public static void roi(int[][] plateau, int ligne, int colonne) {
@@ -219,15 +256,15 @@ public class pieces {
             choix1 = Integer.parseInt(sc.nextLine());
         }
 
-        boolean choix21 = methodes.caseValide(ligne + 1, colonne) && !methodes.memeCouleur(plateau, ligne + 1, colonne, couleur);
-        boolean choix22 = methodes.caseValide(ligne - 1, colonne) && !methodes.memeCouleur(plateau, ligne - 1, colonne, couleur);
-        boolean choix23 = methodes.caseValide(ligne, colonne - 1) && !methodes.memeCouleur(plateau, ligne, colonne - 1, couleur);
-        boolean choix24 = methodes.caseValide(ligne, colonne + 1) && !methodes.memeCouleur(plateau, ligne, colonne + 1, couleur);
+        boolean choix21 = methodes3.caseValide(ligne + 1, colonne) && !methodes3.memeCouleur(plateau, ligne + 1, colonne, couleur);
+        boolean choix22 = methodes3.caseValide(ligne - 1, colonne) && !methodes3.memeCouleur(plateau, ligne - 1, colonne, couleur);
+        boolean choix23 = methodes3.caseValide(ligne, colonne - 1) && !methodes3.memeCouleur(plateau, ligne, colonne - 1, couleur);
+        boolean choix24 = methodes3.caseValide(ligne, colonne + 1) && !methodes3.memeCouleur(plateau, ligne, colonne + 1, couleur);
 
-        boolean choix31 = methodes.caseValide(ligne + 1, colonne + 1) && !methodes.memeCouleur(plateau, ligne + 1, colonne + 1, couleur);
-        boolean choix32 = methodes.caseValide(ligne + 1, colonne - 1) && !methodes.memeCouleur(plateau, ligne + 1, colonne - 1, couleur);
-        boolean choix33 = methodes.caseValide(ligne - 1, colonne + 1) && !methodes.memeCouleur(plateau, ligne - 1, colonne + 1, couleur);
-        boolean choix34 = methodes.caseValide(ligne - 1, colonne - 1) && !methodes.memeCouleur(plateau, ligne - 1, colonne - 1, couleur);
+        boolean choix31 = methodes3.caseValide(ligne + 1, colonne + 1) && !methodes3.memeCouleur(plateau, ligne + 1, colonne + 1, couleur);
+        boolean choix32 = methodes3.caseValide(ligne + 1, colonne - 1) && !methodes3.memeCouleur(plateau, ligne + 1, colonne - 1, couleur);
+        boolean choix33 = methodes3.caseValide(ligne - 1, colonne + 1) && !methodes3.memeCouleur(plateau, ligne - 1, colonne + 1, couleur);
+        boolean choix34 = methodes3.caseValide(ligne - 1, colonne - 1) && !methodes3.memeCouleur(plateau, ligne - 1, colonne - 1, couleur);
 
         if (choix1 == 1 && (choix21 || choix22 || choix23 || choix24 )) {
             while (choix2 != 1 && choix2 != 2 && choix2 != 3 && choix2 != 4) {
@@ -287,14 +324,14 @@ public class pieces {
         System.out.println("Où veux-tu aller ?");
         System.out.print("Entrez le numéro de la ligne : ");
         NvLigne = (sc.nextInt())-1;
-        while ((NvLigne<0 || NvLigne>7) || !methodesM.ligneCavalier(plateau, ligne, NvLigne)) {
+        while ((NvLigne<0 || NvLigne>7) || !methodes3.ligneCavalier(plateau, ligne, NvLigne)) {
             System.out.println("Le cavalier ne peut pas aller là");
             System.out.print("Entrez un autre numéro de ligne : ");
             NvLigne = (sc.nextInt())-1;
         }
         System.out.print("Entrez le numéro de la colonne : ");
         NvColonne = (sc.nextInt())-1;
-        while ((NvColonne<0 || NvColonne>7) || !methodesM.mouvementCavalier(plateau, ligne, colonne, NvLigne, NvColonne) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
+        while ((NvColonne<0 || NvColonne>7) || !methodes3.mouvementCavalier(plateau, ligne, colonne, NvLigne, NvColonne) || methodes3.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
             System.out.println("Le cavalier ne peut pas aller là");
             System.out.print("Entrez un autre numéro de colonne : ");
             NvColonne = (sc.nextInt())-1;
@@ -315,7 +352,7 @@ public class pieces {
             if (choix == 1) {
                 tour(plateau, ligne, colonne, mode);
             } /*else {
-                fou(plateau, ligne, colonne, mode);
+                fou(plateau, ligne, colonne);
             }*/
         }
     }
