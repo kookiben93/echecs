@@ -10,6 +10,10 @@ public class Main {
 
         String pseudoBlanc="";
         String pseudoNoir="";
+        int modeJeu;
+
+        System.out.print("Tapez 1 pour le mode débutant, tapez 2 pour le mode normal : ");
+        modeJeu = Integer.parseInt(scanner.nextLine());
 
         System.out.print("Joueur 1 entrez votre pseudo : ");
         String pseudo1 = scanner.nextLine();
@@ -39,16 +43,15 @@ public class Main {
         for(int tour = 0; tour < 100; tour++){
             if(tour%2==0) {
                 System.out.println("Au tour de " + pseudoBlanc);
-                methodes.coordonnees(plateau, 'B');
+                methodes.coordonnees(plateau, 'B', modeJeu);
                 methodes.remplir2(plateau);
 
             }
             else{
                 System.out.println("Au tour de " + pseudoNoir);
-                methodes.coordonnees(plateau, 'N');
+                methodes.coordonnees(plateau, 'N', modeJeu);
                 methodes.remplir(plateau);
             }
         }
     }
 }
-
