@@ -365,7 +365,7 @@ public class pieces {
             if (choix == 1) {
                 tour(plateau, ligne, colonne, mode);
             } else {
-                fou(plateau, ligne, colonne);
+                fou(plateau, ligne, colonne, mode);
             }
         }
     }
