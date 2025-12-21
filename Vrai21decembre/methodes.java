@@ -34,7 +34,6 @@ public class methodes {
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
 
         if(couleurJoueur(plateau, ligne, colonne, joueur)) {
-
             if (plateau[ligne][colonne] == 6) {
                 pieces.pionJ(plateau, ligne, colonne);
             } else if (plateau[ligne][colonne] == 12) {
@@ -51,7 +50,7 @@ public class methodes {
                     System.out.println("Impossible de bouger cette pièce");
                     coordonnees(plateau, joueur, mode);
                 } /*else {
-                    pieces.fou(plateau, ligne, colonne);
+                    pieces.fou(plateau, ligne, colonne, mode);
                 }*/
             } else if (plateau[ligne][colonne] == 10 || plateau[ligne][colonne] == 5) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
@@ -61,7 +60,7 @@ public class methodes {
                     pieces.roi(plateau, ligne, colonne);
                 }
             } else if (plateau[ligne][colonne] == 8 || plateau[ligne][colonne] == 2) {
-                pieces.cavalier(plateau, ligne, colonne);
+                pieces.cavalier(plateau, ligne, colonne, mode);
             } else if (plateau[ligne][colonne] == 4 || plateau[ligne][colonne] == 11) {
                 pieces.dame(plateau, ligne, colonne, mode);
             } else {
@@ -536,16 +535,17 @@ public class methodes {
     public static void destinationPiece(int[][] plateau, int ligne, int colonne, int piece){
         Scanner sc = new Scanner(System.in);
         int NvLigne, NvColonne;
-        boolean mouvementValide=false;
-
-        System.out.println("Où veux-tu aller ?");
-        System.out.print("Entrez le numéro de la ligne : ");
-        NvLigne = (sc.nextInt())-1;
-            
-        System.out.print("Entrez le numéro de la colonne : ");
-        NvColonne = (sc.nextInt())-1;
+        boolean mouvementValide;
 
         do {
+            mouvementValide=true;
+            System.out.println("Où veux-tu aller ?");
+            System.out.print("Entrez le numéro de la ligne : ");
+            NvLigne = Integer.parseInt(sc.nextLine())-1;
+            
+            System.out.print("Entrez le numéro de la colonne : ");
+            NvColonne = Integer.parseInt(sc.nextLine())-1;
+
             if(piece==1 || piece==2){
                 mouvementValide = mouvementTour(plateau, ligne, colonne, NvLigne, NvColonne);
             }
@@ -554,11 +554,8 @@ public class methodes {
             }
             
             if((NvColonne<0 || NvColonne>7) || memeCouleur(plateau, NvLigne, NvColonne, piece)){
+                mouvementValide = false;
                 System.out.println("La pièce ne peut pas aller là");
-                System.out.print("Entrez un autre numéro de ligne : ");
-                NvLigne = (sc.nextInt())-1;
-                System.out.print("Entrez un autre numéro de colonne : ");
-                NvColonne = (sc.nextInt())-1;
             }
         } while (!mouvementValide);
 
