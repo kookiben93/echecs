@@ -158,7 +158,6 @@ public class pieces {
                 gaucheDroite = 1;
             else if(!haut && !gauche && !droite && bas || direction==4)
                 hautBas = 1;
-            }
 
             System.out.print("Tu veux avancer de combien ? ");
             choix = Integer.parseInt(sc.nextLine());    //demande de combien l'utilisateur veut se déplacer sans prendre en compte la direction
@@ -166,7 +165,7 @@ public class pieces {
             NvLigne = ligne+(hautBas*choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
             NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
-            while (!(methodes.caseValide(NvLigne, NvColonne)) || /*methodes.empechement(plateau, ligne, colonne, choix, direction) ||*/ methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
+            while (!(methodes.caseValide(NvLigne, NvColonne)) || methodes.empechement(plateau, ligne, colonne, choix, direction) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
                 System.out.println("impossible d'avancer jusque là");
                 System.out.print("de combien veux-tu avancer ? : ");
                 choix = Integer.parseInt(sc.nextLine());
