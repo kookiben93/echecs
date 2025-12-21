@@ -179,15 +179,21 @@ public class pieces {
             }
             plateau[ligne][colonne] = 0;
             plateau[NvLigne][NvColonne] = couleur;
-        }
-
-        else if(mode==2){
+        } else{
             methodes.destinationPiece(plateau, ligne, colonne, couleur);
         }
     }
 
+
+
+
+
+
+
+
+
     //Méthode pour le Fou
-    /*public static void fou(int[][] plateau, int ligne, int colonne) {
+    /*public static void fou(int[][] plateau, int ligne, int colonne, int mode) {
         Scanner sc = new Scanner(System.in);
         int choix; //il veut avancer de combien
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
@@ -321,7 +327,7 @@ public class pieces {
     }
 
     //Méthode pour la Cavalier
-    public static void cavalier(int[][] plateau, int ligne, int colonne){
+    public static void cavalier(int[][] plateau, int ligne, int colonne, int mode){
         Scanner sc = new Scanner(System.in);
         int NvColonne;
         int NvLigne;
