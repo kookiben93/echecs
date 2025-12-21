@@ -4,13 +4,13 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int modeJeu=0;
         int[][] plateau = new int[8][8];
 
         methodes.plateau(plateau);
 
         String pseudoBlanc="";
         String pseudoNoir="";
+        int modeJeu;
 
         System.out.print("Tapez 1 pour le mode débutant, tapez 2 pour le mode normal : ");
         modeJeu = Integer.parseInt(scanner.nextLine());
@@ -45,7 +45,6 @@ public class Main {
                 System.out.println("Au tour de " + pseudoBlanc);
                 methodes.coordonnees(plateau, 'B', modeJeu);
                 methodes.remplir2(plateau);
-
             }
             else{
                 System.out.println("Au tour de " + pseudoNoir);
