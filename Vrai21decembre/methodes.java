@@ -340,9 +340,6 @@ public class methodes {
         System.out.println();
     }
 
-
-
-
     //méthode qui vérifie si le mouvement est possible en vérifiant
     //s'il y a des pièces empêchant un mouvement de plusieurs
     //lignes (sah g la flemme de bien expliquer sorry)
@@ -523,13 +520,7 @@ public class methodes {
     }
 
     public static boolean mouvementFou(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
-        boolean valeur=true;
-
-        if(nvLigne==ligne || nvColonne==colonne){          
-                valeur=false;
-        }
-
-        return valeur;
+        return Math.abs(nvLigne - ligne) == Math.abs(nvColonne - colonne);
     }
 
     public static void destinationPiece(int[][] plateau, int ligne, int colonne, int piece){
