@@ -49,9 +49,9 @@ public class methodes {
                 if (pieceAutour2(plateau, ligne, colonne)) {
                     System.out.println("Impossible de bouger cette pièce");
                     coordonnees(plateau, joueur, mode);
-                } /*else {
+                } else {
                     pieces.fou(plateau, ligne, colonne, mode);
-                }*/
+                }
             } else if (plateau[ligne][colonne] == 10 || plateau[ligne][colonne] == 5) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
                     System.out.println("Impossible de bouger cette pièce");
@@ -561,5 +561,73 @@ public class methodes {
 
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = piece;
+    }
+
+    //affichage des directions en fonctions de la position de la pièce actuelle
+    public static int affichageDirectionsFou(boolean hautGauche, boolean hautDroite, boolean basGauche, boolean basDroite){
+        Scanner sc = new Scanner(System.in);
+        int direction=0;
+
+        if (hautGauche){
+            if (hautDroite){
+                if (basGauche){
+                    if (basDroite){   //hautGauche+hautDroite+basGauche+basDroite
+                        System.out.print("1 pour aller en haut à gauche, 2 pour aller en haut à droite, 3 pour aller en bas à gauche, 4 pour aller en bas à droite :");
+                        direction = Integer.parseInt(sc.nextLine());
+                    } else{     //hautGauche+hautDroite+basGauche
+                        System.out.print("1 pour aller en haut à gauche, 2 pour aller en haut à droite, 3 pour aller en bas à gauche : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                } else{
+                    if (basDroite){   //hautGauche+hautDroite+basDroite
+                        System.out.print("1 pour aller en haut à gauche, 2 pour aller en haut à droite, 4 pour aller en bas à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    } else{      //hautGauche+hautDroite
+                        System.out.print("1 pour aller en haut à gauche, 2 pour aller en haut à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                }
+            } else {
+                if (basGauche){
+                    if (basDroite){   //hautGauche+basGauche+basDroite
+                        System.out.print("1 pour aller en haut à gauche, 3 pour aller en bas à gauche, 4 pour aller en bas à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    } else{     //hautGauche+basGauche
+                        System.out.print("1 pour aller en haut à gauche, 3 pour aller en bas à gauche : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                } else{
+                    if (basDroite){   //hautGauche+basDroite
+                        System.out.print("1 pour aller en haut à gauche, 4 pour aller en bas à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                }
+            }
+        } else {
+            if (hautDroite){
+                if (basGauche){
+                    if (basDroite){   //hautDroite+basGauche+basDroite
+                        System.out.print("2 pour aller en haut à droite, 3 pour aller en bas à gauche, 4 pour aller en bas à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    } else{     //hautDroite+basGauche
+                        System.out.print("2 pour aller en haut à droite, 3 pour aller en bas à gauche : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                } else{
+                    if (basDroite){   //hautDroite+basDroite
+                        System.out.print("2 pour aller en haut à droite, 4 pour aller en bas à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                }
+            } else{
+                if (basGauche){
+                    if (basDroite){   //basGauche+basDroite
+                        System.out.print("3 pour aller en bas à gauche, 4 pour aller en bas à droite : ");
+                        direction = Integer.parseInt(sc.nextLine());
+                    }
+                }
+            }
+        }
+        return direction;
     }
 }
