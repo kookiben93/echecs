@@ -619,7 +619,7 @@ public class methodes {
         int NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
         if(couleur==1 || couleur==7){   
-            empechement = empechement(plateau, ligne, colonne, couleur, hautBas, gaucheDroite);
+            empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
         }
         /*else if(piece==3 || piece==9){
             mouvementValide = mouvementFou(plateau, ligne, colonne, NvLigne, NvColonne);
