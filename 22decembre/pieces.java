@@ -162,10 +162,7 @@ public class pieces {
 
     //Méthode pour le Fou
     public static void fou(int[][] plateau, int ligne, int colonne, int mode) {
-        Scanner sc = new Scanner(System.in);
-        int choix; //il veut avancer de combien
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
-        int NvLigne, NvColonne;
 
         if(mode==1){
             boolean hautGauche = methodes.caseValide(ligne-1, colonne-1) && (plateau[ligne-1][colonne-1] == 0 || !(methodes.memeCouleur(plateau, ligne-1, colonne-1, couleur))); //hautGauche
