@@ -343,20 +343,7 @@ public class methodes {
     //méthode qui vérifie si le mouvement est possible en vérifiant
     //s'il y a des pièces empêchant un mouvement de plusieurs
     //lignes (sah g la flemme de bien expliquer sorry)
-    public static boolean empechement (int[][] plateau, int ligne, int colonne, int distance, int direction){
-        int dLigne = 0;
-        int dColonne = 0;
-
-        if (direction == 1) {          // haut
-            dLigne = -1;
-        } else if (direction == 2) {   // gauche
-            dColonne = -1;
-        } else if (direction == 3) {   // droite
-            dColonne = 1;
-        } else if (direction == 4) {   // bas
-            dLigne = 1;
-        }
-
+    public static boolean empechement (int[][] plateau, int ligne, int colonne, int distance, int dLigne, int dColonne){
         for (int i = 1; i < distance; i++) {
             int l = ligne + i * dLigne;
             int c = colonne + i * dColonne;
@@ -620,5 +607,33 @@ public class methodes {
             }
         }
         return direction;
+    }
+
+    public static void Methode1(int[][] plateau, int ligne, int colonne, int couleur, int hautBas, int gaucheDroite){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Tu veux avancer de combien ? ");
+        int choix = Integer.parseInt(sc.nextLine());    //demande de combien l'utilisateur veut se déplacer sans prendre en compte la direction
+        
+        boolean empechement=false;
+        int NvLigne = ligne+(hautBas*choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
+        int NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
+
+        if(couleur==1 || couleur==7){   
+            empechement = empechement(plateau, ligne, colonne, couleur, hautBas, gaucheDroite);
+        }
+        /*else if(piece==3 || piece==9){
+            mouvementValide = mouvementFou(plateau, ligne, colonne, NvLigne, NvColonne);
+        }*/
+
+        while (!(caseValide(NvLigne, NvColonne)) || empechement || memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
+            System.out.println("impossible d'avancer jusque là");
+            System.out.print("de combien veux-tu avancer ? : ");
+            choix = Integer.parseInt(sc.nextLine());
+
+            NvLigne = ligne+(hautBas*choix);
+            NvColonne = colonne+(gaucheDroite*choix);
+        }
+        plateau[ligne][colonne] = 0;
+        plateau[NvLigne][NvColonne] = couleur;
     }
 }
