@@ -191,7 +191,7 @@ public class pieces {
                 hautBas = 1;
                 gaucheDroite = 1;
             }
-            
+            methodes.Methode1(plateau, ligne, colonne, couleur, hautBas, gaucheDroite);
         } else{
             methodes.destinationPiece(plateau, ligne, colonne, couleur);
         }
@@ -311,4 +311,3 @@ public class pieces {
             }
         }
     }
-
