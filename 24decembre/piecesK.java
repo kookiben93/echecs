@@ -147,12 +147,16 @@ public class pieces {
 
             if(haut && !gauche && !droite && !bas || direction==1)          //hautBas prend la valeur de -1 pour monter
                 hautBas = -1;
+                System.out.println("La tour monte");
             else if(!haut && gauche && !droite && !bas || direction==2)     //gaucheDroite prend la valeur de -1 pour aller à gauche
                 gaucheDroite = -1;
+                System.out.println("La tour va à gauche");
             else if(!haut && !gauche && droite && !bas || direction==3)     //gaucheDroite prend la valeur de 1 pour aller à droite
                 gaucheDroite = 1;
+                System.out.println("La tour va à droite");
             else if(!haut && !gauche && !droite && bas || direction==4)     //hautBas prend la valeur de 1 pour descendre
                 hautBas = 1;
+                System.out.println("La tour descend");
 
             methodes.Methode1(plateau, ligne, colonne, couleur, hautBas, gaucheDroite);
         } else{
@@ -193,92 +197,89 @@ public class pieces {
             methodes.destinationPiece(plateau, ligne, colonne, couleur);
         }
     }
-
+    
     //Méthode pour le Roi
-    public static void roi(int[][] plateau, int ligne, int colonne) {
+    public static void roi(int[][] plateau, int ligne, int colonne, int mvtRoi, int mvtTour) {
         Scanner sc = new Scanner(System.in);
-        int choix1 = 0;
-        int choix2 = 0;
-        int couleur;
+        int couleur = plateau[ligne][colonne]; //couleur de la pièce
+        int choix = 0;
+        boolean mouvementAzero = methodes.nbMouvementsTourRoi(mvtRoi, mvtTour);
 
-        couleur = plateau[ligne][colonne];
+        boolean haut = (methodes.caseValide(ligne - 1, colonne) && (plateau[ligne - 1][colonne] == 0 || !(methodes.memeCouleur(plateau, ligne - 1, colonne, couleur)))); //haut
+        boolean gauche = (methodes.caseValide(ligne, colonne - 1) && (plateau[ligne][colonne - 1] == 0 || !(methodes.memeCouleur(plateau, ligne, colonne - 1, couleur)))); //gauche
+        boolean droite = (methodes.caseValide(ligne, colonne + 1) && (plateau[ligne][colonne + 1] == 0 || !(methodes.memeCouleur(plateau, ligne, colonne + 1, couleur)))); //droite
+        boolean bas = (methodes.caseValide(ligne + 1, colonne) && (plateau[ligne + 1][colonne] == 0 || !(methodes.memeCouleur(plateau, ligne + 1, colonne, couleur)))); //bas
 
-        while (choix1 != 1 && choix1 != 2) {
-            System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale : ");
-            choix1 = Integer.parseInt(sc.nextLine());
-        }
+        boolean hautGauche = methodes.caseValide(ligne - 1, colonne - 1) && (plateau[ligne - 1][colonne - 1] == 0 || !(methodes.memeCouleur(plateau, ligne - 1, colonne - 1, couleur))); //hautGauche
+        boolean hautDroite = methodes.caseValide(ligne - 1, colonne + 1) && (plateau[ligne - 1][colonne + 1] == 0 || !(methodes.memeCouleur(plateau, ligne - 1, colonne + 1, couleur))); //hautDroite
+        boolean basGauche = methodes.caseValide(ligne + 1, colonne - 1) && (plateau[ligne + 1][colonne - 1] == 0 || !(methodes.memeCouleur(plateau, ligne + 1, colonne - 1, couleur))); //basGauche
+        boolean basDroite = methodes.caseValide(ligne + 1, colonne + 1) && (plateau[ligne + 1][colonne + 1] == 0 || !(methodes.memeCouleur(plateau, ligne + 1, colonne + 1, couleur))); //basDroite
 
-        boolean choix21 = methodes.caseValide(ligne + 1, colonne) && !methodes.memeCouleur(plateau, ligne + 1, colonne, couleur);
-        boolean choix22 = methodes.caseValide(ligne - 1, colonne) && !methodes.memeCouleur(plateau, ligne - 1, colonne, couleur);
-        boolean choix23 = methodes.caseValide(ligne, colonne - 1) && !methodes.memeCouleur(plateau, ligne, colonne - 1, couleur);
-        boolean choix24 = methodes.caseValide(ligne, colonne + 1) && !methodes.memeCouleur(plateau, ligne, colonne + 1, couleur);
+        boolean ligneDroite = (haut || gauche || droite || bas);
+        boolean diagonale = (hautGauche || hautDroite || basGauche || basDroite);
 
-        boolean choix31 = methodes.caseValide(ligne + 1, colonne + 1) && !methodes.memeCouleur(plateau, ligne + 1, colonne + 1, couleur);
-        boolean choix32 = methodes.caseValide(ligne + 1, colonne - 1) && !methodes.memeCouleur(plateau, ligne + 1, colonne - 1, couleur);
-        boolean choix33 = methodes.caseValide(ligne - 1, colonne + 1) && !methodes.memeCouleur(plateau, ligne - 1, colonne + 1, couleur);
-        boolean choix34 = methodes.caseValide(ligne - 1, colonne - 1) && !methodes.memeCouleur(plateau, ligne - 1, colonne - 1, couleur);
-
-        int oui=0, tour;
-        int mouvement=0;
-
-        if((mouvement==0 && plateau[ligne][colonne+1]==0 && plateau[ligne][colonne+2]==0) || 
-        (mouvement==0 && plateau[ligne][colonne-1]==0 && plateau[ligne][colonne-2]==0 && plateau[ligne][colonne-3]==0)){
-            System.out.print("Voulez vous roquer ?");
-            oui = sc.nextInt();
-            System.out.print("Avec quelle tour ?");
-            tour = sc.nextInt();
-            methodes.roque(plateau, couleur, ligne, colonne, mouvement, 0);
-        }
-        else{
-        if (choix1 == 1 && (choix21 || choix22 || choix23 || choix24 )) {
-            while (choix2 != 1 && choix2 != 2 && choix2 != 3 && choix2 != 4) {
-                System.out.print("1 pour aller en bas, 2 pour aller en haut, 3 pour aller à gauche, 4 pour aller à droite : ");
-                choix2 = Integer.parseInt(sc.nextLine());
-            }
-            if (choix2 == 1 && choix21) {
-                plateau[ligne][colonne] = 0;
-                plateau[ligne + 1][colonne] = couleur;
-            } else if (choix2 == 2 && choix22) {
-                plateau[ligne][colonne] = 0;
-                plateau[ligne - 1][colonne] = couleur;
-            } else if (choix2 == 3 && choix23) {
-                plateau[ligne][colonne] = 0;
-                plateau[ligne][colonne - 1] = couleur;
-            } else if (choix2 == 4 && choix24) {
-                plateau[ligne][colonne] = 0;
-                plateau[ligne][colonne + 1] = couleur;
-            } else {
-                System.out.println("Impossible d'avancer ");
-            }
-        }
-
-        else if (choix1 == 2 && (choix31 || choix32 || choix33 || choix34 )) {
-            while (choix2 != 1 && choix2 != 2 && choix2 != 3 && choix2 != 4) {
-                System.out.print("1 diagonale bas gauche, 2 diagonale haut gauche, 3 diagonale bas droite, 4 diagonale haut droite : ");
-                choix2 = Integer.parseInt(sc.nextLine());
-            }
-            if (choix2 == 3 && choix31) {
-                plateau[ligne][colonne] = 0;
-                plateau[ligne + 1][colonne + 1] = couleur;
-            } else if (choix2 == 1 && choix32) {
-                plateau[ligne][colonne] = 0;
-                plateau[ligne + 1][colonne - 1] = couleur;
-            } else if (choix2 == 4 && choix33) {
-                plateau[ligne][colonne] = 0;
-                plateau[ligne - 1][colonne + 1] = couleur;
-            } else if (choix2 == 2 && choix34) {
-                plateau[ligne][colonne] = 0;
-                plateau[ligne - 1][colonne - 1] = couleur;
-            } else {
-                System.out.println("Impossible d'avancer ");
+        if(mouvementAzero)
+            methodes.demandeRoque(plateau, mvtRoi, mvtTour, couleur, ligne, colonne);
+        
+            if (ligneDroite && diagonale) {
+                while (choix != 1 && choix != 2) {
+                    System.out.println("1 pour aller en ligne droite, 2 pour aller en diagonale");
+                    choix = Integer.parseInt(sc.nextLine());
+                }
+            } else if (ligneDroite){
+                choix = 1;
+            } else if(diagonale){
+                choix = 2;
             }
 
-        } else {
-            System.out.println("Impossible d'avancer ");
-        }
-        }
-        mouvement++;
+            int hautBas = 0;        //valeur pour le mouvement Haut ou Bas selon la demande
+            int gaucheDroite = 0;   //valeur pour le mouvement gauche ou droite selon la demande
+
+            if (choix == 1) {
+                int direction1 = methodes.affichageDirections(haut, gauche, droite, bas);
+
+                if (haut && !gauche && !droite && !bas || direction1 == 1) {          //hautBas prend la valeur de -1 pour monter
+                    System.out.println("Le roi avance en haut");
+                    hautBas = -1;
+                } else if (!haut && gauche && !droite && !bas || direction1 == 2) {     //gaucheDroite prend la valeur de -1 pour aller à gauche
+                    System.out.println("Le roi avance à gauche");
+                    gaucheDroite = -1;
+                } else if (!haut && !gauche && droite && !bas || direction1 == 3) {     //gaucheDroite prend la valeur de 1 pour aller à droite
+                    System.out.println("Le roi avance à droite");
+                    gaucheDroite = 1;
+                } else if (!haut && !gauche && !droite && bas || direction1 == 4){     //hautBas prend la valeur de 1 pour descendre
+                    System.out.println("Le roi avance en bas");
+                    hautBas = 1;
+                }
+            }
+            else if (choix == 2){
+                int direction2 = methodes.affichageDirectionsFou(hautGauche, hautDroite, basGauche, basDroite);
+
+                if ((hautGauche && !hautDroite && !basGauche && !basDroite) || direction2 == 1) {
+                    System.out.println("Le roi avance en haut à gauche");
+                    hautBas = -1;
+                    gaucheDroite = -1;
+                } else if (!hautGauche && hautDroite && !basGauche && !basDroite || direction2 == 2) {
+                    System.out.println("Le roi avance en haut à droite");
+                    hautBas = -1;
+                    gaucheDroite = 1;
+                } else if (!hautGauche && !hautDroite && basGauche && !basDroite || direction2 == 3) {
+                    System.out.println("Le roi avance en bas à gauche");
+                    hautBas = 1;
+                    gaucheDroite = -1;
+                } else if (!hautGauche && !hautDroite && !basGauche && basDroite || direction2 == 4) {
+                    System.out.println("Le roi avance en bas à droite");
+                    hautBas = 1;
+                    gaucheDroite = 1;
+                }
+            }
+        int NvLigne = ligne + hautBas;            //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
+        int NvColonne = colonne + gaucheDroite;   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
+
+        plateau[ligne][colonne] = 0;
+        plateau[NvLigne][NvColonne] = couleur;
     }
+
 
     //Méthode pour la Cavalier
     public static void cavalier(int[][] plateau, int ligne, int colonne, int mode){
