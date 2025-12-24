@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class methodes {
@@ -31,19 +32,27 @@ public class methodes {
 
     //appel des méthodes en fonction de la pièce jouée
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
+        int mouvementTour=0;
+        int mouvementRoi=0;
 
         if(couleurJoueur(plateau, ligne, colonne, joueur)) {
+            //appel des pions
             if (plateau[ligne][colonne] == 6) {
                 pieces.pionJ(plateau, ligne, colonne);
             } else if (plateau[ligne][colonne] == 12) {
                 pieces.pionB(plateau, ligne, colonne);
+
+            //appel des tours
             } else if (plateau[ligne][colonne] == 7 || plateau[ligne][colonne] == 1) {
                 if (pieceAutour(plateau, ligne, colonne)) {
                     System.out.println("Impossible de bouger cette pièce");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.tour(plateau, ligne, colonne, mode);
+                    mouvementTour++;
                 }
+
+            //appel des fous
             } else if (plateau[ligne][colonne] == 9 || plateau[ligne][colonne] == 3) {
                 if (pieceAutour2(plateau, ligne, colonne)) {
                     System.out.println("Impossible de bouger cette pièce");
@@ -51,21 +60,29 @@ public class methodes {
                 } else {
                     pieces.fou(plateau, ligne, colonne, mode);
                 }
+
+            //appel des rois
             } else if (plateau[ligne][colonne] == 10 || plateau[ligne][colonne] == 5) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
                     System.out.println("Impossible de bouger cette pièce");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.roi(plateau, ligne, colonne);
+                    pieces.roi(plateau, ligne, colonne, mouvementTour, mouvementRoi);
+                    mouvementRoi++;
                 }
+
+            //appel des cavaliers
             } else if (plateau[ligne][colonne] == 8 || plateau[ligne][colonne] == 2) {
                 pieces.cavalier(plateau, ligne, colonne, mode);
+
+            //appel des dames
             } else if (plateau[ligne][colonne] == 4 || plateau[ligne][colonne] == 11) {
                 pieces.dame(plateau, ligne, colonne, mode);
             } else {
                 System.out.println("Case vide, veuillez recommencez");
                 coordonnees(plateau, joueur, mode);
             }
+
         }
         else{
             System.out.print("Ce ne sont pas vos pièces ! ");
@@ -519,7 +536,7 @@ public class methodes {
             System.out.println("Où veux-tu aller ?");
             System.out.print("Entrez le numéro de la ligne : ");
             NvLigne = Integer.parseInt(sc.nextLine())-1;
-
+            
             System.out.print("Entrez le numéro de la colonne : ");
             NvColonne = Integer.parseInt(sc.nextLine())-1;
 
@@ -529,7 +546,7 @@ public class methodes {
             else if(piece==3 || piece==9){
                 mouvementValide = mouvementFou(plateau, ligne, colonne, NvLigne, NvColonne);
             }
-
+            
             if((NvColonne<0 || NvColonne>7) || memeCouleur(plateau, NvLigne, NvColonne, piece)){
                 mouvementValide = false;
                 System.out.println("La pièce ne peut pas aller là");
@@ -608,16 +625,69 @@ public class methodes {
         return direction;
     }
 
+    public static void roque(int[][] plateau, int Roi, int ligne, int colonne, int nbMouvementR, int nbMouvementT, int choix){
+        int Tour;
+        boolean Grand = roqueGrand(plateau, ligne, colonne);
+        boolean Petit = roquePetit(plateau, ligne, colonne);
+
+        if(Roi==4)
+            Tour = 1;
+        else
+            Tour = 7;
+
+        if(Petit && !Grand || choix==1){
+            plateau[ligne][colonne] = 0;
+            plateau[ligne][colonne+2] = Roi;
+            plateau[ligne][colonne+3] = 0;
+            plateau[ligne][colonne+1] = Tour;
+        }
+        else if(Grand && !Petit || choix==2){
+            plateau[ligne][colonne] = 0;
+            plateau[ligne][colonne-2] = Roi;
+            plateau[ligne][colonne-4] = 0;
+            plateau[ligne][colonne-1] = Tour;
+        }
+    }
+
+    public static void demandeRoque(int[][] plateau, int nbMouvementR, int nbMouvementT, int couleur, int ligne, int colonne){
+        Scanner sc = new Scanner(System.in);
+        int oui=0;
+        int choixTour=0;
+        boolean Grand = roqueGrand(plateau, ligne, colonne);
+        boolean Petit = roquePetit(plateau, ligne, colonne);
+
+        if(Grand || Petit){
+            System.out.print("Voulez vous roquer ? tapez 1 pour oui et 0 pour non : ");
+            oui = sc.nextInt();
+
+            if(oui==1 && (Petit && Grand)){
+                System.out.print("Avec quelle tour ? 1 pour le roque petit (tour la plus proche) et 2 pour le roque grand (tour la plus éloignée) : ");
+                choixTour = sc.nextInt();
+            }
+            methodes.roque(plateau, couleur, ligne, colonne, nbMouvementR, nbMouvementT, choixTour);
+        }
+    }
+
+    public static boolean nbMouvementsTourRoi(int nbMouvementR, int nbMouvementT){
+        return nbMouvementR==0 && nbMouvementT==0;
+    }
+    public static boolean roquePetit(int[][] plateau, int ligne, int colonne){
+        return plateau[ligne][colonne+1]==0 && plateau[ligne][colonne+2]==0;
+    }
+    public static boolean roqueGrand(int[][] plateau, int ligne, int colonne){
+        return plateau[ligne][colonne-1]==0 && plateau[ligne][colonne-2]==0 && plateau[ligne][colonne-3]==0;
+    }
+
     public static void Methode1(int[][] plateau, int ligne, int colonne, int couleur, int hautBas, int gaucheDroite){
         Scanner sc = new Scanner(System.in);
         System.out.print("Tu veux avancer de combien ? ");
         int choix = Integer.parseInt(sc.nextLine());    //demande de combien l'utilisateur veut se déplacer sans prendre en compte la direction
-
+        
         boolean empechement=false;
         int NvLigne = ligne+(hautBas*choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
         int NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
-        if(couleur==1 || couleur==7){
+        if(couleur==1 || couleur==7){   
             empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
         }
         /*else if(piece==3 || piece==9){
