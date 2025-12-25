@@ -31,7 +31,6 @@ public class methodes {
 
     //appel des méthodes en fonction de la pièce jouée
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
-        int mvtRoi=0;
         int mvtTour=0;
 
         if(couleurJoueur(plateau, ligne, colonne, joueur)) {
@@ -67,8 +66,7 @@ public class methodes {
                     System.out.println("Impossible de bouger le roi");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.roi(plateau, ligne, colonne, mvtRoi, mvtTour, joueur);
-                    mvtRoi++;
+                    pieces.roi(plateau, ligne, colonne, mvtTour, joueur);
                 }
 
                 //appel des cavaliers
@@ -646,7 +644,7 @@ public class methodes {
         int Tour;
         int choix = demandeRoque(plateau, ligne, colonne);
 
-        if(Roi==4)
+        if(Roi==5)
             Tour = 1;
         else
             Tour = 7;
