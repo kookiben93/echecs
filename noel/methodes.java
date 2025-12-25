@@ -45,7 +45,7 @@ public class methodes {
                 //appel des tours
             } else if (plateau[ligne][colonne] == 7 || plateau[ligne][colonne] == 1) {
                 if (pieceAutour(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger cette pièce");
+                    System.out.println("Impossible de bouger la tour");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.tour(plateau, ligne, colonne, mode, joueur);
@@ -55,7 +55,7 @@ public class methodes {
                 //appel des fous
             } else if (plateau[ligne][colonne] == 9 || plateau[ligne][colonne] == 3) {
                 if (pieceAutour2(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger cette pièce");
+                    System.out.println("Impossible de bouger le fou");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.fou(plateau, ligne, colonne, mode, joueur);
@@ -64,7 +64,7 @@ public class methodes {
                 //appel des rois
             } else if (plateau[ligne][colonne] == 10 || plateau[ligne][colonne] == 5) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger cette pièce");
+                    System.out.println("Impossible de bouger le roi");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.roi(plateau, ligne, colonne, mvtRoi, mvtTour, joueur);
@@ -74,7 +74,7 @@ public class methodes {
                 //appel des cavaliers
             } else if (plateau[ligne][colonne] == 8 || plateau[ligne][colonne] == 2) {
                 if (bougerCavalier(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger cette pièce");
+                    System.out.println("Impossible de bouger le cavalier");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.cavalier(plateau, ligne, colonne, mode);
@@ -83,7 +83,7 @@ public class methodes {
                 //appel des dames
             } else if (plateau[ligne][colonne] == 4 || plateau[ligne][colonne] == 11) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger cette pièce");
+                    System.out.println("Impossible de bouger la dame");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.dame(plateau, ligne, colonne, mode, joueur);
@@ -147,17 +147,8 @@ public class methodes {
         return true;
     }
 
-    public static boolean mouvementCavalier(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne, int couleur) {
-        return !memeCouleur(plateau, nvLigne, nvColonne, couleur) && ((Math.abs(nvLigne-ligne)==2 && Math.abs(nvColonne-colonne)==1) || (Math.abs(nvLigne-ligne)==1 && Math.abs(nvColonne-colonne)==2));
-    }
-
-    public static boolean ligneCavalier(int[][] plateau, int ligne, int nvLigne){
-        boolean valeur=false;
-
-        if(nvLigne-ligne==2 || nvLigne-ligne==-2 || nvLigne-ligne==1 || nvLigne-ligne==-1){
-            valeur=true;
-        }
-        return valeur;
+    public static boolean mouvementCavalier(int ligne, int colonne, int nvLigne, int nvColonne) {
+        return (Math.abs(nvLigne-ligne)==2 && Math.abs(nvColonne-colonne)==1) || (Math.abs(nvLigne-ligne)==1 && Math.abs(nvColonne-colonne)==2);
     }
 
     //méthode qui vérifie que les cases+1 du haut, du bas, de gauche et de droite
@@ -750,39 +741,77 @@ public class methodes {
 
         return pieces;
     }
-    public static String direction(int direction){
+    public static String direction(int direction, int piece){
         String directions="vide";
 
-        switch(direction){
-            case 1: directions = "le haut";
-                break;
-            case 2: directions = "la gauche";
-                break;
-            case 3: directions = "la droite";
-                break;
-            case 4: directions = "le bas";
-                break;
-            case 5: directions = "le haut gauche en diagonale";
-                break;
-            case 6: directions = "le haut droit en diagonale";
-                break;
-            case 7: directions = "le bas gauche en diagonale";
-                break;
-            case 8: directions = "Le bas droit en diagonale";
-                break;
+        if(piece<=6) {
+            switch (direction) {
+                case 1:
+                    directions = "le haut";
+                    break;
+                case 2:
+                    directions = "la gauche";
+                    break;
+                case 3:
+                    directions = "la droite";
+                    break;
+                case 4:
+                    directions = "le bas";
+                    break;
+                case 5:
+                    directions = "le haut gauche en diagonale";
+                    break;
+                case 6:
+                    directions = "le haut droit en diagonale";
+                    break;
+                case 7:
+                    directions = "le bas gauche en diagonale";
+                    break;
+                case 8:
+                    directions = "Le bas droit en diagonale";
+                    break;
+            }
+        }
+        else{
+            switch (direction) {
+                case 1:
+                    directions = "le bas";
+                    break;
+                case 2:
+                    directions = "la droite";
+                    break;
+                case 3:
+                    directions = "la gauche";
+                    break;
+                case 4:
+                    directions = "le haut";
+                    break;
+                case 5:
+                    directions = "le bas droit en diagonale";
+                    break;
+                case 6:
+                    directions = "le bas gauche en diagonale";
+                    break;
+                case 7:
+                    directions = "le haut droit en diagonale";
+                    break;
+                case 8:
+                    directions = "Le haut gauche en diagonale";
+                    break;
+            }
         }
         return directions;
     }
 
     public static void AffichageSituation(int pieceC, int ligne, int colonne, int nvLigne, int nvColonne, int distance, int direction){
         String piece = piece(pieceC);
-        String directions = direction(direction);
+        String directions = direction(direction, pieceC);
         String couleur;
 
         if(pieceC<=6)
-            couleur = "blanc ";
+            couleur = "bleue ";
         else
-            couleur = "noir ";
+            couleur = "jaune ";
 
         System.out.println();
         System.out.println(piece+ couleur + "avance de " + distance + " cases vers " + directions + " (" + (ligne+1) + "," + (colonne+1) + ")" + " -> " + "(" + (nvLigne+1) + "," + (nvColonne+1) + ")");
@@ -794,7 +823,7 @@ public class methodes {
 
         // --- CAS DU CAVALIER (2 ou 8) ---
         if (piece == 2 || piece == 8) {
-            if (mouvementCavalier(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi, piece)) {
+            if (mouvementCavalier(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 possible = true;
             }
         }
