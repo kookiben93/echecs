@@ -155,11 +155,9 @@ public class pieces {
             }else if(!haut && !gauche && droite && !bas || direction==3){     //gaucheDroite prend la valeur de 1 pour aller à droite
                 gaucheDroite = 1;
                 valeurDirection = 3;
-                System.out.println("La tour va à droite");
             }else if(!haut && !gauche && !droite && bas || direction==4){     //hautBas prend la valeur de 1 pour descendre
                 hautBas = 1;
                 valeurDirection = 4;
-                System.out.println("La tour descend");
             }
             methodes.Methode1(plateau, ligne, colonne, couleur, hautBas, gaucheDroite, valeurDirection);
         } else{
@@ -186,19 +184,19 @@ public class pieces {
             if(hautGauche && !hautDroite && !basGauche && !basDroite || direction==1){
                 hautBas = -1;
                 gaucheDroite = -1;
-                valeurDirection = 1;
+                valeurDirection = 5;
             }else if(!hautGauche && hautDroite && !basGauche && !basDroite || direction==2){
                 hautBas = -1;
                 gaucheDroite = 1;
-                valeurDirection = 2;
+                valeurDirection = 6;
             }else if(!hautGauche && !hautDroite && basGauche && !basDroite || direction==3){
                 hautBas = 1;
                 gaucheDroite = -1;
-                valeurDirection = 3;
+                valeurDirection = 7;
             }else if(!hautGauche && !hautDroite && !basGauche && basDroite || direction==4){
                 hautBas = 1;
                 gaucheDroite = 1;
-                valeurDirection = 4;
+                valeurDirection = 8;
             }
             methodes.Methode1(plateau, ligne, colonne, couleur, hautBas, gaucheDroite, valeurDirection);
         } else{
@@ -212,6 +210,7 @@ public class pieces {
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
         int choix = 0;
         int oui=0;
+        int valeurDirection = 0;
         boolean mouvementAzero = methodes.nbMouvementsTourRoi(mvtRoi, mvtTour);
         boolean petit = methodes.PetitRoque(plateau, ligne, colonne);
         boolean grand = methodes.GrandRoque(plateau, ligne, colonne);
@@ -255,42 +254,44 @@ public class pieces {
                 int direction1 = methodes.affichageDirections(haut, gauche, droite, bas, joueur);
 
                 if (haut && !gauche && !droite && !bas || direction1 == 1) {          //hautBas prend la valeur de -1 pour monter
-                    System.out.println("Le roi avance en haut");
                     hautBas = -1;
+                    valeurDirection = 1;
                 } else if (!haut && gauche && !droite && !bas || direction1 == 2) {     //gaucheDroite prend la valeur de -1 pour aller à gauche
-                    System.out.println("Le roi avance à gauche");
                     gaucheDroite = -1;
+                    valeurDirection = 2;
                 } else if (!haut && !gauche && droite && !bas || direction1 == 3) {     //gaucheDroite prend la valeur de 1 pour aller à droite
-                    System.out.println("Le roi avance à droite");
                     gaucheDroite = 1;
+                    valeurDirection = 3;
                 } else if (!haut && !gauche && !droite && bas || direction1 == 4){     //hautBas prend la valeur de 1 pour descendre
-                    System.out.println("Le roi avance en bas");
                     hautBas = 1;
+                    valeurDirection = 4;
                 }
             }
             else if (choix == 2){
                 int direction2 = methodes.affichageDirectionsFou(hautGauche, hautDroite, basGauche, basDroite, joueur);
 
                 if ((hautGauche && !hautDroite && !basGauche && !basDroite) || direction2 == 1) {
-                    System.out.println("Le roi avance en haut à gauche");
                     hautBas = -1;
                     gaucheDroite = -1;
+                    valeurDirection = 5;
                 } else if (!hautGauche && hautDroite && !basGauche && !basDroite || direction2 == 2) {
-                    System.out.println("Le roi avance en haut à droite");
                     hautBas = -1;
                     gaucheDroite = 1;
+                    valeurDirection = 6;
                 } else if (!hautGauche && !hautDroite && basGauche && !basDroite || direction2 == 3) {
-                    System.out.println("Le roi avance en bas à gauche");
                     hautBas = 1;
                     gaucheDroite = -1;
+                    valeurDirection = 7;
                 } else if (!hautGauche && !hautDroite && !basGauche && basDroite || direction2 == 4) {
-                    System.out.println("Le roi avance en bas à droite");
                     hautBas = 1;
                     gaucheDroite = 1;
+                    valeurDirection = 8;
                 }
             }
             int NvLigne = ligne + hautBas;            //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
             int NvColonne = colonne + gaucheDroite;   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
+
+            methodes.AffichageSituation(couleur, ligne, colonne, NvLigne, NvColonne, 1, valeurDirection);
 
             plateau[ligne][colonne] = 0;
             plateau[NvLigne][NvColonne] = couleur;
@@ -315,11 +316,12 @@ public class pieces {
         }
         System.out.print("Entrez le numéro de la colonne : ");
         NvColonne = (sc.nextInt())-1;
-        while ((NvColonne<0 || NvColonne>7) || !methodes.mouvementCavalier(plateau, ligne, colonne, NvLigne, NvColonne) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
+        while ((NvColonne<0 || NvColonne>7) || !methodes.mouvementCavalier(plateau, ligne, colonne, NvLigne, NvColonne, couleur) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
             System.out.println("Le cavalier ne peut pas aller là");
             System.out.print("Entrez un autre numéro de colonne : ");
             NvColonne = (sc.nextInt())-1;
         }
+        System.out.println("Le cavalier s'est déplacé en L de la case (" + (ligne+1) + ',' + (colonne+1) +") jusqu'à la case (" + (NvLigne+1) + "," + (NvColonne+1) + ")");
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = couleur;
     }
