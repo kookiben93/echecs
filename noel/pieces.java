@@ -205,13 +205,24 @@ public class pieces {
     }
 
     //Méthode pour le Roi
-    public static void roi(int[][] plateau, int ligne, int colonne, int mvtRoi, int mvtTour, char joueur) {
+    public static void roi(int[][] plateau, int ligne, int colonne, int mvtTour, char joueur) {
         Scanner sc = new Scanner(System.in);
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
+        int compteurB = 0;
+        int compteurN = 0;
+
         int choix = 0;
         int oui=0;
         int valeurDirection = 0;
-        boolean mouvementAzero = methodes.nbMouvementsTourRoi(mvtRoi, mvtTour);
+
+        int compteur = 0;
+
+        if(couleur==5)
+            compteur = compteurN;
+        else
+            compteur = compteurB;
+
+        boolean mouvementAzero = methodes.nbMouvementsTourRoi(compteur, mvtTour);
         boolean petit = methodes.PetitRoque(plateau, ligne, colonne);
         boolean grand = methodes.GrandRoque(plateau, ligne, colonne);
 
@@ -295,6 +306,11 @@ public class pieces {
 
             plateau[ligne][colonne] = 0;
             plateau[NvLigne][NvColonne] = couleur;
+
+            if (couleur == 5)
+                compteurN++;
+            else
+                compteurB++;
         }
     }
 
