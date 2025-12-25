@@ -73,7 +73,12 @@ public class methodes {
 
                 //appel des cavaliers
             } else if (plateau[ligne][colonne] == 8 || plateau[ligne][colonne] == 2) {
-                pieces.cavalier(plateau, ligne, colonne, mode);
+                if (bougerCavalier(plateau, ligne, colonne)) {
+                    System.out.println("Impossible de bouger cette pièce");
+                    coordonnees(plateau, joueur, mode);
+                } else {
+                    pieces.cavalier(plateau, ligne, colonne, mode);
+                }
 
                 //appel des dames
             } else if (plateau[ligne][colonne] == 4 || plateau[ligne][colonne] == 11) {
@@ -81,7 +86,7 @@ public class methodes {
                     System.out.println("Impossible de bouger cette pièce");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                pieces.dame(plateau, ligne, colonne, mode, joueur);
+                    pieces.dame(plateau, ligne, colonne, mode, joueur);
                 }
             } else {
                 System.out.println("Case vide, veuillez recommencez");
@@ -115,23 +120,35 @@ public class methodes {
         return (ligne >= 0 && ligne < 8) && (colonne >= 0 && colonne < 8);
     }
 
-    public static boolean mouvementCavalier(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
-        boolean valeur=true;
+    public static boolean bougerCavalier(int[][] plateau, int ligne, int colonne){
+        int piece = plateau[ligne][colonne];
+        int nouvelleL;
+        int nouvelleC;
+        boolean bleu = piece > 6;
 
-        if(nvLigne-ligne==2 || nvLigne-ligne==-2){
-            if(nvColonne-colonne!=1 && nvColonne-colonne!=-1){
-                valeur=false;
+        int[] lignes = {2, -2, -1, 1};
+        int[] colonnes = {-1, 1, 2, -2};
+
+        for(int i=0; i<4; i++){
+            nouvelleL = ligne+lignes[i];
+            nouvelleC = colonne+colonnes[i];
+
+            if(caseValide(nouvelleL, nouvelleC)==true){
+                if(plateau[nouvelleL][nouvelleC]==0){
+                    return false;
+                }
+                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;
+
+                if (pieceEnFace != bleu) {
+                    return false;
+                }
             }
         }
-        else if(nvLigne-ligne==1 || nvLigne-ligne==-1){
-            if(nvColonne-colonne!=2 && nvColonne-colonne!=-2){
-                valeur=false;
-            }
-        }
-        else{
-            valeur=false;
-        }
-        return valeur;
+        return true;
+    }
+
+    public static boolean mouvementCavalier(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne, int couleur) {
+        return memeCouleur(plateau, nvLigne, nvColonne, couleur) && ((Math.abs(nvLigne-ligne)==2 && Math.abs(nvColonne-colonne)==1) || (Math.abs(nvLigne-ligne)==1 && Math.abs(nvColonne-colonne)!=2));
     }
 
     public static boolean ligneCavalier(int[][] plateau, int ligne, int nvLigne){
@@ -568,7 +585,7 @@ public class methodes {
         return caseValide(ligne + 1, colonne - 1) && (plateau[ligne + 1][colonne - 1] == 0 || !(memeCouleur(plateau, ligne + 1, colonne - 1, couleur)));
     }
     public static boolean basDroite(int[][] plateau, int ligne, int colonne, int couleur) {
-            return caseValide(ligne+1, colonne+1) && (plateau[ligne+1][colonne+1] == 0 || !(memeCouleur(plateau, ligne+1, colonne+1, couleur)));
+        return caseValide(ligne+1, colonne+1) && (plateau[ligne+1][colonne+1] == 0 || !(memeCouleur(plateau, ligne+1, colonne+1, couleur)));
     }
     public static boolean haut(int[][] plateau, int ligne, int colonne, int couleur){
         return caseValide(ligne-1, colonne) && (plateau[ligne-1][colonne] == 0 || !(memeCouleur(plateau, ligne-1, colonne, couleur)));
@@ -745,6 +762,14 @@ public class methodes {
                 break;
             case 4: directions = "le bas";
                 break;
+            case 5: directions = "le haut gauche en diagonale";
+                break;
+            case 6: directions = "le haut droit en diagonale";
+                break;
+            case 7: directions = "le bas gauche en diagonale";
+                break;
+            case 8: directions = "Le bas droit en diagonale";
+                break;
         }
         return directions;
     }
@@ -769,7 +794,7 @@ public class methodes {
 
         // --- CAS DU CAVALIER (2 ou 8) ---
         if (piece == 2 || piece == 8) {
-            if (mouvementCavalier(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
+            if (mouvementCavalier(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi, piece)) {
                 possible = true;
             }
         }
