@@ -126,10 +126,10 @@ public class methodes {
         int nouvelleC;
         boolean bleu = piece > 6;
 
-        int[] lignes = {2, -2, -1, 1};
-        int[] colonnes = {-1, 1, 2, -2};
+        int[] lignes = {2, 2, 1, 1, -2, -2, 1, 1};
+        int[] colonnes = {-1, 1, 2, -2, -1, 1, -2, 2};
 
-        for(int i=0; i<4; i++){
+        for(int i=0; i<8; i++){
             nouvelleL = ligne+lignes[i];
             nouvelleC = colonne+colonnes[i];
 
@@ -148,7 +148,7 @@ public class methodes {
     }
 
     public static boolean mouvementCavalier(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne, int couleur) {
-        return memeCouleur(plateau, nvLigne, nvColonne, couleur) && ((Math.abs(nvLigne-ligne)==2 && Math.abs(nvColonne-colonne)==1) || (Math.abs(nvLigne-ligne)==1 && Math.abs(nvColonne-colonne)!=2));
+        return !memeCouleur(plateau, nvLigne, nvColonne, couleur) && ((Math.abs(nvLigne-ligne)==2 && Math.abs(nvColonne-colonne)==1) || (Math.abs(nvLigne-ligne)==1 && Math.abs(nvColonne-colonne)==2));
     }
 
     public static boolean ligneCavalier(int[][] plateau, int ligne, int nvLigne){
@@ -576,28 +576,28 @@ public class methodes {
     }
 
     public static boolean hautGauche(int[][] plateau, int ligne, int colonne, int couleur){
-        return caseValide(ligne-1, colonne-1) && (plateau[ligne-1][colonne-1] == 0 || !(memeCouleur(plateau, ligne-1, colonne-1, couleur)));
+        return caseValide(ligne-1, colonne-1) && (plateau[ligne-1][colonne-1] == 0 && !(memeCouleur(plateau, ligne-1, colonne-1, couleur)));
     }
     public static boolean hautDroite(int[][] plateau, int ligne, int colonne, int couleur){
-        return caseValide(ligne-1, colonne+1) && (plateau[ligne-1][colonne+1] == 0 || !(memeCouleur(plateau, ligne-1, colonne+1, couleur)));
+        return caseValide(ligne-1, colonne+1) && (plateau[ligne-1][colonne+1] == 0 && !(memeCouleur(plateau, ligne-1, colonne+1, couleur)));
     }
     public static boolean basGauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 1, colonne - 1) && (plateau[ligne + 1][colonne - 1] == 0 || !(memeCouleur(plateau, ligne + 1, colonne - 1, couleur)));
+        return caseValide(ligne + 1, colonne - 1) && (plateau[ligne + 1][colonne - 1] == 0 && !(memeCouleur(plateau, ligne + 1, colonne - 1, couleur)));
     }
     public static boolean basDroite(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne+1, colonne+1) && (plateau[ligne+1][colonne+1] == 0 || !(memeCouleur(plateau, ligne+1, colonne+1, couleur)));
+        return caseValide(ligne+1, colonne+1) && (plateau[ligne+1][colonne+1] == 0 && !(memeCouleur(plateau, ligne+1, colonne+1, couleur)));
     }
     public static boolean haut(int[][] plateau, int ligne, int colonne, int couleur){
-        return caseValide(ligne-1, colonne) && (plateau[ligne-1][colonne] == 0 || !(memeCouleur(plateau, ligne-1, colonne, couleur)));
+        return caseValide(ligne-1, colonne) && (plateau[ligne-1][colonne] == 0 && !(memeCouleur(plateau, ligne-1, colonne, couleur)));
     }
     public static boolean gauche(int[][] plateau, int ligne, int colonne, int couleur){
-        return caseValide(ligne, colonne-1) && (plateau[ligne][colonne-1] == 0 || !(memeCouleur(plateau, ligne, colonne-1, couleur)));
+        return caseValide(ligne, colonne-1) && (plateau[ligne][colonne-1] == 0 && !(memeCouleur(plateau, ligne, colonne-1, couleur)));
     }
     public static boolean droite(int[][] plateau, int ligne, int colonne, int couleur){
-        return caseValide(ligne, colonne+1) && (plateau[ligne][colonne+1] == 0 || !(memeCouleur(plateau, ligne, colonne+1, couleur)));
+        return caseValide(ligne, colonne+1) && (plateau[ligne][colonne+1] == 0 && !(memeCouleur(plateau, ligne, colonne+1, couleur)));
     }
     public static boolean bas(int[][] plateau, int ligne, int colonne, int couleur){
-        return caseValide(ligne+1, colonne) && (plateau[ligne+1][colonne] == 0 || !(memeCouleur(plateau, ligne+1, colonne, couleur)));
+        return caseValide(ligne+1, colonne) && (plateau[ligne+1][colonne] == 0 && !(memeCouleur(plateau, ligne+1, colonne, couleur)));
     }
 
     public static int affichageDirectionsFou(boolean hautGauche, boolean hautDroite, boolean basGauche, boolean basDroite, char joueur){
