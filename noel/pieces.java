@@ -44,14 +44,14 @@ public class pieces {
                 } while (avancer != 1 && avancer != 2);
                 plateau[ligne][colonne] = 0;                    //case précédente devient vide
                 if (avancer == 1) {                             //si le joueur choisit d'avancer de 1
-                    System.out.println("Le pion avance de 1");
+                    System.out.println("Le pion avance de 1 case");
                     plateau[ligne - 1][colonne] = 12;            //le pion avance de 1
                 } else {
-                    System.out.println("Le pion avance de 2");
+                    System.out.println("Le pion avance de 2 cases");
                     plateau[ligne - 2][colonne] = 12;            //sinon il avance de 2
                 }
             } else {
-                System.out.println("Le pion avance de 1");
+                System.out.println("Le pion avance de 1 case");
                 plateau[ligne][colonne] = 0;                    //case précédente devient vide
                 if (ligne - 1 == 0) {                           //si la prochaine case est la dernière du plateau
                     plateau[ligne - 1][colonne] = 11;            //le pion avance de 1 et devient une dame
@@ -108,15 +108,15 @@ public class pieces {
                 } while (avancer != 1 && avancer != 2);
                 plateau[ligne][colonne] = 0;                    //case précédente devient vide
                 if (avancer == 1) {                             //si le joueur choisit d'avancer de 1
-                    System.out.println("Le pion avance de 1");
+                    System.out.println("Le pion avance de 1 case");
                     plateau[ligne + 1][colonne] = 6;            //le pion avance de 1
                 } else {
-                    System.out.println("Le pion avance de 2");
+                    System.out.println("Le pion avance de 2 cases");
                     plateau[ligne + 2][colonne] = 6;            //sinon il avance de 2
                 }
             }
             else {
-                System.out.println("Le pion avance de 1");
+                System.out.println("Le pion avance de 1 case");
                 plateau[ligne][colonne] = 0;                    //case précédente devient vide
                 if (ligne + 1 == 7) {                           //si la prochaine case est la dernière du plateau
                     plateau[ligne + 1][colonne] = 4;            //le pion avance de 1 et devient une dame
@@ -309,15 +309,13 @@ public class pieces {
         System.out.println("Où veux-tu aller ?");
         System.out.print("Entrez le numéro de la ligne : ");
         NvLigne = (sc.nextInt())-1;
-        while ((NvLigne<0 || NvLigne>7) || !methodes.ligneCavalier(plateau, ligne, NvLigne)) {
+        System.out.print("Entrez le numéro de la colonne : ");
+        NvColonne = (sc.nextInt())-1;
+
+        while (!(methodes.caseValide(NvLigne, NvColonne)) || !methodes.mouvementCavalier(ligne, colonne, NvLigne, NvColonne) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
             System.out.println("Le cavalier ne peut pas aller là");
             System.out.print("Entrez un autre numéro de ligne : ");
             NvLigne = (sc.nextInt())-1;
-        }
-        System.out.print("Entrez le numéro de la colonne : ");
-        NvColonne = (sc.nextInt())-1;
-        while ((NvColonne<0 || NvColonne>7) || !methodes.mouvementCavalier(plateau, ligne, colonne, NvLigne, NvColonne, couleur) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
-            System.out.println("Le cavalier ne peut pas aller là");
             System.out.print("Entrez un autre numéro de colonne : ");
             NvColonne = (sc.nextInt())-1;
         }
