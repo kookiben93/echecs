@@ -42,7 +42,7 @@ public class methodes {
     }
 
     public static int conversionEnInt(char colonne){
-        int coordonnee = 0;
+        int coordonnee = 8;
 
         if(colonne=='a' || colonne=='A')
             coordonnee = 0;
@@ -95,9 +95,9 @@ public class methodes {
 
             //appel des pions
             if (plateau[ligne][colonne] == 6) {
-                pieces.pionJ(plateau, ligne, colonne);
+                pieces.deplacerPion(plateau, ligne, colonne);
             } else if (plateau[ligne][colonne] == 12) {
-                pieces.pionB(plateau, ligne, colonne);
+                pieces.deplacerPion(plateau, ligne, colonne);
 
                 //appel des tours
             } else if (plateau[ligne][colonne] == 7 || plateau[ligne][colonne] == 1) {
@@ -288,8 +288,8 @@ public class methodes {
         for (int i = 0; i < plateau.length; i++) {
             for (int j = 0; j < plateau[i].length; j++) {
                 plateau[i][j] = 0; //case vide
-                plateau[1][j] = 6; //Pion Noir
-                plateau[6][j] = 12; //Pion Blanc
+                plateau[1][j] = 6; //Pion Jaune
+                plateau[6][j] = 12; //Pion Bleu
             }
         }
 
@@ -574,17 +574,6 @@ public class methodes {
 
         return choix;
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public static boolean mouvementTour(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
         boolean valeur=true;
