@@ -7,9 +7,9 @@ public class methodes {
     static int mvtTourH8=0;
     static int mvtRoiN=0;
     static int mvtRoiB=0;
-    
+
     public static void main(String[] args) {
-        
+
     }
 
     public static void coordonnees(int[][] plateau, char joueur, int mode){
