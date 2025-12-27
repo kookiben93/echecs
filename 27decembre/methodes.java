@@ -64,6 +64,30 @@ public class methodes {
         return coordonnee;
     }
 
+    public static char conversionEnChar(int colonne){
+        char coordonnee = 'r';
+
+        switch(colonne){
+            case 0: coordonnee='A';
+                break;
+            case 1: coordonnee='B';
+                break;
+            case 2: coordonnee='C';
+                break;
+            case 3: coordonnee='D';
+                break;
+            case 4: coordonnee='E';
+                break;
+            case 5: coordonnee='F';
+                break;
+            case 6: coordonnee='G';
+                break;
+            case 7: coordonnee='H';
+                break;
+        }
+        return coordonnee;
+    }
+
     //appel des méthodes en fonction de la pièce jouée
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
 
@@ -860,6 +884,8 @@ public class methodes {
         String piece = piece(pieceC);
         String directions = direction(direction, pieceC);
         String couleur;
+        char col = conversionEnChar(colonne);
+        char nvCol = conversionEnChar(nvColonne);
 
         if(pieceC<=6)
             couleur = "bleue ";
@@ -867,7 +893,7 @@ public class methodes {
             couleur = "jaune ";
 
         System.out.println();
-        System.out.println(piece+ couleur + "avance de " + distance + " cases vers " + directions + " (" + (ligne+1) + "," + (colonne+1) + ")" + " -> " + "(" + (nvLigne+1) + "," + (nvColonne+1) + ")");
+        System.out.println(piece+ couleur + "avance de " + distance + " cases vers " + directions + " (" + (ligne+1) + "," + col + ")" + " -> " + "(" + (nvLigne+1) + "," + nvCol + ")");
     }
 
     public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligneRoi, int colonneRoi) {
