@@ -177,7 +177,7 @@ public class methodes {
         boolean valeur=true;
 
         if(joueur=='B'){
-            if(plateau[ligne][colonne]<6){
+            if(plateau[ligne][colonne]<=6){
                 valeur = false;
             }
         }
