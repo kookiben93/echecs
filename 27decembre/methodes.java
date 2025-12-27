@@ -20,7 +20,7 @@ public class methodes {
             System.out.print("Entrez le numéro de la ligne : ");
             ligne = (scanner.nextInt()) - 1;
         }
-        System.out.print("Entrez le numéro de la colonne : ");
+        System.out.print("Entrez le lettre de la colonne : ");
         col = scanner.next().charAt(0);
 
         colonne = conversionEnInt(col);
@@ -60,7 +60,10 @@ public class methodes {
 
     //appel des méthodes en fonction de la pièce jouée
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
-        int mvtTour=0;
+        int mvtTourA1=0;
+        int mvtTourA8=0;
+        int mvtTourH1=0;
+        int mvtTourH8=0;
 
         if(couleurJoueur(plateau, ligne, colonne, joueur)) {
 
@@ -77,6 +80,7 @@ public class methodes {
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.tour(plateau, ligne, colonne, mode, joueur);
+                    
                     mvtTour++;
                 }
 
@@ -126,6 +130,10 @@ public class methodes {
         }
     }
 
+    public static void MvtTour(int[][] plateau, int ligne, int colonne){
+        if(plateau[ligne][colonne]=)
+    }
+    
     public static boolean couleurJoueur(int[][] plateau, int ligne, int colonne, char joueur){
         boolean valeur=true;
 
@@ -342,7 +350,7 @@ public class methodes {
         String RESET  = "\u001B[0m";
         String BLEU   = "\u001B[34m";
         String JAUNE  = "\u001B[33m";
-        
+
         for (int i = 0; i < plateau.length; i++) {
             System.out.print(8-i + " ");
 
