@@ -315,7 +315,7 @@ public class pieces {
         System.out.println("Où veux-tu aller ?");
         System.out.print("Entrez le numéro de la ligne : ");
         NvLigne = (sc.nextInt())-1;
-        System.out.print("Entrez le numéro de la colonne : ");
+        
         System.out.print("Entrez le lettre de la colonne : ");
         col = sc.next().charAt(0);
 
@@ -325,8 +325,10 @@ public class pieces {
             System.out.println("Le cavalier ne peut pas aller là");
             System.out.print("Entrez un autre numéro de ligne : ");
             NvLigne = (sc.nextInt())-1;
-            System.out.print("Entrez un autre numéro de colonne : ");
-            NvColonne = (sc.nextInt())-1;
+            System.out.print("Entrez une autre lettre de colonne : ");
+            col = sc.next().charAt(0);
+
+            NvColonne = methodes.conversionEnInt(col);
         }
         System.out.println("Le cavalier s'est déplacé en L de la case (" + (ligne+1) + ',' + (colonne+1) +") jusqu'à la case (" + (NvLigne+1) + "," + (NvColonne+1) + ")");
         plateau[ligne][colonne] = 0;
