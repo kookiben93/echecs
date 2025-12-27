@@ -64,6 +64,8 @@ public class methodes {
         int mvtTourA8=0;
         int mvtTourH1=0;
         int mvtTourH8=0;
+        int mvtRoiN=0;
+        int mvtRoiB=0;
 
         if(couleurJoueur(plateau, ligne, colonne, joueur)) {
 
@@ -80,8 +82,14 @@ public class methodes {
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.tour(plateau, ligne, colonne, mode, joueur);
-                    
-                    mvtTour++;
+                    if(ligne==1  && colonne==1)
+                        mvtTourA1++;
+                    else if(ligne==1 && colonne==8)
+                        mvtTourH1++;
+                    else if(ligne==8 && colonne==1)
+                        mvtTourA8++;
+                    else if(ligne==8 && colonne==8)
+                        mvtTourH8++;
                 }
 
                 //appel des fous
@@ -99,7 +107,14 @@ public class methodes {
                     System.out.println("Impossible de bouger le roi");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.roi(plateau, ligne, colonne, mvtTour, joueur);
+                    if(plateau[ligne][colonne]==5) {
+                        pieces.roi(plateau, ligne, colonne, mvtTourA1, mvtTourH1, mvtRoiN, joueur);
+                        mvtRoiN++;
+                    }
+                    else{
+                        pieces.roi(plateau, ligne, colonne, mvtTourA8, mvtTourH8, mvtRoiB, joueur);
+                        mvtRoiB++;
+                    }
                 }
 
                 //appel des cavaliers
@@ -130,10 +145,10 @@ public class methodes {
         }
     }
 
-    public static void MvtTour(int[][] plateau, int ligne, int colonne){
-        if(plateau[ligne][colonne]=)
+    public static boolean TourPasBougee(int compteurTour){
+        return compteurTour==0;
     }
-    
+
     public static boolean couleurJoueur(int[][] plateau, int ligne, int colonne, char joueur){
         boolean valeur=true;
 
@@ -723,8 +738,8 @@ public class methodes {
         return choixRoque;
     }
 
-    public static boolean nbMouvementsTourRoi(int nbMouvementT, int nbMouvementR){
-        return nbMouvementT==0 && nbMouvementR==0;
+    public static boolean nbMouvementsTourRoi(boolean TourLoin, boolean TourProche, int nbMouvementR){
+        return (TourLoin || TourProche) && nbMouvementR==0;
     }
     public static boolean PetitRoque(int[][] plateau, int ligne, int colonne){
         return plateau[ligne][colonne+1]==0 && plateau[ligne][colonne+2]==0;
