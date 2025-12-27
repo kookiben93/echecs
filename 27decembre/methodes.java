@@ -12,6 +12,17 @@ public class methodes {
 
     }
 
+    public static int debut(int choix){
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1. Jouer au jeu d'échecs");
+        System.out.println("2. Connaître les régles");
+        System.out.println("3. Quitter le jeu");
+        choix = scanner.nextInt();
+
+        return choix;
+    }
+
     public static void coordonnees(int[][] plateau, char joueur, int mode){
         Scanner scanner = new Scanner(System.in);
         char col;
@@ -88,16 +99,38 @@ public class methodes {
         return coordonnee;
     }
 
+    public static int[][] copiePlateau(int[][] plateau) {
+        int[][] copie = new int[8][8];
+        for (int ligne = 0; ligne < 8; ligne++) {
+            for (int colonne = 0; colonne < 8; colonne++) {
+                copie[ligne][colonne] = plateau[ligne][colonne];
+            }
+        }
+        return copie;
+    }
+
+    public static void plateauPrécédent(int[][] plateau, int[][] plateauPrécédent) {
+        for (int ligne = 0; ligne < 8; ligne++) {
+            for (int colonne = 0; colonne < 8; colonne++) {
+                plateau[ligne][colonne] = plateauPrécédent[ligne][colonne];
+            }
+        }
+    }
+
     //appel des méthodes en fonction de la pièce jouée
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
+        int[][] sauvegarde = copiePlateau(plateau);
 
         if(couleurJoueur(plateau, ligne, colonne, joueur)) {
 
             //appel des pions
-            if (plateau[ligne][colonne] == 6) {
-                pieces.deplacerPion(plateau, ligne, colonne);
-            } else if (plateau[ligne][colonne] == 12) {
-                pieces.deplacerPion(plateau, ligne, colonne);
+            if (plateau[ligne][colonne] == 6 || plateau[ligne][colonne] == 12) {
+                if (pieceAutour3(plateau, ligne, colonne)) {
+                    System.out.println("Impossible de bouger le pion");
+                    coordonnees(plateau, joueur, mode);
+                } else {
+                    pieces.pion(plateau, ligne, colonne);
+                }
 
                 //appel des tours
             } else if (plateau[ligne][colonne] == 7 || plateau[ligne][colonne] == 1) {
@@ -147,7 +180,7 @@ public class methodes {
                     System.out.println("Impossible de bouger le cavalier");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.cavalier(plateau, ligne, colonne, mode);
+                    pieces.cavalier(plateau, ligne, colonne);
                 }
 
                 //appel des dames
@@ -160,6 +193,13 @@ public class methodes {
                 }
             } else {
                 System.out.println("Case vide, veuillez recommencez");
+                coordonnees(plateau, joueur, mode);
+            }
+            if (estEnEchec(plateau, joueur)) {
+                System.out.println("Mouvement interdit : votre roi est en échec");
+
+                plateauPrécédent(plateau, sauvegarde);
+
                 coordonnees(plateau, joueur, mode);
             }
         }
@@ -256,7 +296,7 @@ public class methodes {
 
     //méthode qui vérifie que les cases+1 du haut, du bas, de gauche, de droite
     //et les 4 diagonales sont disponibles pour la pièce jouée actuelle
-    public static boolean pieceAutour2(int[][] plateau, int ligne, int colonne){
+    public static boolean pieceAutour2(int[][] plateau, int ligne, int colonne) {
         int piece = plateau[ligne][colonne];
         int nouvelleL;
         int nouvelleC;
@@ -265,12 +305,12 @@ public class methodes {
         int[] lignes = {-1, 1, -1, 1};
         int[] colonnes = {-1, 1, 1, -1};
 
-        for(int i=0; i<4; i++){
-            nouvelleL = ligne+lignes[i];
-            nouvelleC = colonne+colonnes[i];
+        for (int i = 0; i < 4; i++) {
+            nouvelleL = ligne + lignes[i];
+            nouvelleC = colonne + colonnes[i];
 
-            if(caseValide(nouvelleL, nouvelleC)==true){
-                if(plateau[nouvelleL][nouvelleC]==0){
+            if (caseValide(nouvelleL, nouvelleC) == true) {
+                if (plateau[nouvelleL][nouvelleC] == 0) {
                     return false;
                 }
                 boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;
@@ -281,6 +321,30 @@ public class methodes {
             }
         }
         return true;
+    }
+
+    public static boolean pieceAutour3(int[][] plateau, int ligne, int colonne) {
+        int pion = plateau[ligne][colonne];
+        int sens;
+
+        // Déterminer le sens selon la couleur
+        if (pion == 12) {
+            sens = -1; // Bleu monte
+        } else {
+            sens = 1;  // Jaune descend
+        }
+
+        // On vérifie les 3 possibilités de mouvement
+        boolean diagoGauche = methodes.caseValide(ligne + sens, colonne - 1) && !memeCouleurEtVide(plateau, ligne + sens, colonne - 1, pion);
+        boolean diagoDroite = methodes.caseValide(ligne + sens, colonne + 1) && !memeCouleurEtVide(plateau, ligne + sens, colonne + 1, pion);
+        boolean peutAvancer = methodes.caseValide(ligne + sens, colonne) && plateau[ligne + sens][colonne] == 0;
+
+        // Si une des options est possible, on renvoie vrai
+        if (diagoGauche || diagoDroite || peutAvancer) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     //affichage du plateau
@@ -573,6 +637,47 @@ public class methodes {
         }
 
         return choix;
+    }
+
+    public static int ChoixPromotion(int pion){
+        Scanner sc = new Scanner(System.in);
+        int choix = 0;
+        int promotion = -1;
+
+        while (choix != 1 && choix != 2 && choix != 3 && choix != 4) {
+            System.out.print("1 promouvoir en dame, 2 promouvoir en tour, 3 promouvoir en fou, 4 promouvoir en cavalier : ");
+            choix = Integer.parseInt(sc.nextLine());
+        }
+        if (pion == 12) { // Cas du pion bleu
+            if (choix == 1){
+                promotion = 11;
+            }
+            else if (choix == 2){
+                promotion = 7;
+            }
+            else if (choix == 3){
+                promotion = 9;
+            }
+            else {
+                promotion = 8;
+            }
+        }
+        else {          // Cas du pion jaune
+            if (choix == 1){
+                promotion = 4;
+            }
+            else if (choix == 2){
+                promotion = 1;
+            }
+            else if (choix == 3){
+                promotion = 3;
+            }
+            else {
+                promotion = 2;
+            }
+        }
+
+        return promotion;
     }
 
     public static boolean mouvementTour(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
