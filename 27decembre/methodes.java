@@ -414,7 +414,7 @@ public class methodes {
             }
             System.out.println();
         }
-        System.out.println("        A           B           C           D           E           F           G           H");
+        System.out.println("        H           G           F           E           D           C           B           A");
         System.out.println();
     }
 
@@ -589,6 +589,7 @@ public class methodes {
         Scanner sc = new Scanner(System.in);
         int NvLigne, NvColonne;
         boolean mouvementValide;
+        char col;
 
         do {
             mouvementValide=true;
@@ -596,8 +597,10 @@ public class methodes {
             System.out.print("Entrez le numéro de la ligne : ");
             NvLigne = Integer.parseInt(sc.nextLine())-1;
 
-            System.out.print("Entrez le numéro de la colonne : ");
-            NvColonne = Integer.parseInt(sc.nextLine())-1;
+            System.out.print("Entrez le lettre de la colonne : ");
+            col = sc.next().charAt(0);
+
+            NvColonne = conversionEnInt(col);
 
             if(piece==1 || piece==2){
                 mouvementValide = mouvementTour(plateau, ligne, colonne, NvLigne, NvColonne);
