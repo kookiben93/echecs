@@ -692,9 +692,9 @@ public class methodes {
         return choix;
     }
 
-    public static void roque(int[][] plateau, int Roi, int ligne, int colonne){
+    public static void roque(int[][] plateau, int Roi, int ligne, int colonne, boolean tourLoin, boolean tourProche){
         int Tour;
-        int choix = demandeRoque(plateau, ligne, colonne);
+        int choix = demandeRoque(plateau, ligne, colonne, tourLoin, tourProche);
 
         if(Roi==5)
             Tour = 1;
@@ -718,11 +718,11 @@ public class methodes {
             plateau[ligne][colonne-1] = Tour;
         }
     }
-    public static int demandeRoque(int[][] plateau, int ligne, int colonne){
+    public static int demandeRoque(int[][] plateau, int ligne, int colonne, boolean TourLoin, boolean TourProche){
         Scanner scanner = new Scanner(System.in);
 
-        boolean petit = PetitRoque(plateau, ligne, colonne);
-        boolean grand = GrandRoque(plateau, ligne, colonne);
+        boolean petit = PetitRoque(plateau, ligne, colonne, TourProche);
+        boolean grand = GrandRoque(plateau, ligne, colonne, TourLoin);
         int choixRoque = 0;
 
         if(petit && grand){
@@ -741,11 +741,11 @@ public class methodes {
     public static boolean nbMouvementsTourRoi(boolean TourLoin, boolean TourProche, int nbMouvementR){
         return (TourLoin || TourProche) && nbMouvementR==0;
     }
-    public static boolean PetitRoque(int[][] plateau, int ligne, int colonne){
-        return plateau[ligne][colonne+1]==0 && plateau[ligne][colonne+2]==0;
+    public static boolean PetitRoque(int[][] plateau, int ligne, int colonne, boolean TourProche){
+        return TourProche && plateau[ligne][colonne+1]==0 && plateau[ligne][colonne+2]==0;
     }
-    public static boolean GrandRoque(int[][] plateau, int ligne, int colonne){
-        return plateau[ligne][colonne-1]==0 && plateau[ligne][colonne-2]==0 && plateau[ligne][colonne-3]==0;
+    public static boolean GrandRoque(int[][] plateau, int ligne, int colonne, boolean TourLoin){
+        return TourLoin && plateau[ligne][colonne-1]==0 && plateau[ligne][colonne-2]==0 && plateau[ligne][colonne-3]==0;
     }
 
     public static void Methode1(int[][] plateau, int ligne, int colonne, int couleur, int hautBas, int gaucheDroite, int direction){
