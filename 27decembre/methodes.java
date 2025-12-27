@@ -1,9 +1,15 @@
 import java.util.Scanner;
 
 public class methodes {
-
+    static int mvtTourA1=0;
+    static int mvtTourA8=0;
+    static int mvtTourH1=0;
+    static int mvtTourH8=0;
+    static int mvtRoiN=0;
+    static int mvtRoiB=0;
+    
     public static void main(String[] args) {
-
+        
     }
 
     public static void coordonnees(int[][] plateau, char joueur, int mode){
@@ -60,12 +66,6 @@ public class methodes {
 
     //appel des méthodes en fonction de la pièce jouée
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode){
-        int mvtTourA1=0;
-        int mvtTourA8=0;
-        int mvtTourH1=0;
-        int mvtTourH8=0;
-        int mvtRoiN=0;
-        int mvtRoiB=0;
 
         if(couleurJoueur(plateau, ligne, colonne, joueur)) {
 
@@ -82,13 +82,13 @@ public class methodes {
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.tour(plateau, ligne, colonne, mode, joueur);
-                    if(ligne==1  && colonne==1)
+                    if(ligne==0  && colonne==0)
                         mvtTourA1++;
-                    else if(ligne==1 && colonne==8)
+                    else if(ligne==0 && colonne==7)
                         mvtTourH1++;
-                    else if(ligne==8 && colonne==1)
+                    else if(ligne==7 && colonne==0)
                         mvtTourA8++;
-                    else if(ligne==8 && colonne==8)
+                    else if(ligne==7 && colonne==7)
                         mvtTourH8++;
                 }
 
