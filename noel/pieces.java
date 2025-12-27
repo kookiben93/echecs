@@ -4,129 +4,67 @@ public class pieces {
     public static void Main(String args){
 
     }
-    //Méthode pour le Pion Bleu
-    public static void pionB(int[][] plateau, int ligne, int colonne) {
+    public static void Pion(int[][] plateau, int ligne, int colonne) {
         Scanner sc = new Scanner(System.in);
-        int avancer; //il veut avancer de combien
+        int pion = plateau[ligne][colonne];
+        int avancer;
 
-        //si la case en diagonale droite est dans le plateau et est une pièce bleue
-        boolean diagoDroite = methodes.caseValide(ligne - 1, colonne + 1) && !methodes.memeCouleurEtVide(plateau, ligne - 1, colonne + 1, plateau[ligne][colonne]);
-        //si la case en diagonale gauche est dans le plateau et est une pièce bleue
-        boolean diagoGauche = methodes.caseValide(ligne - 1, colonne - 1) && !methodes.memeCouleurEtVide(plateau, ligne - 1, colonne - 1, plateau[ligne][colonne]);
-        //si la première case devant le pion est vide
-        boolean avanceUn = plateau[ligne - 1][colonne] == 0;
-        //si le pion n'a pas bougé la deuxième case devant lui est vide
-        boolean avanceDeux = ligne == 6 && plateau[ligne - 2][colonne] == 0;
+        // On définit les règles selon la couleur du pion
+        int sens;           // -1 pour monter, 1 pour descendre
+        int ligneDepart;    // La ligne où il peut avancer de 2
+        int ligneFin;       // La ligne où il devient dame
+        int dame;           // Le numéro de la dame
 
-        int choix = methodes.affichageChoixPion(diagoDroite, diagoGauche, avanceUn);    //il veut prendre une pièce ou avancer
+        if (pion == 12) { // Cas du pion bleu
+            sens = -1;
+            ligneDepart = 6;
+            ligneFin = 0;
+            dame = 11;
+        } else {                // Cas du pion jaune
+            sens = 1;
+            ligneDepart = 1;
+            ligneFin = 7;
+            dame = 4;
+        }
 
-        if ((diagoGauche && !diagoDroite && !avanceUn) || choix == 1) {
-            System.out.println("Le pion prend la pièce en diagonale gauche");
-            plateau[ligne][colonne] = 0;                //case précédente devient vide
-            if (ligne - 1 == 0) {                        //si la prochaine case est la dernière du plateau
-                plateau[ligne - 1][colonne - 1] = 11;    //le pion prend la pièce et devient une dame
-            } else {
-                plateau[ligne - 1][colonne - 1] = 12;    //sinon il prend la pièce mais reste un pion
-            }
-        } else if ((!diagoGauche && diagoDroite && !avanceUn) || choix == 2) {
-            System.out.println("Le pion prend la pièce en diagonale droite");
-            plateau[ligne][colonne] = 0;                //case précédente devient vide
-            if (ligne - 1 == 0) {                        //si la prochaine case est la dernière du plateau
-                plateau[ligne - 1][colonne + 1] = 11;    //le pion prend la pièce et devient une dame
-            } else {
-                plateau[ligne - 1][colonne + 1] = 12;    //sinon il prend la pièce mais reste un pion
-            }
-        } else if ((!diagoGauche && !diagoDroite && avanceUn) || choix == 3) {
-            if (avanceDeux) {
+        // On regarde ce qu'il y a autour
+        boolean diagoDroite = methodes.caseValide(ligne + sens, colonne + 1) && !methodes.memeCouleurEtVide(plateau, ligne + sens, colonne + 1, pion);
+        boolean diagoGauche = methodes.caseValide(ligne + sens, colonne - 1) && !methodes.memeCouleurEtVide(plateau, ligne + sens, colonne - 1, pion);
+        boolean peutAvancerUn = plateau[ligne + sens][colonne] == 0;
+        boolean peutAvancerDeux = (ligne == ligneDepart) && plateau[ligne + (2 * sens)][colonne] == 0;
+
+        // Demander au joueur ce qu'il veut faire
+        int choix = methodes.affichageChoixPion(diagoDroite, diagoGauche, peutAvancerUn);
+
+        // On vide la case de départ
+        plateau[ligne][colonne] = 0;
+
+        if ((diagoGauche && !diagoDroite && !peutAvancerUn) || choix == 1) { // Mouvement Diagonale Gauche
+            ligne = ligne + sens;
+            colonne = colonne - 1;
+        }
+        else if ((!diagoGauche && diagoDroite && !peutAvancerUn) || choix == 2) { // Mouvement Diagonale Droite
+            ligne = ligne + sens;
+            colonne = colonne + 1;
+        }
+        else if ((!diagoGauche && !diagoDroite && peutAvancerUn) || choix == 3) { // Avancer tout droit
+            if (peutAvancerDeux) {
                 do {
-                    System.out.print("Tu veux avancer de 1 ou de 2 : ");
+                    System.out.print("Avancer de 1 ou 2 cases : ");
                     avancer = Integer.parseInt(sc.nextLine());
                 } while (avancer != 1 && avancer != 2);
-                plateau[ligne][colonne] = 0;                    //case précédente devient vide
-                if (avancer == 1) {                             //si le joueur choisit d'avancer de 1
-                    System.out.println("Le pion avance de 1 case");
-                    plateau[ligne - 1][colonne] = 12;            //le pion avance de 1
-                } else {
-                    System.out.println("Le pion avance de 2 cases");
-                    plateau[ligne - 2][colonne] = 12;            //sinon il avance de 2
-                }
+                ligne = ligne + (avancer * sens);
             } else {
-                System.out.println("Le pion avance de 1 case");
-                plateau[ligne][colonne] = 0;                    //case précédente devient vide
-                if (ligne - 1 == 0) {                           //si la prochaine case est la dernière du plateau
-                    plateau[ligne - 1][colonne] = 11;            //le pion avance de 1 et devient une dame
-                } else {
-                    plateau[ligne - 1][colonne] = 12;            //sinon le pion avance juste de 1
-                }
+                ligne = ligne + sens;
             }
+        }
+        
+
+        // On place le pion ou la dame s'il est arrivé au bout
+        if (ligne == ligneFin) {
+            plateau[ligne][colonne] = dame;
         } else {
-            System.out.println("Le pion n'a pas de mouvement ");
-        }
-    }
-
-    //Méthode pour le Pion Jaune
-    public static void pionJ(int[][] plateau, int ligne, int colonne) {
-        Scanner sc = new Scanner(System.in);
-        int avancer; //il veut avancer de combien
-
-        //si la case en diagonale droite est dans le plateau et est une pièce bleue
-        boolean diagoDroite = methodes.caseValide(ligne + 1, colonne + 1) && !methodes.memeCouleurEtVide(plateau, ligne+1, colonne+1, plateau[ligne][colonne]);
-        //si la case en diagonale gauche est dans le plateau et est une pièce bleue
-        boolean diagoGauche = methodes.caseValide(ligne + 1, colonne - 1) && !methodes.memeCouleurEtVide(plateau, ligne+1, colonne-1, plateau[ligne][colonne]);
-        //si la première case devant le pion est vide
-        boolean avanceUn = plateau[ligne + 1][colonne] == 0;
-        //si le pion n'a pas bougé la deuxième case devant lui est vide
-        boolean avanceDeux = ligne == 1 && plateau[ligne + 2][colonne] == 0;
-
-        int choix = methodes.affichageChoixPion(diagoDroite, diagoGauche, avanceUn);    //il veut prendre une pièce ou avancer
-
-        if ((diagoGauche && !diagoDroite && !avanceUn) || choix == 1) {
-            System.out.println("Le pion prend la pièce en diagonale gauche");
-            plateau[ligne][colonne] = 0;                //case précédente devient vide
-            if (ligne + 1 == 7){                        //si la prochaine case est la dernière du plateau
-                plateau[ligne + 1][colonne - 1] = 4;    //le pion prend la pièce et devient une dame
-            } else {
-                plateau[ligne + 1][colonne - 1] = 6;    //sinon il prend la pièce mais reste un pion
-            }
-        }
-
-        else if ((!diagoGauche && diagoDroite && !avanceUn) || choix == 2) {
-            System.out.println("Le pion prend la pièce en diagonale droite");
-            plateau[ligne][colonne] = 0;                //case précédente devient vide
-            if (ligne + 1 == 7){                        //si la prochaine case est la dernière du plateau
-                plateau[ligne + 1][colonne + 1] = 4;    //le pion prend la pièce et devient une dame
-            } else {
-                plateau[ligne + 1][colonne + 1] = 6;    //sinon il prend la pièce mais reste un pion
-            }
-        }
-
-        else if ((!diagoGauche && !diagoDroite && avanceUn) || choix == 3) {
-            if (avanceDeux) {
-                do {
-                    System.out.print("Tu veux avancer de 1 ou de 2 : ");
-                    avancer = Integer.parseInt(sc.nextLine());
-                } while (avancer != 1 && avancer != 2);
-                plateau[ligne][colonne] = 0;                    //case précédente devient vide
-                if (avancer == 1) {                             //si le joueur choisit d'avancer de 1
-                    System.out.println("Le pion avance de 1 case");
-                    plateau[ligne + 1][colonne] = 6;            //le pion avance de 1
-                } else {
-                    System.out.println("Le pion avance de 2 cases");
-                    plateau[ligne + 2][colonne] = 6;            //sinon il avance de 2
-                }
-            }
-            else {
-                System.out.println("Le pion avance de 1 case");
-                plateau[ligne][colonne] = 0;                    //case précédente devient vide
-                if (ligne + 1 == 7) {                           //si la prochaine case est la dernière du plateau
-                    plateau[ligne + 1][colonne] = 4;            //le pion avance de 1 et devient une dame
-                } else {
-                    plateau[ligne + 1][colonne] = 6;            //sinon le pion avance juste de 1
-                }
-            }
-        }
-        else {
-            System.out.println("Le pion n'a pas de mouvement ");
+            plateau[ligne][colonne] = pion;
         }
     }
 
@@ -205,26 +143,20 @@ public class pieces {
     }
 
     //Méthode pour le Roi
-    public static void roi(int[][] plateau, int ligne, int colonne, int mvtTour, char joueur) {
+    public static void roi(int[][] plateau, int ligne, int colonne, int mvtTourLoin, int mvtTourProche, int mvtRoi, char joueur) {
         Scanner sc = new Scanner(System.in);
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
-        int compteurB = 0;
-        int compteurN = 0;
 
         int choix = 0;
         int oui=0;
         int valeurDirection = 0;
 
-        int compteur = 0;
+        boolean TourLointaine = methodes.TourPasBougee(mvtTourLoin);
+        boolean TourProche = methodes.TourPasBougee(mvtTourProche);
 
-        if(couleur==5)
-            compteur = compteurN;
-        else
-            compteur = compteurB;
-
-        boolean mouvementAzero = methodes.nbMouvementsTourRoi(compteur, mvtTour);
-        boolean petit = methodes.PetitRoque(plateau, ligne, colonne);
-        boolean grand = methodes.GrandRoque(plateau, ligne, colonne);
+        boolean mouvementAzero = methodes.nbMouvementsTourRoi(TourLointaine, TourProche, mvtRoi);
+        boolean petit = methodes.PetitRoque(plateau, ligne, colonne, TourProche);
+        boolean grand = methodes.GrandRoque(plateau, ligne, colonne, TourLointaine);
 
         boolean haut = methodes.haut(plateau, ligne, colonne, joueur);
         boolean gauche = methodes.gauche(plateau, ligne, colonne, joueur);
@@ -244,7 +176,7 @@ public class pieces {
             oui = sc.nextInt();
         }
         if(oui==1){
-            methodes.roque(plateau, couleur, ligne, colonne);
+            methodes.roque(plateau, couleur, ligne, colonne, TourLointaine, TourProche);
         }
         else{
             if (ligneDroite && diagonale) {
@@ -306,11 +238,6 @@ public class pieces {
 
             plateau[ligne][colonne] = 0;
             plateau[NvLigne][NvColonne] = couleur;
-
-            if (couleur == 5)
-                compteurN++;
-            else
-                compteurB++;
         }
     }
 
@@ -320,22 +247,29 @@ public class pieces {
         Scanner sc = new Scanner(System.in);
         int NvColonne;
         int NvLigne;
+        char col = methodes.conversionEnChar(colonne);
+        char NvCol;
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
 
         System.out.println("Où veux-tu aller ?");
         System.out.print("Entrez le numéro de la ligne : ");
         NvLigne = (sc.nextInt())-1;
-        System.out.print("Entrez le numéro de la colonne : ");
-        NvColonne = (sc.nextInt())-1;
+
+        System.out.print("Entrez le lettre de la colonne : ");
+        NvCol = sc.next().charAt(0);
+
+        NvColonne = methodes.conversionEnInt(NvCol);
 
         while (!(methodes.caseValide(NvLigne, NvColonne)) || !methodes.mouvementCavalier(ligne, colonne, NvLigne, NvColonne) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
             System.out.println("Le cavalier ne peut pas aller là");
             System.out.print("Entrez un autre numéro de ligne : ");
             NvLigne = (sc.nextInt())-1;
-            System.out.print("Entrez un autre numéro de colonne : ");
-            NvColonne = (sc.nextInt())-1;
+            System.out.print("Entrez une autre lettre de colonne : ");
+            NvCol = sc.next().charAt(0);
+
+            NvColonne = methodes.conversionEnInt(NvCol);
         }
-        System.out.println("Le cavalier s'est déplacé en L de la case (" + (ligne+1) + ',' + (colonne+1) +") jusqu'à la case (" + (NvLigne+1) + "," + (NvColonne+1) + ")");
+        System.out.println("Le cavalier s'est déplacé en L de la case (" + (ligne+1) + ',' + col +") jusqu'à la case (" + (NvLigne+1) + "," + NvCol + ")");
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = couleur;
     }
