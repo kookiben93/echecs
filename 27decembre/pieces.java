@@ -4,7 +4,7 @@ public class pieces {
     public static void Main(String args){
 
     }
-    public static void deplacerPion(int[][] plateau, int ligne, int colonne) {
+    public static void pion(int[][] plateau, int ligne, int colonne) {
         Scanner sc = new Scanner(System.in);
         int pion = plateau[ligne][colonne];
         int avancer;
@@ -12,19 +12,16 @@ public class pieces {
         // On définit les règles selon la couleur du pion
         int sens;           // -1 pour monter, 1 pour descendre
         int ligneDepart;    // La ligne où il peut avancer de 2
-        int ligneFin;       // La ligne où il devient dame
-        int dame;           // Le numéro de la dame
+        int ligneFin;       // La ligne où il a une promotion
 
         if (pion == 12) { // Cas du pion bleu
             sens = -1;
             ligneDepart = 6;
             ligneFin = 0;
-            dame = 11;
-        } else {                // Cas du pion jaune
+        } else {         // Cas du pion jaune
             sens = 1;
             ligneDepart = 1;
             ligneFin = 7;
-            dame = 4;
         }
 
         // On regarde ce qu'il y a autour
@@ -59,9 +56,10 @@ public class pieces {
             }
         }
 
-        // On place le pion ou la dame s'il est arrivé au bout
+
+        // On place le pion ou la promotion
         if (ligne == ligneFin) {
-            plateau[ligne][colonne] = dame;
+            plateau[ligne][colonne] = methodes.ChoixPromotion(pion);
         } else {
             plateau[ligne][colonne] = pion;
         }
@@ -242,7 +240,7 @@ public class pieces {
 
 
     //Méthode pour la Cavalier
-    public static void cavalier(int[][] plateau, int ligne, int colonne, int mode){
+    public static void cavalier(int[][] plateau, int ligne, int colonne){
         Scanner sc = new Scanner(System.in);
         int NvColonne;
         int NvLigne;
