@@ -309,13 +309,17 @@ public class pieces {
         Scanner sc = new Scanner(System.in);
         int NvColonne;
         int NvLigne;
+        char col;
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
 
         System.out.println("Où veux-tu aller ?");
         System.out.print("Entrez le numéro de la ligne : ");
         NvLigne = (sc.nextInt())-1;
         System.out.print("Entrez le numéro de la colonne : ");
-        NvColonne = (sc.nextInt())-1;
+        System.out.print("Entrez le lettre de la colonne : ");
+        col = sc.next().charAt(0);
+
+        NvColonne = methodes.conversionEnInt(col);
 
         while (!(methodes.caseValide(NvLigne, NvColonne)) || !methodes.mouvementCavalier(ligne, colonne, NvLigne, NvColonne) || methodes.memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
             System.out.println("Le cavalier ne peut pas aller là");
