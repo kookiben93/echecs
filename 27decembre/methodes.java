@@ -334,16 +334,15 @@ public class methodes {
             }
             System.out.println();
         }
-        System.out.println();
         System.out.println("        A           B           C           D           E           F           G           H");
+        System.out.println();
     }
 
     public static void remplir2(int[][] plateau) {
         String RESET  = "\u001B[0m";
         String BLEU   = "\u001B[34m";
         String JAUNE  = "\u001B[33m";
-
-        System.out.println("        8           7           6           5           4           3           2           1");
+        
         for (int i = 0; i < plateau.length; i++) {
             System.out.print(8-i + " ");
 
@@ -392,6 +391,7 @@ public class methodes {
             }
             System.out.println();
         }
+        System.out.println("        A           B           C           D           E           F           G           H");
         System.out.println();
     }
 
