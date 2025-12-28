@@ -59,7 +59,6 @@ public class Main {
 
         int tour = 0;
         while(tour < 100 && !abandonJoueur) {
-
             if (tour % 2 == 0) {
                 System.out.println("Au tour de " + pseudoBlanc + " (bleus)");
                 if (methodes.estEnEchec(plateau, 'B')) {
@@ -81,6 +80,17 @@ public class Main {
             }
             tour++;
         }
+
+        if(tour>100)
+            if(tour%2==0)
+                System.out.println("Félicitations ! c'est " + pseudoBlanc + " qui a gagné par échec et mât");
+            else
+                System.out.println("Félicitations ! c'est " + pseudoNoir + " qui a gagné par échec et mât");
+        else if(abandonJoueur)
+            if(tour%2==0)
+                System.out.println("Félicitations ! c'est " + pseudoBlanc + " qui a gagné");
+            else
+                System.out.println("Félicitations ! c'est " + pseudoNoir + " qui a gagné");
     }
 
     public static void abandon(int[][] plateau, int ligne, int colonne, int tourLoin, int tourProche, int Roi, char joueur, int mode) {
@@ -103,7 +113,7 @@ public class Main {
 
         if (abandon.equals("oui")) {
             abandonJoueur=true;
-            System.out.println("abandon du Roi " + couleur + " !");
+            System.out.println("Abandon du Roi " + couleur + " !");
         } else if (abandon.equals("non") && tourLoin!=-1) {
             pieces.roi(plateau, ligne, colonne, tourLoin, tourProche, Roi, joueur, mode);
         } else {
