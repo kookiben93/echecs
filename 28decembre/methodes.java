@@ -1148,13 +1148,13 @@ public class methodes {
         return possible;
     }
 
-    public static boolean estEnEchec(int[][] plateau, char couleurRoi) {
-        //Déterminer la couleur du roi qu'on cherche
-        int idRoi;
+   public static boolean estEnEchec(int[][] plateau, char couleurRoi) {
+        //Couleur du roi
+        int Roi;
         if (couleurRoi == 'B') {
-            idRoi = 10;
+            Roi = 10;
         } else {
-            idRoi = 5;
+            Roi = 5;
         }
 
         // Trouver la position du Roi sur le plateau
@@ -1162,24 +1162,21 @@ public class methodes {
         int roiC = -1;
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
-                if (plateau[l][c] == idRoi) {
+                if (plateau[l][c] == Roi) {
                     roiL = l;
                     roiC = c;
                 }
             }
         }
 
-        // 3. Parcourir tout le plateau pour trouver les pièces ennemies
+        // Parcourir tout le plateau pour trouver les pièces ennemies
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
-                int pieceEnnemie = plateau[l][c];
-
-                if (pieceEnnemie != 0) {
-                    //Si la pièce n'est pas de la même couleur que le Roi, c'est un ennemi
-                    if (!memeCouleur(plateau, l, c, idRoi)) {
-                        if (peutAttaquer(plateau, l, c, roiL, roiC)) {
-                            return true;
-                        }
+                int piece = plateau[l][c];
+    
+                if (piece != 0 && !memeCouleur(plateau, l, c, Roi)) {
+                    if (peutAttaquer(plateau, l, c, roiL, roiC)) {
+                        return true;
                     }
                 }
             }
