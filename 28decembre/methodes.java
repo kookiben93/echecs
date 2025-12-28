@@ -593,12 +593,10 @@ public class methodes {
                     if (bas)
                         System.out.print("4 pour aller en haut ");
                 }
-                System.out.println();
-                System.out.print("50 pour abandonner ");
                 System.out.print(": ");
                 choix = Integer.parseInt(sc.nextLine());
 
-                if ((choix == 1 && haut) || (choix == 2 && gauche) || (choix == 3 && droite) || (choix == 4 && bas) || (choix == 50)) {
+                if ((choix == 1 && haut) || (choix == 2 && gauche) || (choix == 3 && droite) || (choix == 4 && bas)) {
                     valide = true;
                 } else {
                     System.out.println("Direction impossible, recommence.");
@@ -608,80 +606,44 @@ public class methodes {
         return choix;
     }
 
-    /*public static void abandon(int[][] plateau, int ligne, int colonne, int tourLoin, int tourProche, int Roi, char joueur){
-        Scanner sc = new Scanner(System.in);
-        String abandon;
-
-        System.out.print("Êtes-vous sûr de vouloir abandonner ? ");
-        abandon = sc.nextLine();
-
-        if(abandon.equals("oui")){
-            methodes.abandonRoi(0);
-        }
-        else if(abandon.equals("non")){
-            pieces.roi(plateau, ligne, colonne, tourLoin, tourProche, Roi, joueur);
-        }
-        else{
-            while (!abandon.equals("oui") && !abandon.equals("non")) {
-                System.out.print("Saisie incorrecte ! ");
-                System.out.print(" voulez-vous abandonner la partie ? ");
-                abandon = sc.nextLine();
-            }
-        }
-    }
-
-    public static int valeurAbandon(String reponse){
-        int valeur;
-
-        if(reponse.equals("oui")){
-            valeur = 0;
-        }
-        else{
-            valeur=-1;
-        }
-        return valeur;
-    }
-
-    public static String oee (){
-        Scanner sc = new Scanner(System.in);
-        String abandon;
-
-        System.out.print("Êtes-vous sûr de vouloir abandonner ? ");
-        abandon = sc.nextLine();
-
-        while (!abandon.equals("oui") && !abandon.equals("non")) {
-            System.out.print("Saisie incorrecte ! ");
-            System.out.print(" voulez-vous abandonner la partie ? ");
-            abandon = sc.nextLine();
-        }
-        return abandon;
-    }
-
-    public static boolean abandonRoi(int valeur){
-        return valeur==0;
-    }*/
-
     public static int affichageChoixPion(boolean diagoDroite, boolean diagoGauche, boolean avanceUn, char joueur) {
         Scanner sc = new Scanner(System.in);
         int choix = 0;
+        boolean valide = false;
+        int possibilites = 0;
 
-        if(joueur=='B') {
-            if (diagoGauche)
-                System.out.print("1 prendre la pièce en diagonale gauche ");
-            if (diagoDroite)
-                System.out.print("2 prendre la pièce en diagonale droite ");
-        }
-        else{
-            if (diagoGauche)
-                System.out.print("2 prendre la pièce en diagonale droite ");
-            if (diagoDroite)
-                System.out.print("1 prendre la pièce en diagonale gauche ");
-        }
-        if (avanceUn)
-            System.out.print("3 pour avancer ");
+        if(diagoGauche)
+            possibilites++;
+        if(diagoDroite)
+            possibilites++;
+        if(avanceUn)
+            possibilites++;
 
-        System.out.print(": ");
-        choix = Integer.parseInt(sc.nextLine());
+        if(possibilites>1) {
+            while (!valide) {
+                if (joueur == 'B') {
+                    if (diagoGauche)
+                        System.out.print("1 prendre la pièce en diagonale gauche ");
+                    if (diagoDroite)
+                        System.out.print("2 prendre la pièce en diagonale droite ");
+                } else {
+                    if (diagoGauche)
+                        System.out.print("2 prendre la pièce en diagonale droite ");
+                    if (diagoDroite)
+                        System.out.print("1 prendre la pièce en diagonale gauche ");
+                }
+                if (avanceUn)
+                    System.out.print("3 pour avancer ");
+                System.out.print(": ");
+                choix = Integer.parseInt(sc.nextLine());
+
+                if ((choix == 1 && diagoGauche) || (choix == 2 && diagoDroite) || (choix == 3 && avanceUn)) {
+                    valide = true;
+                } else {
+                    System.out.println("Direction impossible, recommence.");
+                }
+            }
+        }
 
         return choix;
     }
