@@ -396,53 +396,56 @@ public class methodes {
 
     //Affichage des pièces sur le plateau
     public static void remplir(int[][] plateau) {
+        String RESET  = "\u001B[0m";
+        String BLEU   = "\u001B[34m";
+        String JAUNE  = "\u001B[33m";
+
         for (int i = 0; i < plateau.length; i++) {
-            System.out.print(i+1 + "| ");
+            System.out.print(i+1 + " ");
             for (int j = 0; j < plateau[i].length; j++) {
                 if (plateau[i][j] == 1){
-                    System.out.print(" ♜ ");
+                    System.out.print("|" + JAUNE + "   Tour   " + RESET + "|");
                 }
                 else if (plateau[i][j] == 2){
-                    System.out.print(" ♞ ");
+                    System.out.print("|" + JAUNE + " Cavalier " + RESET + "|");
                 }
                 else if (plateau[i][j] == 3){
-                    System.out.print(" ♝ ");
+                    System.out.print("|" + JAUNE + "   Fou    " + RESET + "|");
                 }
                 else if (plateau[i][j] == 4){
-                    System.out.print(" ♛ ");
+                    System.out.print("|" + JAUNE + "   Dame   " + RESET + "|");
                 }
                 else if (plateau[i][j] == 5){
-                    System.out.print(" ♚ ");
+                    System.out.print("|" + JAUNE + "   Roi    " + RESET + "|");
                 }
                 else if (plateau[i][j] == 6){
-                    System.out.print(" ♟ ");
+                    System.out.print("|" + JAUNE + "   Pion   " + RESET + "|");
                 }
                 else if(plateau[i][j] == 7){
-                    System.out.print(" ♖ ");
+                    System.out.print("|" + BLEU + "   Tour   " + RESET + "|");
                 }
                 else if (plateau[i][j] == 8){
-                    System.out.print(" ♘ ");
+                    System.out.print("|" + BLEU + " Cavalier " + RESET + "|");
                 }
                 else if (plateau[i][j] == 9){
-                    System.out.print(" ♗ ");
+                    System.out.print("|" + BLEU + "   Fou    " + RESET + "|");
                 }
                 else if (plateau[i][j] == 10){
-                    System.out.print(" ♔ ");
+                    System.out.print("|" + BLEU + "   Roi    " + RESET + "|");
                 }
                 else if (plateau[i][j] == 11){
-                    System.out.print(" ♕ ");
+                    System.out.print("|" + BLEU + "   Dame   " + RESET + "|");
                 }
                 else if (plateau[i][j] == 12){
-                    System.out.print(" ♙ ");
+                    System.out.print("|" + BLEU + "   Pion   " + RESET + "|");
                 }
                 else {
-                    System.out.print("    ");
+                    System.out.print("|          |");
                 }
             }
             System.out.println();
         }
-        System.out.println("  _____________________________");
-        System.out.println("   A   B   C   D   E   F   G   H");
+        System.out.println("        A           B           C           D           E           F           G           H");
         System.out.println();
     }
 
@@ -954,29 +957,21 @@ public class methodes {
         }
         else{
             switch (direction) {
-                case 1:
-                    directions = "le bas";
+                case 1: directions = "le bas";
                     break;
-                case 2:
-                    directions = "la droite";
+                case 2: directions = "la droite";
                     break;
-                case 3:
-                    directions = "la gauche";
+                case 3: directions = "la gauche";
                     break;
-                case 4:
-                    directions = "le haut";
+                case 4: directions = "le haut";
                     break;
-                case 5:
-                    directions = "le bas droit en diagonale";
+                case 5: directions = "le bas droit en diagonale";
                     break;
-                case 6:
-                    directions = "le bas gauche en diagonale";
+                case 6: directions = "le bas gauche en diagonale";
                     break;
-                case 7:
-                    directions = "le haut droit en diagonale";
+                case 7: directions = "le haut droit en diagonale";
                     break;
-                case 8:
-                    directions = "Le haut gauche en diagonale";
+                case 8: directions = "Le haut gauche en diagonale";
                     break;
             }
         }
@@ -991,9 +986,9 @@ public class methodes {
         char nvCol = conversionEnChar(nvColonne);
 
         if(pieceC<=6)
-            couleur = "bleue ";
-        else
             couleur = "jaune ";
+        else
+            couleur = "bleue ";
 
         System.out.println();
         System.out.println(piece+ couleur + "avance de " + distance + " cases vers " + directions + " (" + (ligne+1) + "," + col + ")" + " -> " + "(" + (nvLigne+1) + "," + nvCol + ")");
