@@ -65,7 +65,7 @@ public class Main {
                 if (methodes.estEnEchec(plateau, 'B')) {
                     System.out.println(pseudoBlanc + " : votre Roi est en échec, vous devez le parer");
                 }
-                    methodes.coordonnees(plateau, 'B', modeJeu);
+                methodes.coordonnees(plateau, 'B', modeJeu);
                 if(!abandonJoueur) {
                     methodes.remplir2(plateau);
                 }
@@ -75,7 +75,9 @@ public class Main {
                     System.out.println(pseudoNoir + " : votre Roi est en échec, vous devez le parer");
                 }
                 methodes.coordonnees(plateau, 'N', modeJeu);
-                methodes.remplir(plateau);
+                if(!abandonJoueur) {
+                    methodes.remplir(plateau);
+                }
             }
             tour++;
         }
