@@ -7,12 +7,15 @@ public class pieces {
     public static void pion(int[][] plateau, int ligne, int colonne, char joueur) {
         Scanner sc = new Scanner(System.in);
         int pion = plateau[ligne][colonne];
-        int avancer;
+        int avancer=1;
 
         // On définit les règles selon la couleur du pion
         int sens;           // -1 pour monter, 1 pour descendre
         int ligneDepart;    // La ligne où il peut avancer de 2
         int ligneFin;       // La ligne où il a une promotion
+        int NvLigne = ligne;
+        int NvColonne = colonne;
+        int direction = 0;
 
         if (pion == 12) { // Cas du pion bleu
             sens = -1;
@@ -37,12 +40,14 @@ public class pieces {
         plateau[ligne][colonne] = 0;
 
         if ((diagoGauche && !diagoDroite && !peutAvancerUn) || choix == 1) { // Mouvement Diagonale Gauche
-            ligne = ligne + sens;
-            colonne = colonne - 1;
+            NvLigne = ligne + sens;
+            NvColonne = colonne - 1;
+            direction = 5;
         }
         else if ((!diagoGauche && diagoDroite && !peutAvancerUn) || choix == 2) { // Mouvement Diagonale Droite
-            ligne = ligne + sens;
-            colonne = colonne + 1;
+            NvLigne = ligne + sens;
+            NvColonne = colonne + 1;
+            direction = 6;
         }
         else if ((!diagoGauche && !diagoDroite && peutAvancerUn) || choix == 3) { // Avancer tout droit
             if (peutAvancerDeux) {
@@ -50,18 +55,20 @@ public class pieces {
                     System.out.print("Avancer de 1 ou 2 cases : ");
                     avancer = Integer.parseInt(sc.nextLine());
                 } while (avancer != 1 && avancer != 2);
-                ligne = ligne + (avancer * sens);
+                NvLigne = ligne + (avancer * sens);
             } else {
-                ligne = ligne + sens;
+                NvLigne = ligne + sens;
             }
+            direction = 1;
         }
 
 
         // On place le pion ou la promotion
         if (ligne == ligneFin) {
-            plateau[ligne][colonne] = methodes.ChoixPromotion(pion);
+            plateau[NvLigne][NvColonne] = methodes.ChoixPromotion(pion);
         } else {
-            plateau[ligne][colonne] = pion;
+            methodes.AffichageSituation(pion, ligne, colonne, NvLigne, NvColonne, avancer, direction);
+            plateau[NvLigne][NvColonne] = pion;
         }
     }
 
