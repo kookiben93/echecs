@@ -37,7 +37,7 @@ public class methodes {
             System.out.print("Entrez le numéro de la ligne : ");
             ligne = (scanner.nextInt()) - 1;
         }
-        System.out.print("Entrez le lettre de la colonne : ");
+        System.out.print("Entrez la lettre de la colonne : ");
         col = scanner.next().charAt(0);
 
         colonne = conversionEnInt(col);
@@ -129,7 +129,7 @@ public class methodes {
                     System.out.println("Impossible de bouger le pion");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.pion(plateau, ligne, colonne, joueur);
+                    pieces.pion(plateau, ligne, colonne, joueur, mode);
                 }
 
                 //appel des tours
@@ -692,6 +692,71 @@ public class methodes {
         return promotion;
     }
 
+    public static void mouvementPion(int[][] plateau, int ligne, int colonne, int pion) {
+        Scanner sc = new Scanner(System.in);
+        int nvLigne;
+        int nvColonne;
+        boolean mouvementValide = false;
+
+        int sens;
+        int ligneDepart;
+        int ligneFin;
+
+        if (pion == 12) { // Pion Bleu
+            sens = -1;
+            ligneDepart = 6;
+            ligneFin = 0;
+        } else {           // Pion Jaune
+            sens = 1;
+            ligneDepart = 1;
+            ligneFin = 7;
+        }
+
+        do {
+            System.out.println("Où voulez-vous aller avec votre pion ?");
+            System.out.print("Entrez le numéro de la ligne : ");
+            nvLigne = Integer.parseInt(sc.nextLine()) - 1;
+            System.out.print("Entrez la lettre de la colonne : ");
+            char col = sc.nextLine().charAt(0);
+            nvColonne = conversionEnInt(col);
+
+            if (caseValide(nvLigne, nvColonne)) {
+                int distL = (nvLigne - ligne) * sens;
+                int distC = Math.abs(nvColonne - colonne);
+
+                // Avancer de 1 case tout droit
+                if (distC == 0 && distL == 1 && plateau[nvLigne][nvColonne] == 0) {
+                    mouvementValide = true;
+                }
+                // Avancer de 2 cases
+                else if (distC == 0 && distL == 2 && ligne == ligneDepart
+                        && plateau[ligne + sens][colonne] == 0 && plateau[nvLigne][nvColonne] == 0) {
+                    mouvementValide = true;
+                }
+                // Manger en diagonale
+                else if (distC == 1 && distL == 1 && plateau[nvLigne][nvColonne] != 0
+                        && !memeCouleur(plateau, nvLigne, nvColonne, pion)) {
+                    mouvementValide = true;
+                }
+            }
+
+            if (!mouvementValide) {
+                System.out.println("Le pion ne peut pas aller là");
+            }
+
+        } while (!mouvementValide);
+
+        // Mise à jour du plateau
+        plateau[ligne][colonne] = 0;
+        plateau[nvLigne][nvColonne] = pion;
+
+        // Vérification de la promotion
+
+        if (nvLigne == ligneFin) {
+            plateau[nvLigne][nvColonne] = ChoixPromotion(pion);
+        }
+    }
+
     public static boolean mouvementTour(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
         boolean valeur=true;
 
@@ -727,7 +792,7 @@ public class methodes {
             System.out.print("Entrez le numéro de la ligne : ");
             NvLigne = Integer.parseInt(sc.nextLine())-1;
 
-            System.out.print("Entrez le lettre de la colonne : ");
+            System.out.print("Entrez la lettre de la colonne : ");
             col = sc.next().charAt(0);
 
             NvColonne = conversionEnInt(col);
@@ -1092,7 +1157,7 @@ public class methodes {
             idRoi = 5;
         }
 
-        // 2. Trouver la position du Roi sur le plateau
+        // Trouver la position du Roi sur le plateau
         int roiL = -1;
         int roiC = -1;
         for (int l = 0; l < 8; l++) {
