@@ -1063,14 +1063,14 @@ public class methodes {
         int piece = plateau[ligneEnnemi][colonneEnnemi];
         boolean possible = false;
 
-        // --- CAS DU CAVALIER (2 ou 8) ---
+        // cas du cavalier
         if (piece == 2 || piece == 8) {
             if (mouvementCavalier(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 possible = true;
             }
         }
 
-        // --- CAS DE LA TOUR (1 ou 7) ---
+        // cas de la tour
         else if (piece == 1 || piece == 7) {
             if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 // On calcule la distance et la direction du mouvement
@@ -1091,7 +1091,7 @@ public class methodes {
             }
         }
 
-        // --- CAS DU FOU (3 ou 9) ---
+        // cas du fou
         else if (piece == 3 || piece == 9) {
             if (mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 int distance = Math.abs(ligneRoi - ligneEnnemi);
@@ -1110,9 +1110,8 @@ public class methodes {
             }
         }
 
-        // --- CAS DE LA DAME (4 ou 11) ---
+        // cas de la dame
         else if (piece == 4 || piece == 11) {
-            // La dame combine les mouvements de la Tour et du Fou
             if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi) ||
                     mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
 
@@ -1132,14 +1131,13 @@ public class methodes {
             }
         }
 
-        // --- CAS DU PION (6 ou 12) ---
-        else if (piece == 6) { // Pion Jaune (descend vers les lignes plus hautes)
-            // Le pion attaque uniquement en diagonale (1 ligne plus bas, 1 colonne à côté)
+        // cas du pion
+        else if (piece == 6) { // Pion Jaune 
             if (ligneRoi == ligneEnnemi + 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
                 possible = true;
             }
         }
-        else if (piece == 12) { // Pion Bleu (monte vers les lignes plus basses)
+        else if (piece == 12) { // Pion Bleu
             if (ligneRoi == ligneEnnemi - 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
                 possible = true;
             }
