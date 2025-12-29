@@ -118,10 +118,10 @@ public class methodes {
         return copie;
     }
 
-    public static void plateauPrécédent(int[][] plateau, int[][] plateauPrécédent) {
+    public static void plateauPrecedent(int[][] plateau, int[][] plateauPrecedent) {
         for (int ligne = 0; ligne < 8; ligne++) {
             for (int colonne = 0; colonne < 8; colonne++) {
-                plateau[ligne][colonne] = plateauPrécédent[ligne][colonne];
+                plateau[ligne][colonne] = plateauPrecedent[ligne][colonne];
             }
         }
     }
@@ -206,7 +206,7 @@ public class methodes {
             if (estEnEchec(plateau, joueur)) {
                 System.out.println("Mouvement interdit : votre roi est en échec");
 
-                plateauPrécédent(plateau, sauvegarde);
+                plateauPrecedent(plateau, sauvegarde);
 
                 coordonnees(plateau, joueur, mode);
             }
@@ -269,10 +269,6 @@ public class methodes {
             }
         }
         return true;
-    }
-
-    public static boolean mouvementCavalier(int ligne, int colonne, int nvLigne, int nvColonne) {
-        return (Math.abs(nvLigne - ligne) == 2 && Math.abs(nvColonne - colonne) == 1) || (Math.abs(nvLigne - ligne) == 1 && Math.abs(nvColonne - colonne) == 2);
     }
 
     public static boolean LGrandHautGauche(int[][] plateau, int ligne, int colonne, int couleur) {
@@ -876,25 +872,19 @@ public class methodes {
         }
     }
 
-    public static boolean mouvementTour(int ligne, int colonne, int nvLigne, int nvColonne) {
-        boolean valeur = true;
-
-        if (nvLigne != ligne) {
-            if (nvColonne != colonne) {
-                valeur = false;
-            }
-        } else if (nvColonne != colonne) {
-            if (nvLigne != ligne) {
-                valeur = false;
-            }
-        } else {
-            valeur = false;
-        }
-        return valeur;
+    //booleen qui recense tous les mouvements possibles du cavalier (mode 2)
+    public static boolean mouvementCavalier(int ligne, int colonne, int nvLigne, int nvColonne) {
+        return (Math.abs(nvLigne-ligne)==2 && Math.abs(nvColonne-colonne)==1) || (Math.abs(nvLigne-ligne)==1 && Math.abs(nvColonne-colonne)==2);
     }
 
+    //booleen qui recense tous les mouvements possibles de la Tour (mode 2)
+    public static boolean mouvementTour(int ligne, int colonne, int nvLigne, int nvColonne) {
+        return (nvLigne==ligne && nvColonne!=colonne) || (nvLigne!=ligne && nvColonne==colonne);    //mouvements seulement droits
+    }
+
+    //booleen qui recense tous les mouvements possibles du fou (mode 2)
     public static boolean mouvementFou(int ligne, int colonne, int nvLigne, int nvColonne) {
-        return Math.abs(nvLigne - ligne) == Math.abs(nvColonne - colonne);
+        return Math.abs(nvLigne - ligne) == Math.abs(nvColonne - colonne);      //mouvements seulement en diagonale
     }
 
     public static void destinationPiece(int[][] plateau, int ligne, int colonne, int piece) {
@@ -1090,6 +1080,7 @@ public class methodes {
                 hautBas = -1;
                 gaucheDroite = 1;
                 valeurDirection = 6;
+                break;
             case 3:
                 hautBas = 1;
                 gaucheDroite = -1;
@@ -1146,11 +1137,13 @@ public class methodes {
 
         boolean petit = PetitRoque(plateau, ligne, colonne, TourProche);
         boolean grand = GrandRoque(plateau, ligne, colonne, TourLoin);
-        int choixRoque = 0;
+        int choixRoque;
 
         if(petit && grand){
-            System.out.print("Tapez 1 pour un petit Roque (avec la Tour la plus proche) ou tapez 2 pour un grand Roque (avec la Tour la plus éloignée)  : ");
-            choixRoque = scanner.nextInt();
+            do {
+                System.out.print("Tapez 1 pour un petit Roque (avec la Tour la plus proche) ou tapez 2 pour un grand Roque (avec la Tour la plus éloignée)  : ");
+                choixRoque = scanner.nextInt();
+            } while(choixRoque!=1 && choixRoque!=2);
         }
         else if(petit){
             choixRoque=1;
@@ -1249,29 +1242,21 @@ public class methodes {
 
         if(piece<=6) {
             switch (direction) {
-                case 1:
-                    directions = "le haut";
+                case 1: directions = "le haut";
                     break;
-                case 2:
-                    directions = "la gauche";
+                case 2: directions = "la gauche";
                     break;
-                case 3:
-                    directions = "la droite";
+                case 3: directions = "la droite";
                     break;
-                case 4:
-                    directions = "le bas";
+                case 4: directions = "le bas";
                     break;
-                case 5:
-                    directions = "le haut gauche en diagonale";
+                case 5: directions = "le haut gauche en diagonale";
                     break;
-                case 6:
-                    directions = "le haut droit en diagonale";
+                case 6: directions = "le haut droit en diagonale";
                     break;
-                case 7:
-                    directions = "le bas gauche en diagonale";
+                case 7: directions = "le bas gauche en diagonale";
                     break;
-                case 8:
-                    directions = "Le bas droit en diagonale";
+                case 8: directions = "Le bas droit en diagonale";
                     break;
             }
         }
@@ -1340,7 +1325,7 @@ public class methodes {
                 else if (colonneRoi < colonneEnnemi) directionColonne = -1;
 
                 // On vérifie s'il y a un obstacle sur le chemin
-                if (empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne) == false) {
+                if (!(empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne))) {
                     possible = true;
                 }
             }
@@ -1359,7 +1344,7 @@ public class methodes {
                 if (colonneRoi > colonneEnnemi) directionColonne = 1;
                 else if (colonneRoi < colonneEnnemi) directionColonne = -1;
 
-                if (empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne) == false) {
+                if (!(empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne))) {
                     possible = true;
                 }
             }
@@ -1381,7 +1366,7 @@ public class methodes {
                 if (colonneRoi > colonneEnnemi) directionColonne = 1;
                 else if (colonneRoi < colonneEnnemi) directionColonne = -1;
 
-                if (empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne) == false) {
+                if (!(empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne))) {
                     possible = true;
                 }
             }
