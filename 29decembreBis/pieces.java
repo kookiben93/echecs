@@ -90,9 +90,7 @@ public class pieces {
             }
         }
         else{
-            if (priseEnPassant) {
-                methodes.mouvementPion(plateau, ligne, colonne, pion);
-            }
+            methodes.mouvementPion(plateau, ligne, colonne, pion);
         }
     }
 
