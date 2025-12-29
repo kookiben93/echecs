@@ -21,7 +21,35 @@ public class Main {
         }
         while (choix != 1) {
             if (choix == 2) {
-                System.out.println("Indisponible pour le moment");
+                System.out.println("♟ RÈGLES DU JEU D'ÉCHECS\n" +
+                        "\uD83C\uDFAF Objectif du jeu\n" +
+                        "Le but est de mettre le roi adverse en échec et mat :\n" +
+                        "le roi est attaqué et ne peut plus s’échapper, ni être protégé, ni capturer la pièce qui l’attaque.\n" +
+                        "\uD83E\uDDE9 Mouvement des pièces\n");
+                System.out.println();
+                System.out.println("♙ Pion\n" + "-avance d’une case vers l’avant\n" + "-peut avancer de deux cases depuis sa position de départ\n" +
+                        "-capture en diagonale\n" + "-ne peut pas reculer\n" +
+                        "-peut faire prise en passant si un pion adverse avance de deux cases et se retrouve à côté :\n" +
+                        "-tu dois capturer immédiatement au tour suivant, sinon c’est perdu\n");
+                System.out.println();
+                System.out.println("♖ Tour\n" + "-se déplace horizontalement ou verticalement, sur n’importe quelle distance\n" +
+                        "-ne peut pas sauter par-dessus les pièces\n");
+                System.out.println();
+                System.out.println("♘ Cavalier\n" + "-se déplace en forme de L : 2 cases dans une direction + 1 case perpendiculaire\n" +
+                        "-seul à pouvoir sauter par-dessus les pièces\n");
+                System.out.println();
+                System.out.println("♗ Fou\n" + "-se déplace en diagonale, sur n’importe quelle distance\n" + "-reste toute la partie sur la même couleur\n");
+                System.out.println();
+                System.out.println("♕ Dame\n" + "-combine tour + fou : horizontal / vertical / diagonal\n");
+                System.out.println();
+                System.out.println("♔ Roi\n" + "-avance d’une case dans n’importe quelle direction\n" + "-ne peut jamais se mettre en échec\n" +
+                        "-peut roquer avec une tour si :\n" + "-ni le roi, ni la tour n’ont bougé\n" + "-aucune pièce entre eux\n" +
+                        "-le roi ne traverse pas une case attaquée\n" + "-le roi n’est pas en échec avant, pendant, ou après\n");
+                System.out.println();
+                System.out.println("\uD83C\uDFC1 Fin de partie\n" + "-La partie se termine par :\n" + "-échec et mat\n" + "-abandon\n" +
+                        "-pat (nul)\n" + "-accord de nulle\n" + "-plus de matériel suffisant pour mater (ex : roi contre roi)");
+                System.out.println("---------------------------------------------------------------------------------------");
+                System.out.println();
                 choix = methodes.debut(choix);
             } else {
                 System.out.println("Pourquoi ???");
