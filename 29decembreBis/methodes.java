@@ -918,13 +918,9 @@ public class methodes {
                 System.out.println("La pièce ne peut pas aller là");
             }
         } while (!mouvementValide);
-
-        if(piece == 2 || piece == 8){
-            System.out.println("Le cavalier s'est déplacé en L de la case (" + (ligne+1) + ',' + colo + ") jusqu'à la case (" + (NvLigne + 1) + "," + col + ")");
-        }else{
-            methodes.AffichageSituation(piece, ligne, colonne, NvLigne, NvColonne, 1, 0);
-        }
-
+        
+        methodes.AffichageSituation(piece, ligne, colonne, NvLigne, NvColonne, -1, -1);
+        
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = piece;
     }
@@ -1283,20 +1279,23 @@ public class methodes {
         return directions;
     }
 
-    public static void AffichageSituation(int pieceC, int ligne, int colonne, int nvLigne, int nvColonne, int distance, int direction){
+    public static void AffichageSituation(int pieceC, int ligne, int colonne, int nvLigne, int nvColonne, int distance, int direction) {
         String piece = piece(pieceC);
         String directions = direction(direction, pieceC);
         String couleur;
         String col = conversionEnString(colonne);
         String nvCol = conversionEnString(nvColonne);
 
-        if(pieceC<=6)
+        if (pieceC <= 6)
             couleur = "jaune ";
         else
             couleur = "bleue ";
 
         System.out.println();
-        System.out.println(piece+ couleur + "avance de " + distance + " cases vers " + directions + " (" + (ligne+1) + "," + col + ")" + " -> " + "(" + (nvLigne+1) + "," + nvCol + ")");
+        if (distance > 0)
+            System.out.println(piece + couleur + "avance de " + distance + " cases vers " + directions + " (" + (ligne + 1) + "," + col + ") -> (" + (nvLigne + 1) + "," + nvCol + ")");
+        else
+            System.out.println(piece+ couleur + "s'est déplacé de la case (" + (ligne+1) + "," + col + ") vers la case (" + (nvLigne+1) + "," + nvCol + ")");
     }
 
     public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligneRoi, int colonneRoi) {
