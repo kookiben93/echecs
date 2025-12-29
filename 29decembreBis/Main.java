@@ -10,8 +10,8 @@ public class Main {
 
         methodes.plateau(plateau);
 
-        String pseudoBlanc = "";
-        String pseudoNoir = "";
+        String pseudoBlanc;
+        String pseudoNoir;
         int modeJeu;
         int choix = 0;
 
@@ -24,8 +24,9 @@ public class Main {
                 System.out.println("♟ RÈGLES DU JEU D'ÉCHECS\n" +
                         "\uD83C\uDFAF Objectif du jeu\n" +
                         "Le but est de mettre le roi adverse en échec et mat :\n" +
-                        "le roi est attaqué et ne peut plus s’échapper, ni être protégé, ni capturer la pièce qui l’attaque.\n" +
-                        "\uD83E\uDDE9 Mouvement des pièces\n");
+                        "le roi est attaqué et ne peut plus s’échapper, ni être protégé, ni capturer la pièce qui l’attaque.\n");
+                System.out.println();
+                System.out.println("\uD83E\uDDE9 Mouvement des pièces\n");
                 System.out.println();
                 System.out.println("♙ Pion\n" + "-avance d’une case vers l’avant\n" + "-peut avancer de deux cases depuis sa position de départ\n" +
                         "-capture en diagonale\n" + "-ne peut pas reculer\n" +
@@ -78,7 +79,7 @@ public class Main {
         if (bleu.equals("oui")) {
             pseudoBlanc = pseudo1;
             pseudoNoir = pseudo2;
-        } else if (bleu.equals("non")) {
+        } else {
             pseudoBlanc = pseudo2;
             pseudoNoir = pseudo1;
         }
