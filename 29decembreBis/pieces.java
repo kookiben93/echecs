@@ -45,8 +45,10 @@ public class pieces {
             plateau[ligne][colonne] = 0;
 
             if (priseEnPassant) {
-                System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui) ");
-                reponse = sc.nextInt();
+                do {
+                    System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui, 2 pour non) ");
+                    reponse = sc.nextInt();
+                }while(reponse!=1 && reponse!=2);
 
                 if (reponse == 1) {
                     methodes.PriseEnPassant(plateau, ligne, colonne, pion);
