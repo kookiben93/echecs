@@ -10,7 +10,8 @@ public class pieces {
         int pion = plateau[ligne][colonne];
         int avancer = 1;
         int reponse;
-        boolean priseEnPassant = methodes.pepPossible(plateau, ligne, colonne, pion, pep, ligneAvant, colonneAvant);
+        boolean priseEnPassantG = methodes.pepPossibleGauche(plateau, ligne, colonne, pion, pep, ligneAvant, colonneAvant);
+        boolean priseEnPassantD = methodes.pepPossibleDroite(plateau, ligne, colonne, pion, pep, ligneAvant, colonneAvant);
 
         if (mode == 1) {
 
@@ -44,14 +45,17 @@ public class pieces {
             // On vide la case de départ
             plateau[ligne][colonne] = 0;
 
-            if (priseEnPassant) {
+            if (priseEnPassantG || priseEnPassantD) {
                 do {
-                    System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui, 2 pour non) ");
+                    System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui, 0 pour non) ");
                     reponse = sc.nextInt();
-                }while(reponse!=1 && reponse!=2);
+                }while(reponse!=1 && reponse!=0);
 
-                if (reponse == 1) {
-                    methodes.PriseEnPassant(plateau, ligne, colonne, pion);
+                if (reponse == 1 && priseEnPassantG) {
+                    methodes.PriseEnPassantG(plateau, ligne, colonne, pion);
+                }
+                else{
+                    methodes.PriseEnPassantD(plateau, ligne, colonne, pion);
                 }
                 pep = false;
             } else {
@@ -59,11 +63,11 @@ public class pieces {
                 if ((diagoGauche && !diagoDroite && !peutAvancerUn) || choix == 1) { // Mouvement Diagonale Gauche
                     NvLigne = ligne + sens;
                     NvColonne = colonne - 1;
-                    direction = 5;
+                    /*direction = 5;*/
                 } else if ((!diagoGauche && diagoDroite && !peutAvancerUn) || choix == 2) { // Mouvement Diagonale Droite
                     NvLigne = ligne + sens;
                     NvColonne = colonne + 1;
-                    direction = 6;
+                    /*direction = 6;*/
                 } else if ((!diagoGauche && !diagoDroite && peutAvancerUn) || choix == 3) { // Avancer tout droit
                     if (peutAvancerDeux) {
                         do {
@@ -73,20 +77,20 @@ public class pieces {
                         NvLigne = ligne + (avancer * sens);
                         if (avancer == 2) {
                             pep = true;
-                            ligneAvant = ligne;
+                            ligneAvant = NvLigne;
                             colonneAvant = colonne;
                         }
                     } else {
                         NvLigne = ligne + sens;
                     }
-                    direction = 1;
+                    /*direction = 1;*/
                 }
 
                 // On place le pion ou la promotion
                 if (ligne == ligneFin) {
                     plateau[NvLigne][NvColonne] = methodes.ChoixPromotion(pion);
                 } else {
-                    methodes.AffichageSituation(pion, ligne, colonne, NvLigne, NvColonne, avancer, direction);
+                    methodes.AffichageSituation(pion, ligne, colonne, NvLigne, NvColonne, avancer, 0);
                     plateau[NvLigne][NvColonne] = pion;
                 }
             }
