@@ -29,21 +29,21 @@ public class methodes {
         int ligne;
 
         System.out.println("Quelle pièce voulez vous jouer ? ");
-        System.out.print("Entrez le numéro de la ligne : ");
+        System.out.print("ligne : ");
         ligne = (Integer.parseInt(scanner.nextLine())) - 1;
         while (ligne < 0 || ligne > 7) {
             System.out.println("Coordonnées impossible");
-            System.out.print("Entrez le numéro de la ligne : ");
+            System.out.print("ligne : ");
             ligne = (Integer.parseInt(scanner.nextLine())) - 1;
         }
-        System.out.print("Entrez la lettre de la colonne : ");
+        System.out.print("colonne : ");
         col = scanner.nextLine();
 
         colonne = conversionEnInt(col);
 
         while (colonne < 0 || colonne > 7) {
             System.out.println("Coordonnées impossible");
-            System.out.print("Entrez le numéro de la colonne : ");
+            System.out.print("colonne : ");
             col = scanner.nextLine();
             colonne = conversionEnInt(col);
         }
@@ -823,9 +823,9 @@ public class methodes {
             pep = false;
             do {
                 System.out.println("Où voulez-vous aller avec votre pion ?");
-                System.out.print("Entrez le numéro de la ligne : ");
+                System.out.print("ligne : ");
                 nvLigne = Integer.parseInt(sc.nextLine()) - 1;
-                System.out.print("Entrez la lettre de la colonne : ");
+                System.out.print("colonne : ");
                 String col = sc.nextLine();
                 nvColonne = conversionEnInt(col);
 
@@ -897,7 +897,7 @@ public class methodes {
         do {
             mouvementValide = true;
             System.out.println("Où veux-tu aller ?");
-            System.out.print("Entrez le numéro de la ligne : ");
+            System.out.print("ligne : ");
             NvLigne = Integer.parseInt(sc.nextLine()) - 1;
 
             System.out.print("colonne : ");
@@ -918,9 +918,9 @@ public class methodes {
                 System.out.println("La pièce ne peut pas aller là");
             }
         } while (!mouvementValide);
-        
+
         methodes.AffichageSituation(piece, ligne, colonne, NvLigne, NvColonne, -1, -1);
-        
+
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = piece;
     }
