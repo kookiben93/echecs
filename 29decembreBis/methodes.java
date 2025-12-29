@@ -729,9 +729,9 @@ public class methodes {
                         System.out.print("2 prendre la pièce en diagonale droite ");
                 } else {
                     if (diagoGauche)
-                        System.out.print("2 prendre la pièce en diagonale droite ");
+                        System.out.print("1 prendre la pièce en diagonale droite ");
                     if (diagoDroite)
-                        System.out.print("1 prendre la pièce en diagonale gauche ");
+                        System.out.print("2 prendre la pièce en diagonale gauche ");
                 }
                 if (avanceUn)
                     System.out.print("3 pour avancer ");
@@ -796,7 +796,8 @@ public class methodes {
         int nvColonne;
         int reponse;
         boolean mouvementValide = false;
-        boolean priseEnPassant = methodes.pepPossible(plateau, ligne, colonne, pion, pep, ligneAvant, colonneAvant);
+        boolean priseEnPassantG = methodes.pepPossibleGauche(plateau, ligne, colonne, pion, pep, ligneAvant, colonneAvant);
+        boolean priseEnPassantD = methodes.pepPossibleDroite(plateau, ligne, colonne, pion, pep, ligneAvant, colonneAvant);
 
         int sens;
         int ligneDepart;
@@ -811,14 +812,17 @@ public class methodes {
             ligneDepart = 1;
             ligneFin = 7;
         }
-        if (priseEnPassant) {
+        if (priseEnPassantG || priseEnPassantD) {
             do {
-                System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui, 2 pour non) ");
+                System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui, 0 pour non) ");
                 reponse = sc.nextInt();
-            }while(reponse!=1 && reponse!=2);
+            }while(reponse!=1 && reponse!=0);
 
-            if (reponse == 1) {
-                methodes.PriseEnPassant(plateau, ligne, colonne, pion);
+            if (reponse == 1 && priseEnPassantG) {
+                methodes.PriseEnPassantG(plateau, ligne, colonne, pion);
+            }
+            else{
+                methodes.PriseEnPassantD(plateau, ligne, colonne, pion);
             }
             pep = false;
         } else {
@@ -845,7 +849,7 @@ public class methodes {
                         mouvementValide = true;
 
                         pep = true;
-                        ligneAvant = ligne;
+                        ligneAvant = nvLigne;
                         colonneAvant = colonne;
 
                     }
@@ -1030,7 +1034,7 @@ public class methodes {
         int gaucheDroite = 0;   //valeur pour le mouvement gauche ou droite selon la demande
 
         switch (direction) {          //hautBas prend la valeur de -1 pour monter
-            case 1:
+            case 1:     //hautBas prend la valeur de -1 pour aller en haut
                 hautBas = -1;
                 valeurDirection = 1;
                 break;
@@ -1047,10 +1051,10 @@ public class methodes {
                 valeurDirection = 4;
                 break;
         }
-        if(couleur == 1 || couleur == 7) {
+        if(couleur == 1 || couleur == 7) {      //tours
             methodes.Methode1(plateau, ligne, colonne, couleur, hautBas, gaucheDroite, valeurDirection);
         }
-        else{
+        else{       //rois
             int NvLigne = ligne + hautBas;            //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
             int NvColonne = colonne + gaucheDroite;   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
@@ -1106,16 +1110,22 @@ public class methodes {
 
     public static void roque(int[][] plateau, int Roi, int ligne, int colonne, boolean tourLoin, boolean tourProche){
         int Tour;
+        String couleur;
         int choix = demandeRoque(plateau, ligne, colonne, tourLoin, tourProche);
+        String col4 = conversionEnString(colonne+4);
+        String col5 = conversionEnString(5-colonne);
 
-        if(Roi==5)
+        if(Roi==5) {    //roi jaune
             Tour = 1;
-        else
+            couleur = "jaune";
+        } else {
             Tour = 7;
+            couleur = "bleu";
+        }
 
         if(choix==1){
             System.out.println();
-            System.out.println("Le roi a roqué avec la tour (" + (ligne+1) + "," + (colonne+4) + ")");
+            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + (ligne+1) + "," + col4 + ")");
             plateau[ligne][colonne] = 0;
             plateau[ligne][colonne+2] = Roi;
             plateau[ligne][colonne+3] = 0;
@@ -1123,7 +1133,7 @@ public class methodes {
         }
         else if(choix==2){
             System.out.println();
-            System.out.println("Le roi a roqué avec la tour (" + (ligne+1) + "," + (5-colonne) + ")");
+            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + (ligne+1) + "," + col5 + ")");
             plateau[ligne][colonne] = 0;
             plateau[ligne][colonne-2] = Roi;
             plateau[ligne][colonne-4] = 0;
@@ -1162,29 +1172,71 @@ public class methodes {
         return TourLoin && plateau[ligne][colonne-1]==0 && plateau[ligne][colonne-2]==0 && plateau[ligne][colonne-3]==0;
     }
 
-    public static void PriseEnPassant(int[][] plateau, int ligne, int colonne, int piece){
+    public static void PriseEnPassantD(int[][] plateau, int ligne, int colonne, int piece){
+        String couleur;
+        String col = conversionEnString(colonne+1);
+
+        if(piece==6) {    //pion jaune
+            couleur = "jaune";
+        } else {
+            couleur = "bleu";
+        }
+
+        System.out.println();
+        System.out.println("\uD83C\uDF1F le pion " + couleur + " a fais une prise en passant en (" + (ligne + 2) + "," + col + ")");
         plateau[ligne + 1][colonne + 1] = piece;
         plateau[ligne][colonne + 1] = 0;
     }
 
-    public static boolean pepPossible(int[][] plateau, int ligne, int colonne, int couleur, boolean pep, int ligneAvant, int colonneAvant){
+    public static void PriseEnPassantG(int[][] plateau, int ligne, int colonne, int piece){
+        String couleur;
+        String col = conversionEnString(colonne-1);
+
+        if(piece==6) {    //pion jaune
+            couleur = "jaune";
+        } else {
+            couleur = "bleu";
+        }
+
+        System.out.println();
+        System.out.println("\uD83C\uDF1F le pion " + couleur + " a fais une prise en passant en (" + ligne + "," + col + ")");
+        plateau[ligne-1][colonne-1] = piece;
+        plateau[ligne][colonne-1] = 0;
+    }
+
+    public static boolean pepPossibleGauche(int[][] plateau, int ligne, int colonne, int couleur, boolean pep, int ligneAvant, int colonneAvant){
         boolean possible = false;
         int ennemi;
 
         if(pep) {
-            if(couleur == 12) {
-                ennemi = plateau[ligneAvant + 2][colonneAvant];
-            }
-            else{
-                ennemi = plateau[ligneAvant - 2][colonneAvant];
-            }
+            ennemi = plateau[ligneAvant][colonneAvant];
 
-            if (couleur == 12 && ligne == 3) {       //blancs
-                if ((caseValide(3, colonne + 1) && plateau[3][colonne + 1] == ennemi || (caseValide(3, colonne + 1) && plateau[3][colonne + 1] == ennemi))) {
+            if (couleur == 12 && ligne == 3) {       //bleus
+                if (caseValide(3, colonne - 1) && plateau[3][colonne - 1] == ennemi) {
                     possible = true;
                 }
-            } else if (couleur == 6 && ligne == 5) {
-                if ((caseValide(4, colonne + 1) && plateau[4][colonne + 1] == ennemi || (caseValide(4, colonne + 1) && plateau[4][colonne + 1] == ennemi))) {
+            } else if (couleur == 6 && ligne == 4) {    //jaunes
+                if (caseValide(4, colonne - 1) && plateau[4][colonne - 1] == ennemi) {
+                    possible = true;
+                }
+            }
+        }
+        return possible;
+    }
+
+    public static boolean pepPossibleDroite(int[][] plateau, int ligne, int colonne, int couleur, boolean pep, int ligneAvant, int colonneAvant){
+        boolean possible = false;
+        int ennemi;
+
+        if(pep) {
+            ennemi = plateau[ligneAvant][colonneAvant];
+
+            if (couleur == 12 && ligne == 3) {       //bleus
+                if (caseValide(3, colonne + 1) && plateau[3][colonne + 1] == ennemi) {
+                    possible = true;
+                }
+            } else if (couleur == 6 && ligne == 4) {    //jaunes
+                if (caseValide(4, colonne + 1) && plateau[4][colonne + 1] == ennemi) {
                     possible = true;
                 }
             }
@@ -1240,41 +1292,43 @@ public class methodes {
 
         if(piece<=6) {
             switch (direction) {
-                case 1: directions = "le haut";
+                case 1: directions = "vers le haut";
                     break;
-                case 2: directions = "la gauche";
+                case 2: directions = "vers la gauche";
                     break;
-                case 3: directions = "la droite";
+                case 3: directions = "vers la droite";
                     break;
-                case 4: directions = "le bas";
+                case 4: directions = "vers le bas";
                     break;
-                case 5: directions = "le haut gauche en diagonale";
+                case 5: directions = "vers le haut gauche en diagonale";
                     break;
-                case 6: directions = "le haut droit en diagonale";
+                case 6: directions = "vers le haut droit en diagonale";
                     break;
-                case 7: directions = "le bas gauche en diagonale";
+                case 7: directions = "vers le bas gauche en diagonale";
                     break;
-                case 8: directions = "Le bas droit en diagonale";
+                case 8: directions = "vers Le bas droit en diagonale";
                     break;
             }
         }
         else{
             switch (direction) {
-                case 1: directions = "le bas";
+                case 1: directions = "vers le bas";
                     break;
-                case 2: directions = "la droite";
+                case 2: directions = "vers la droite";
                     break;
-                case 3: directions = "la gauche";
+                case 3: directions = "vers la gauche";
                     break;
-                case 4: directions = "le haut";
+                case 4: directions = "vers le haut";
                     break;
-                case 5: directions = "le bas droit en diagonale";
+                case 5: directions = "vers le bas droit en diagonale";
                     break;
-                case 6: directions = "le bas gauche en diagonale";
+                case 6: directions = "vers le bas gauche en diagonale";
                     break;
-                case 7: directions = "le haut droit en diagonale";
+                case 7: directions = "vers le haut droit en diagonale";
                     break;
-                case 8: directions = "Le haut gauche en diagonale";
+                case 8: directions = "vers le haut gauche en diagonale";
+                    break;
+                default: directions="";
                     break;
             }
         }
@@ -1288,16 +1342,17 @@ public class methodes {
         String col = conversionEnString(colonne);
         String nvCol = conversionEnString(nvColonne);
 
-        if (pieceC <= 6)
-            couleur = "jaune ";
-        else
+        if (pieceC > 6)
             couleur = "bleue ";
+        else
+            couleur = "jaune ";
 
         System.out.println();
-        if (distance > 0)
-            System.out.println(piece + couleur + "avance de " + distance + " cases vers " + directions + " (" + (ligne + 1) + "," + col + ") -> (" + (nvLigne + 1) + "," + nvCol + ")");
-        else
-            System.out.println(piece+ couleur + "s'est déplacé de la case (" + (ligne+1) + "," + col + ") vers la case (" + (nvLigne+1) + "," + nvCol + ")");
+        if (distance > 0) {
+            System.out.println("\uD83C\uDF1F " + piece + couleur + "avance de " + distance + " cases " + directions + " (" + (ligne + 1) + "," + col + ") -> (" + (nvLigne + 1) + "," + nvCol + ")");
+        } else {
+            System.out.println("\uD83C\uDF1F " + piece + couleur + "s'est déplacé de la case (" + (ligne + 1) + "," + col + ") vers la case (" + (nvLigne + 1) + "," + nvCol + ")");
+        }
     }
 
     public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligneRoi, int colonneRoi) {
