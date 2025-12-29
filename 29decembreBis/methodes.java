@@ -1359,16 +1359,16 @@ public class methodes {
         int piece = plateau[ligneEnnemi][colonneEnnemi];
         boolean possible = false;
 
-        // --- CAS DU CAVALIER (2 ou 8) ---
+        // cas du cavalier
         if (piece == 2 || piece == 8) {
             if (mouvementCavalier(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 possible = true;
             }
         }
 
-        // --- CAS DE LA TOUR (1 ou 7) ---
+        // cas de la tour
         else if (piece == 1 || piece == 7) {
-            if (mouvementTour(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
+            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 // On calcule la distance et la direction du mouvement
                 int distance = Math.max(Math.abs(ligneRoi - ligneEnnemi), Math.abs(colonneRoi - colonneEnnemi));
 
@@ -1381,15 +1381,15 @@ public class methodes {
                 else if (colonneRoi < colonneEnnemi) directionColonne = -1;
 
                 // On vérifie s'il y a un obstacle sur le chemin
-                if (!(empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne))) {
+                if (empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne) == false) {
                     possible = true;
                 }
             }
         }
 
-        // --- CAS DU FOU (3 ou 9) ---
+        // cas du fou
         else if (piece == 3 || piece == 9) {
-            if (mouvementFou(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
+            if (mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 int distance = Math.abs(ligneRoi - ligneEnnemi);
 
                 int directionLigne = 0;
@@ -1400,17 +1400,16 @@ public class methodes {
                 if (colonneRoi > colonneEnnemi) directionColonne = 1;
                 else if (colonneRoi < colonneEnnemi) directionColonne = -1;
 
-                if (!(empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne))) {
+                if (empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne) == false) {
                     possible = true;
                 }
             }
         }
 
-        // --- CAS DE LA DAME (4 ou 11) ---
+        // cas de la dame
         else if (piece == 4 || piece == 11) {
-            // La dame combine les mouvements de la Tour et du Fou
-            if (mouvementTour(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi) ||
-                    mouvementFou(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
+            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi) ||
+                    mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
 
                 int distance = Math.max(Math.abs(ligneRoi - ligneEnnemi), Math.abs(colonneRoi - colonneEnnemi));
 
@@ -1422,20 +1421,19 @@ public class methodes {
                 if (colonneRoi > colonneEnnemi) directionColonne = 1;
                 else if (colonneRoi < colonneEnnemi) directionColonne = -1;
 
-                if (!(empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne))) {
+                if (empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne) == false) {
                     possible = true;
                 }
             }
         }
 
-        // --- CAS DU PION (6 ou 12) ---
-        else if (piece == 6) { // Pion Jaune (descend vers les lignes plus hautes)
-            // Le pion attaque uniquement en diagonale (1 ligne plus bas, 1 colonne à côté)
+        // cas du pion
+        else if (piece == 6) { // Pion Jaune 
             if (ligneRoi == ligneEnnemi + 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
                 possible = true;
             }
         }
-        else if (piece == 12) { // Pion Bleu (monte vers les lignes plus basses)
+        else if (piece == 12) { // Pion Bleu
             if (ligneRoi == ligneEnnemi - 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
                 possible = true;
             }
@@ -1445,12 +1443,12 @@ public class methodes {
     }
 
     public static boolean estEnEchec(int[][] plateau, char couleurRoi) {
-        //Déterminer la couleur du roi qu'on cherche
-        int idRoi;
+        //Couleur du roi
+        int Roi;
         if (couleurRoi == 'B') {
-            idRoi = 10;
+            Roi = 10;
         } else {
-            idRoi = 5;
+            Roi = 5;
         }
 
         // Trouver la position du Roi sur le plateau
@@ -1458,24 +1456,21 @@ public class methodes {
         int roiC = -1;
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
-                if (plateau[l][c] == idRoi) {
+                if (plateau[l][c] == Roi) {
                     roiL = l;
                     roiC = c;
                 }
             }
         }
 
-        // 3. Parcourir tout le plateau pour trouver les pièces ennemies
+        // Parcourir tout le plateau pour trouver les pièces ennemies
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
-                int pieceEnnemie = plateau[l][c];
+                int piece = plateau[l][c];
 
-                if (pieceEnnemie != 0) {
-                    //Si la pièce n'est pas de la même couleur que le Roi, c'est un ennemi
-                    if (!memeCouleur(plateau, l, c, idRoi)) {
-                        if (peutAttaquer(plateau, l, c, roiL, roiC)) {
-                            return true;
-                        }
+                if (piece != 0 && !memeCouleur(plateau, l, c, Roi)) {
+                    if (peutAttaquer(plateau, l, c, roiL, roiC)) {
+                        return true;
                     }
                 }
             }
