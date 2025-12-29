@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
     static boolean abandonJoueur = false;
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         int[][] plateau = new int[8][8];
@@ -38,7 +38,7 @@ public class Main {
         System.out.print("Joueur 2 entrez votre pseudo : ");
         String pseudo2 = scanner.nextLine();
 
-        System.out.print(pseudo1 + " voulez-vous jouer les bleus ? ");
+        System.out.print(pseudo1 + " voulez-vous jouer avec les bleus ? ");
         String bleu = scanner.nextLine();
 
         while (!bleu.equals("oui") && !bleu.equals("non")) {
@@ -102,7 +102,7 @@ public class Main {
         else
             couleur = "jaune";
 
-        System.out.print("Voulez-vous abandonner ? ");
+        System.out.print("Voulez-vous abandonner la partie ? ");
         abandon = sc.nextLine();
 
         while (!abandon.equals("oui") && !abandon.equals("non")) {
