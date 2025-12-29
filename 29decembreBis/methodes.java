@@ -7,6 +7,9 @@ public class methodes {
     static int mvtTourH8 = 0;
     static int mvtRoiN = 0;
     static int mvtRoiB = 0;
+    static boolean pep=false;
+    static int ligneAvant;
+    static int colonneAvant;
 
     public static int debut(int choix) {
 
@@ -795,7 +798,9 @@ public class methodes {
         Scanner sc = new Scanner(System.in);
         int nvLigne;
         int nvColonne;
+        int reponse;
         boolean mouvementValide = false;
+        boolean priseEnPassant = methodes.pepPossible(plateau, ligne, colonne, pion, pep, ligneAvant, colonneAvant);
 
         int sens;
         int ligneDepart;
@@ -810,49 +815,64 @@ public class methodes {
             ligneDepart = 1;
             ligneFin = 7;
         }
+        if (priseEnPassant) {
+            System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui) ");
+            reponse = sc.nextInt();
 
-        do {
-            System.out.println("Où voulez-vous aller avec votre pion ?");
-            System.out.print("Entrez le numéro de la ligne : ");
-            nvLigne = Integer.parseInt(sc.nextLine()) - 1;
-            System.out.print("Entrez la lettre de la colonne : ");
-            String col = sc.nextLine();
-            nvColonne = conversionEnInt(col);
-
-            if (caseValide(nvLigne, nvColonne)) {
-                int distL = (nvLigne - ligne) * sens;
-                int distC = Math.abs(nvColonne - colonne);
-
-                // Avancer de 1 case tout droit
-                if (distC == 0 && distL == 1 && plateau[nvLigne][nvColonne] == 0) {
-                    mouvementValide = true;
-                }
-                // Avancer de 2 cases
-                else if (distC == 0 && distL == 2 && ligne == ligneDepart
-                        && plateau[ligne + sens][colonne] == 0 && plateau[nvLigne][nvColonne] == 0) {
-                    mouvementValide = true;
-                }
-                // Manger en diagonale
-                else if (distC == 1 && distL == 1 && plateau[nvLigne][nvColonne] != 0
-                        && !memeCouleur(plateau, nvLigne, nvColonne, pion)) {
-                    mouvementValide = true;
-                }
+            if (reponse == 1) {
+                methodes.PriseEnPassant(plateau, ligne, colonne, pion);
             }
+            pep = false;
+        } else {
+            pep = false;
+            do {
+                System.out.println("Où voulez-vous aller avec votre pion ?");
+                System.out.print("Entrez le numéro de la ligne : ");
+                nvLigne = Integer.parseInt(sc.nextLine()) - 1;
+                System.out.print("Entrez la lettre de la colonne : ");
+                String col = sc.nextLine();
+                nvColonne = conversionEnInt(col);
 
-            if (!mouvementValide) {
-                System.out.println("Le pion ne peut pas aller là");
+                if (caseValide(nvLigne, nvColonne)) {
+                    int distL = (nvLigne - ligne) * sens;
+                    int distC = Math.abs(nvColonne - colonne);
+
+                    // Avancer de 1 case tout droit
+                    if (distC == 0 && distL == 1 && plateau[nvLigne][nvColonne] == 0) {
+                        mouvementValide = true;
+                    }
+                    // Avancer de 2 cases
+                    else if (distC == 0 && distL == 2 && ligne == ligneDepart
+                            && plateau[ligne + sens][colonne] == 0 && plateau[nvLigne][nvColonne] == 0) {
+                        mouvementValide = true;
+
+                        pep = true;
+                        ligneAvant = ligne;
+                        colonneAvant = colonne;
+
+                    }
+                    // Manger en diagonale
+                    else if (distC == 1 && distL == 1 && plateau[nvLigne][nvColonne] != 0
+                            && !memeCouleur(plateau, nvLigne, nvColonne, pion)) {
+                        mouvementValide = true;
+                    }
+                }
+
+                if (!mouvementValide) {
+                    System.out.println("Le pion ne peut pas aller là");
+                }
+
+            } while (!mouvementValide);
+
+            // Mise à jour du plateau
+            plateau[ligne][colonne] = 0;
+            plateau[nvLigne][nvColonne] = pion;
+
+            // Vérification de la promotion
+
+            if (nvLigne == ligneFin) {
+                plateau[nvLigne][nvColonne] = ChoixPromotion(pion);
             }
-
-        } while (!mouvementValide);
-
-        // Mise à jour du plateau
-        plateau[ligne][colonne] = 0;
-        plateau[nvLigne][nvColonne] = pion;
-
-        // Vérification de la promotion
-
-        if (nvLigne == ligneFin) {
-            plateau[nvLigne][nvColonne] = ChoixPromotion(pion);
         }
     }
 
