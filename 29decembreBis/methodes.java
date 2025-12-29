@@ -32,7 +32,7 @@ public class methodes {
         System.out.print("ligne : ");
         ligne = (Integer.parseInt(scanner.nextLine())) - 1;
         while (ligne < 0 || ligne > 7) {
-            System.out.println("Coordonnées impossible");
+            System.out.println("❌ Coordonnées impossible");
             System.out.print("ligne : ");
             ligne = (Integer.parseInt(scanner.nextLine())) - 1;
         }
@@ -42,7 +42,7 @@ public class methodes {
         colonne = conversionEnInt(col);
 
         while (colonne < 0 || colonne > 7) {
-            System.out.println("Coordonnées impossible");
+            System.out.println("❌ Coordonnées impossible");
             System.out.print("colonne : ");
             col = scanner.nextLine();
             colonne = conversionEnInt(col);
@@ -135,7 +135,7 @@ public class methodes {
             //appel des pions
             if (plateau[ligne][colonne] == 6 || plateau[ligne][colonne] == 12) {
                 if (pieceAutour3(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger le pion");
+                    System.out.println("❌ Impossible de bouger le pion");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.pion(plateau, ligne, colonne, joueur, mode);
@@ -144,7 +144,7 @@ public class methodes {
                 //appel des tours
             } else if (plateau[ligne][colonne] == 7 || plateau[ligne][colonne] == 1) {
                 if (pieceAutour(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger la tour");
+                    System.out.println("❌ Impossible de bouger la tour");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.tour(plateau, ligne, colonne, mode, joueur);
@@ -170,7 +170,7 @@ public class methodes {
                 //appel des rois
             } else if (plateau[ligne][colonne] == 10 || plateau[ligne][colonne] == 5) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger le roi");
+                    System.out.println("❌ Impossible de bouger le roi");
                     Main.abandon(plateau, ligne, colonne, -1, -1, -1, joueur, mode);
                 } else {
                     if (plateau[ligne][colonne] == 5) {
@@ -185,7 +185,7 @@ public class methodes {
                 //appel des cavaliers
             } else if (plateau[ligne][colonne] == 8 || plateau[ligne][colonne] == 2) {
                 if (bougerCavalier(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger le cavalier");
+                    System.out.println("❌ Impossible de bouger le cavalier");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.cavalier(plateau, ligne, colonne, mode);
@@ -194,17 +194,17 @@ public class methodes {
                 //appel des dames
             } else if (plateau[ligne][colonne] == 4 || plateau[ligne][colonne] == 11) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
-                    System.out.println("Impossible de bouger la dame");
+                    System.out.println("❌ Impossible de bouger la dame");
                     coordonnees(plateau, joueur, mode);
                 } else {
                     pieces.dame(plateau, ligne, colonne, joueur, mode);
                 }
             } else {
-                System.out.println("Case vide, veuillez recommencez");
+                System.out.println("❌ Case vide, veuillez recommencez");
                 coordonnees(plateau, joueur, mode);
             }
             if (estEnEchec(plateau, joueur)) {
-                System.out.println("Mouvement interdit : votre roi est en échec");
+                System.out.println("❌ Mouvement interdit : votre roi est en échec");
 
                 plateauPrecedent(plateau, sauvegarde);
 
@@ -384,7 +384,7 @@ public class methodes {
                         || (choix == 5 && LgrandBasGauche) || (choix == 6 && LgrandBasDroit) || (choix == 7 && LpetitBasGauche) || (choix == 8 && LpetitBasDroit)) {
                     valide = true;
                 } else {
-                    System.out.println("Direction impossible, recommence.");
+                    System.out.println("❌ Direction impossible, recommencez.");
                 }
             }
         }
@@ -700,7 +700,7 @@ public class methodes {
                 if ((choix == 1 && haut) || (choix == 2 && gauche) || (choix == 3 && droite) || (choix == 4 && bas)) {
                     valide = true;
                 } else {
-                    System.out.println("Direction impossible, recommence.");
+                    System.out.println("❌ Direction impossible, recommencez.");
                 }
             }
         }
@@ -741,7 +741,7 @@ public class methodes {
                 if ((choix == 1 && diagoGauche) || (choix == 2 && diagoDroite) || (choix == 3 && avanceUn)) {
                     valide = true;
                 } else {
-                    System.out.println("Direction impossible, recommence.");
+                    System.out.println("❌ Direction impossible, recommencez.");
                 }
             }
         }
@@ -812,8 +812,10 @@ public class methodes {
             ligneFin = 7;
         }
         if (priseEnPassant) {
-            System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui) ");
-            reponse = sc.nextInt();
+            do {
+                System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui, 2 pour non) ");
+                reponse = sc.nextInt();
+            }while(reponse!=1 && reponse!=2);
 
             if (reponse == 1) {
                 methodes.PriseEnPassant(plateau, ligne, colonne, pion);
@@ -1013,7 +1015,7 @@ public class methodes {
                 if ((choix == 1 && hautGauche) || (choix == 2 && hautDroite) || (choix == 3 && basGauche) || (choix == 4 && basDroite)) {
                     valide = true;
                 } else {
-                    System.out.println("Direction impossible, recommence.");
+                    System.out.println("❌ Direction impossible, recommencez.");
                 }
             }
         }
@@ -1201,7 +1203,7 @@ public class methodes {
         int NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
         while (!(caseValide(NvLigne, NvColonne)) || empechement || memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
-            System.out.println("impossible d'avancer jusque là");
+            System.out.println("❌ impossible d'avancer jusque là");
             System.out.print("de combien veux-tu avancer ? : ");
             choix = Integer.parseInt(sc.nextLine());
 
