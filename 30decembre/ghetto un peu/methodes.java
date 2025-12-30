@@ -909,7 +909,6 @@ public class methodes {
             do {
                 do {
                     System.out.println("Où voulez-vous aller avec votre pion ?");
-                    System.out.print("ligne : ");
                     nvLigne = coordonneeLigne();
                     System.out.print("colonne : ");
                     String col = sc.nextLine();
@@ -976,24 +975,24 @@ public class methodes {
                 String col = sc.nextLine();
                 nvColonne = conversionEnInt(col);
 
-            } while (nvColonne == 10);
+            }while(nvColonne==10);
 
-            // Calcul de la distance parcourue
-            int distL = Math.abs(nvLigne - ligne);
-            int distC = Math.abs(nvColonne - colonne);
+                // Calcul de la distance parcourue
+                int distL = Math.abs(nvLigne - ligne);
+                int distC = Math.abs(nvColonne - colonne);
 
-            // Le roi se déplace d'une case et il doit bouger
-            if (distL <= 1 && distC <= 1 && (distL != 0 || distC != 0)) {
+                // Le roi se déplace d'une case et il doit bouger
+                if (distL <= 1 && distC <= 1 && (distL != 0 || distC != 0)) {
 
-                // On vérifie qu'il ne va pas sur une case avec ses propres pièces
-                if (!memeCouleur(plateau, nvLigne, nvColonne, piece)) {
-                    mouvementValide = true;
+                    // On vérifie qu'il ne va pas sur une case avec ses propres pièces
+                    if (!memeCouleur(plateau, nvLigne, nvColonne, piece)) {
+                        mouvementValide = true;
+                    } else {
+                        System.out.println("Le roi ne peut pas aller là");
+                    }
                 } else {
                     System.out.println("Le roi ne peut pas aller là");
                 }
-            } else {
-                System.out.println("Le roi ne peut pas aller là");
-            }
         } while (!mouvementValide);
 
         // Mise à jour du plateau
