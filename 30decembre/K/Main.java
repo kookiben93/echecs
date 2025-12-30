@@ -106,10 +106,8 @@ public class Main {
             else{
                 if (bleu.equals("oui")) {
                     pseudoBlanc = pseudo1;
-                    pseudoNoir = "robot";
                 } else {
                     pseudoBlanc = pseudo2;
-                    pseudoNoir = "robot";
                 }
             }
 
@@ -174,15 +172,30 @@ public class Main {
                 tour++;
             }
                 if (tour > 100) {
-                    if (tour % 2 == 0)
-                        System.out.println("Félicitations ! c'est " + pseudoBlanc + " qui a gagné par échec et mât");
-                    else
-                        System.out.println("Félicitations ! c'est " + pseudoNoir + " qui a gagné par échec et mât");
+                    if(robot==1) {
+                        if (tour % 2 == 0) {
+                            System.out.println("Félicitations ! c'est " + pseudoBlanc + " qui a gagné par échec et mât");
+                        } else
+                            System.out.println("Félicitations ! c'est " + pseudoNoir + " qui a gagné par échec et mât");
+                    }
+                    else {
+                        if (bleu.equals("oui")) {
+                            if (tour % 2 == 0) {
+                                System.out.println("Félicitations " + pseudo1 + " ! Vous avez gagné par échec et mât");
+                            } else
+                                System.out.println(pseudo1 + " vous avez perdu par échec et mât !");
+                        }
+                    }
                 } else if (abandonJoueur) {
-                    if (tour % 2 == 0)
-                        System.out.println("Félicitations ! c'est " + pseudoBlanc + " qui a gagné");
-                    else
-                        System.out.println("Félicitations ! c'est " + pseudoNoir + " qui a gagné");
+                    if(robot==1) {
+                        if (tour % 2 == 0)
+                            System.out.println("Félicitations ! c'est " + pseudoBlanc + " qui a gagné");
+                        else
+                            System.out.println("Félicitations ! c'est " + pseudoNoir + " qui a gagné");
+                    }
+                    else{
+                        System.out.println(pseudo1 + " vous avez perdu par abandon !");
+                    }
                 }
         }
     }
