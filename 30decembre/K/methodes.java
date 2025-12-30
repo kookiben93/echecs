@@ -1511,20 +1511,16 @@ public class methodes {
 
     public static void Methode1(int[][] plateau, int ligne, int colonne, int couleur, int hautBas, int gaucheDroite, int direction){
         Scanner sc = new Scanner(System.in);
+        int NvLigne, NvColonne;
+        int choix=1;
 
-        System.out.print("Tu veux avancer de combien ? ");
-        int choix = Integer.parseInt(sc.nextLine());    //demande de combien l'utilisateur veut se déplacer sans prendre en compte la direction
-
+        if(!empechement(plateau, ligne, colonne, 3, hautBas, gaucheDroite)) {
+            System.out.print("Tu veux avancer de combien ? ");
+            choix = Integer.parseInt(sc.nextLine());    //demande de combien l'utilisateur veut se déplacer sans prendre en compte la direction
+        }
         boolean empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
-        int NvLigne = ligne+(hautBas*choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
-        int NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
-
-        if(!caseValide(NvLigne, NvColonne))
-            System.out.println("1");
-        if(empechement)
-            System.out.println("2");
-        if(memeCouleur(plateau, NvLigne, NvColonne, couleur))
-            System.out.println("3");
+        NvLigne = ligne + (hautBas * choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
+        NvColonne = colonne + (gaucheDroite * choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
         while (!(caseValide(NvLigne, NvColonne)) || memeCouleur(plateau, NvLigne, NvColonne, couleur) || empechement) {
             System.out.println("❌ impossible d'avancer jusque là");
@@ -1533,9 +1529,10 @@ public class methodes {
 
             empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
 
-            NvLigne = ligne+(hautBas*choix);
-            NvColonne = colonne+(gaucheDroite*choix);
+            NvLigne = ligne + (hautBas * choix);
+            NvColonne = colonne + (gaucheDroite * choix);
         }
+
         AffichageSituation(couleur, ligne, colonne, NvLigne, NvColonne, choix, direction);
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = couleur;
