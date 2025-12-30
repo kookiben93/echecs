@@ -133,6 +133,7 @@ public class Main {
                             System.out.println("Au tour de " + pseudoNoir + " (jaunes)");
                             if (methodes.estEnEchec(plateau, 'N')) {
                                 System.out.println(pseudoNoir + " : votre Roi est en échec, vous devez le parer");
+                                methodes.coordonnees(plateau, 'N', modeJeu);
                             }
                             methodes.coordonnees(plateau, 'N', modeJeu);
                             if (!abandonJoueur) {
