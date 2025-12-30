@@ -264,7 +264,7 @@ public class methodes {
                     pieces.dame(plateau, ligne, colonne, joueur, mode);
                 }
             } else {
-                System.out.println("❌ Case vide, veuillez recommencez");
+                System.out.println("❌ Case vide, veuillez recommencer");
                 coordonnees(plateau, joueur, mode);
             }
             if (estEnEchec(plateau, joueur)) {
@@ -274,7 +274,7 @@ public class methodes {
 
                 coordonnees(plateau, joueur, mode);
             }
-        } else {       //Si le joueurs joue des pièces de l'adversaire
+        } else {       //Si le joueur joue des pièces de l'adversaire
             System.out.print("Ce ne sont pas vos pièces ! ");
             coordonnees(plateau, joueur, mode);
         }
@@ -689,7 +689,7 @@ public class methodes {
 
     //méthode qui vérifie si la pièce actuelle est de la même couleur que
     //celle de la couleur de la pièce de notre choix en fonction de sa
-    //position dans le plateauleau
+    //position dans le plateau
     public static boolean memeCouleur(int[][] plateau, int ligne, int colonne, int couleur) {
         if (plateau[ligne][colonne] == 0){
             return false;
@@ -1051,35 +1051,35 @@ public class methodes {
     }
 
     public static boolean hautGauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne - 1, colonne - 1) && (plateau[ligne - 1][colonne - 1] == 0 && !(memeCouleur(plateau, ligne - 1, colonne - 1, couleur)));
+        return caseValide(ligne - 1, colonne - 1) && !(memeCouleur(plateau, ligne - 1, colonne - 1, couleur));
     }
 
     public static boolean hautDroite(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne - 1, colonne + 1) && (plateau[ligne - 1][colonne + 1] == 0 && !(memeCouleur(plateau, ligne - 1, colonne + 1, couleur)));
+        return caseValide(ligne - 1, colonne + 1) && !(memeCouleur(plateau, ligne - 1, colonne + 1, couleur));
     }
 
     public static boolean basGauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 1, colonne - 1) && (plateau[ligne + 1][colonne - 1] == 0 && !(memeCouleur(plateau, ligne + 1, colonne - 1, couleur)));
+        return caseValide(ligne + 1, colonne - 1) && !(memeCouleur(plateau, ligne + 1, colonne - 1, couleur));
     }
 
     public static boolean basDroite(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 1, colonne + 1) && (plateau[ligne + 1][colonne + 1] == 0 && !(memeCouleur(plateau, ligne + 1, colonne + 1, couleur)));
+        return caseValide(ligne + 1, colonne + 1) && !(memeCouleur(plateau, ligne + 1, colonne + 1, couleur));
     }
 
     public static boolean haut(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne - 1, colonne) && (plateau[ligne - 1][colonne] == 0 && !(memeCouleur(plateau, ligne - 1, colonne, couleur)));
+        return caseValide(ligne - 1, colonne) && !(memeCouleur(plateau, ligne - 1, colonne, couleur));
     }
 
     public static boolean gauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne, colonne - 1) && (plateau[ligne][colonne - 1] == 0 && !(memeCouleur(plateau, ligne, colonne - 1, couleur)));
+        return caseValide(ligne, colonne - 1) && !(memeCouleur(plateau, ligne, colonne - 1, couleur));
     }
 
     public static boolean droite(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne, colonne + 1) && (plateau[ligne][colonne + 1] == 0 && !(memeCouleur(plateau, ligne, colonne + 1, couleur)));
+        return caseValide(ligne, colonne + 1) && !(memeCouleur(plateau, ligne, colonne + 1, couleur));
     }
 
     public static boolean bas(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 1, colonne) && (plateau[ligne + 1][colonne] == 0 && !(memeCouleur(plateau, ligne + 1, colonne, couleur)));
+        return caseValide(ligne + 1, colonne) && !(memeCouleur(plateau, ligne + 1, colonne, couleur));
     }
 
     public static void BougePion(int[][] plateau, int ligne, int colonne, char joueur, int pion) {
@@ -1519,7 +1519,14 @@ public class methodes {
         int NvLigne = ligne+(hautBas*choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
         int NvColonne = colonne+(gaucheDroite*choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
 
-        while (!(caseValide(NvLigne, NvColonne)) || empechement || memeCouleur(plateau, NvLigne, NvColonne, couleur)) {
+        if(!caseValide(NvLigne, NvColonne))
+            System.out.println("1");
+        if(empechement)
+            System.out.println("2");
+        if(memeCouleur(plateau, NvLigne, NvColonne, couleur))
+            System.out.println("3");
+
+        while (!(caseValide(NvLigne, NvColonne)) || memeCouleur(plateau, NvLigne, NvColonne, couleur) || empechement) {
             System.out.println("❌ impossible d'avancer jusque là");
             System.out.print("de combien veux-tu avancer ? : ");
             choix = Integer.parseInt(sc.nextLine());
