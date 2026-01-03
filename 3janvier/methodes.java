@@ -17,20 +17,26 @@ public class methodes {
         System.out.println("1. Jouer au jeu d'échecs");
         System.out.println("2. Connaître les régles");
         System.out.println("3. Quitter le jeu");
-        choix = scanner.nextInt();
+        String choixS = scanner.nextLine();
+
+        choix = methodes.conversionEnInt(choixS);
 
         return choix;
     }
     public static int coordonneeLigne() {
         Scanner scanner = new Scanner(System.in);
-        int ligne;
+        String li;
 
         System.out.print("ligne : ");
-        ligne = (Integer.parseInt(scanner.nextLine())) - 1;
+        li = scanner.nextLine();
+
+        int ligne = conversionLigneEnInt(li);
+
         while (ligne < 0 || ligne > 7) {
             System.out.println("❌ Coordonnées impossible");
             System.out.print("ligne : ");
-            ligne = (Integer.parseInt(scanner.nextLine())) - 1;
+            li = scanner.nextLine();
+            ligne = conversionLigneEnInt(li);
         }
         return ligne;
     }
@@ -47,13 +53,13 @@ public class methodes {
             System.out.print("colonne : ");
             col = scanner.nextLine();
 
-            colonne = conversionEnInt(col);
+            colonne = conversionColEnInt(col);
 
             while (colonne < 0 || colonne > 7 && colonne != 10) {
                 System.out.println("❌ Coordonnées impossible");
                 System.out.print("colonne : ");
                 col = scanner.nextLine();
-                colonne = conversionEnInt(col);
+                colonne = conversionColEnInt(col);
             }
         } while (colonne==10);
 
@@ -72,7 +78,10 @@ public class methodes {
             ligneDepart = 1;
         }
 
-        if (caseValide(nvLigne, nvColonne)) {
+        if (!caseValide(nvLigne, nvColonne)) {
+            return false;
+        }
+
             int distL = (nvLigne - ligne) * sens;
             int distC = Math.abs(nvColonne - colonne);
 
@@ -83,16 +92,12 @@ public class methodes {
 
             // Avancer de 2 cases
             else if (distC == 0 && distL == 2 && ligne == ligneDepart && plateau[ligne + sens][colonne] == 0 && plateau[nvLigne][nvColonne] == 0) {
-                pep = true;
-                ligneAvant = nvLigne;
-                colonneAvant = colonne;
                 return true;
             }
             // Manger en diagonale
             else if (distC == 1 && distL == 1 && plateau[nvLigne][nvColonne] != 0 && !memeCouleur(plateau, nvLigne, nvColonne, piece)) {
                 return true;
             }
-        }
         return false;
     }
 
@@ -171,7 +176,7 @@ public class methodes {
     }
 
     //Converti un String pris en paramètre en un int spécifique
-    public static int conversionEnInt(String colonne) {
+    public static int conversionColEnInt(String colonne) {
         int coordonnee = 8;
 
         if (colonne.equals("a") || colonne.equals("A"))
@@ -192,6 +197,55 @@ public class methodes {
             coordonnee = 7;
         else if (colonne.equals("x") || colonne.equals("X"))
             coordonnee = 10;
+
+        return coordonnee;
+    }
+
+    public static int conversionLigneEnInt(String ligne) {
+        int coordonnee = 8;
+
+        switch(ligne){
+            case "1": coordonnee = 0;
+                break;
+            case "2": coordonnee = 1;
+                break;
+            case "3": coordonnee = 2;
+                break;
+            case "4": coordonnee = 3;
+                break;
+            case "5": coordonnee = 4;
+                break;
+            case "6": coordonnee = 5;
+                break;
+            case "7": coordonnee = 6;
+                break;
+            case "8": coordonnee = 7;
+                break;
+        }
+        return coordonnee;
+    }
+
+    public static int conversionEnInt(String ligne) {
+        int coordonnee = 8;
+
+        switch(ligne){
+            case "1": coordonnee = 1;
+                break;
+            case "2": coordonnee = 2;
+                break;
+            case "3": coordonnee = 3;
+                break;
+            case "4": coordonnee = 4;
+                break;
+            case "5": coordonnee = 5;
+                break;
+            case "6": coordonnee = 6;
+                break;
+            case "7": coordonnee = 7;
+                break;
+            case "8": coordonnee = 8;
+                break;
+        }
         return coordonnee;
     }
 
@@ -490,7 +544,8 @@ public class methodes {
                     System.out.print("8 pour aller en (" + (ligne + 2) + "," + colEt2 + ") ");
 
                 System.out.print(": ");
-                choix = Integer.parseInt(sc.nextLine());
+                String choixS = sc.nextLine();
+                choix = methodes.conversionEnInt(choixS);
 
                 if ((choix == 1 && LgrandHautGauche) || (choix == 2 && LgrandHautDroit) || (choix == 3 && LpetitHautGauche) || (choix == 4 && LpetitHautDroit)
                         || (choix == 5 && LgrandBasGauche) || (choix == 6 && LgrandBasDroit) || (choix == 7 && LpetitBasGauche) || (choix == 8 && LpetitBasDroit)) {
@@ -817,7 +872,8 @@ public class methodes {
                         System.out.print("4 pour aller en haut ");
                 }
                 System.out.print(": ");
-                choix = Integer.parseInt(sc.nextLine());
+                String choixS = sc.nextLine();
+                choix = methodes.conversionEnInt(choixS);
 
                 if ((choix == 1 && haut) || (choix == 2 && gauche) || (choix == 3 && droite) || (choix == 4 && bas)) {
                     valide = true;
@@ -858,7 +914,8 @@ public class methodes {
                 if (avanceUn)
                     System.out.print("3 pour avancer ");
                 System.out.print(": ");
-                choix = Integer.parseInt(sc.nextLine());
+                String choixS = sc.nextLine();
+                choix = methodes.conversionEnInt(choixS);
 
                 if ((choix == 1 && diagoGauche) || (choix == 2 && diagoDroite) || (choix == 3 && avanceUn)) {
                     valide = true;
@@ -878,7 +935,8 @@ public class methodes {
 
         while (choix != 1 && choix != 2 && choix != 3 && choix != 4) {
             System.out.print("1 promouvoir en dame, 2 promouvoir en tour, 3 promouvoir en fou, 4 promouvoir en cavalier : ");
-            choix = Integer.parseInt(sc.nextLine());
+            String choixS = sc.nextLine();
+            choix = methodes.conversionEnInt(choixS);
         }
         if (pion == 12) { // Cas du pion bleu
             if (choix == 1){
@@ -954,11 +1012,17 @@ public class methodes {
                     nvLigne = coordonneeLigne();
                     System.out.print("colonne : ");
                     String col = sc.nextLine();
-                    nvColonne = conversionEnInt(col);
+                    nvColonne = conversionColEnInt(col);
 
                 } while (nvColonne == 10);
 
                 mouvementValide = mouvementPionRobot(plateau, ligne, colonne, nvLigne, nvColonne, pion) || pepRobot(plateau, ligne, colonne, nvLigne, nvColonne, pion);
+
+                if (Math.abs(ligne-nvLigne)==2) {
+                    pep = true;
+                    ligneAvant = nvLigne;
+                    colonneAvant = colonne;
+                }
 
                 if (!mouvementValide) {
                     System.out.println("Le pion ne peut pas aller là");
@@ -990,7 +1054,7 @@ public class methodes {
                 nvLigne = coordonneeLigne();
                 System.out.print("colonne : ");
                 String col = sc.nextLine();
-                nvColonne = conversionEnInt(col);
+                nvColonne = conversionColEnInt(col);
 
             }while(nvColonne==10);
 
@@ -1051,7 +1115,7 @@ public class methodes {
                 System.out.print("colonne : ");
                 col = sc.nextLine();
 
-                NvColonne = conversionEnInt(col);
+                NvColonne = conversionColEnInt(col);
             } while (NvColonne == 10);
 
             if (piece == 1 || piece == 7 || piece == 4 || piece == 11) {
@@ -1153,7 +1217,9 @@ public class methodes {
         if (priseEnPassantG || priseEnPassantD) {
             do {
                 System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui, 0 pour non) ");
-                reponse = sc.nextInt();
+                String reponseS = sc.nextLine();
+
+                reponse = methodes.conversionEnInt(reponseS);
             } while (reponse != 1 && reponse != 0);
         }
         if (reponse == 1){
@@ -1177,7 +1243,8 @@ public class methodes {
                 if (peutAvancerDeux) {
                     do {
                         System.out.print("Avancer de 1 ou 2 cases : ");
-                        avancer = Integer.parseInt(sc.nextLine());
+                        String avancerS = sc.nextLine();
+                        avancer = methodes.conversionEnInt(avancerS);
                     } while (avancer != 1 && avancer != 2);
                     NvLigne = ligne + (avancer * sens);
                     if (avancer == 2) {
@@ -1229,7 +1296,8 @@ public class methodes {
 
         if (mouvementAzero && (petit || grand)) {
             System.out.print("Voulez-vous roquer ? (1 pour oui, n'importe pour non) : ");
-            oui = sc.nextInt();
+            String ouiS = sc.nextLine();
+            oui = methodes.conversionEnInt(ouiS);
         }
         if (oui == 1) {
             roque(plateau, couleur, ligne, colonne, TourLointaine, TourProche);
@@ -1237,7 +1305,8 @@ public class methodes {
             if (ligneDroite && diagonale) {
                 while (choix != 1 && choix != 2) {
                     System.out.println("1 pour aller en ligne droite, 2 pour aller en diagonale");
-                    choix = Integer.parseInt(sc.nextLine());
+                    String choixS = sc.nextLine();
+                    choix = methodes.conversionEnInt(choixS);
                 }
             } else if (ligneDroite) {
                 choix = 1;
@@ -1273,7 +1342,8 @@ public class methodes {
         if (ligneDroite && diagonale) {
             while (choix != 1 && choix != 2) {
                 System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale : ");
-                choix = Integer.parseInt(sc.nextLine());
+                String choixS = sc.nextLine();
+                choix = methodes.conversionEnInt(choixS);
             }
         } else if (ligneDroite) {
             choix = 1;
@@ -1339,7 +1409,8 @@ public class methodes {
                         System.out.print("4 pour aller en haut à gauche ");
                 }
                 System.out.print(": ");
-                choix = Integer.parseInt(sc.nextLine());
+                String choixS = sc.nextLine();
+                choix = methodes.conversionEnInt(choixS);
 
                 if ((choix == 1 && hautGauche) || (choix == 2 && hautDroite) || (choix == 3 && basGauche) || (choix == 4 && basDroite)) {
                     valide = true;
@@ -1475,7 +1546,9 @@ public class methodes {
         if(petit && grand){
             do {
                 System.out.print("Tapez 1 pour un petit Roque (avec la Tour la plus proche) ou tapez 2 pour un grand Roque (avec la Tour la plus éloignée)  : ");
-                choixRoque = scanner.nextInt();
+                String choixRoqueS = scanner.nextLine();
+
+                choixRoque = methodes.conversionEnInt(choixRoqueS);
             } while(choixRoque!=1 && choixRoque!=2);
         }
         else if(petit){
@@ -1584,8 +1657,9 @@ public class methodes {
         int choix=1;
 
         if(!empechement(plateau, ligne, colonne, 3, hautBas, gaucheDroite)) {
-            System.out.print("Tu veux avancer de combien ? ");
-            choix = Integer.parseInt(sc.nextLine());    //demande de combien l'utilisateur veut se déplacer sans prendre en compte la direction
+            System.out.print("Tu veux avancer de combien ? ");      //demande de combien l'utilisateur veut se déplacer sans prendre en compte la direction
+            String choixS = sc.nextLine();
+            choix = methodes.conversionEnInt(choixS);
         }
         boolean empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
         NvLigne = ligne + (hautBas * choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
@@ -1594,7 +1668,8 @@ public class methodes {
         while (!(caseValide(NvLigne, NvColonne)) || memeCouleur(plateau, NvLigne, NvColonne, couleur) || empechement) {
             System.out.println("❌ impossible d'avancer jusque là");
             System.out.print("de combien veux-tu avancer ? : ");
-            choix = Integer.parseInt(sc.nextLine());
+            String choixS = sc.nextLine();
+            choix = methodes.conversionEnInt(choixS);
 
             empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
 
