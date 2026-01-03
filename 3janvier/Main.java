@@ -118,31 +118,50 @@ public class Main {
             methodes.remplir(plateau);
 
             int tour = 0;
+            char joueur;
+            boolean partieEnCours = true;
 
-            while (tour < 100 && !abandonJoueur) {
+            while (partieEnCours && !abandonJoueur) {
+                if (tour % 2 == 0){
+                    joueur = 'B';
+                } else {
+                    joueur = 'N';
+                }
+
+                if (methodes.estEnEchecEtMat(plateau, joueur)) {
+                    System.out.println("\n--- ÉCHEC ET MAT ---");
+                    if (joueur == 'B') {
+                        System.out.println("Félicitations " + pseudoNoir + " ! Les Jaunes ont gagné.");
+                    } else {
+                        System.out.println("Félicitations " + pseudoBlanc + " ! Les Bleus ont gagné.");
+                    }
+                    partieEnCours = false;
+                    break;
+                }
+
                 if (bleu.equals("oui")) {
                     if (tour % 2 == 0) {
                         System.out.println("Au tour de " + pseudoBlanc + " (bleus)");
-                        if (methodes.estEnEchec(plateau, 'B')) {
+                        if (methodes.estEnEchec(plateau, joueur)) {
                             System.out.println(pseudoBlanc + " : votre Roi est en échec, vous devez le parer");
                         }
-                        methodes.coordonnees(plateau, 'B', modeJeu);
+                        methodes.coordonnees(plateau, joueur, modeJeu);
                         if (!abandonJoueur) {
                             methodes.remplir2(plateau);
                         }
                     } else {
                         if(robot==1) {
                             System.out.println("Au tour de " + pseudoNoir + " (jaunes)");
-                            if (methodes.estEnEchec(plateau, 'N')) {
+                            if (methodes.estEnEchec(plateau, joueur)) {
                                 System.out.println(pseudoNoir + " : votre Roi est en échec, vous devez le parer");
-                                methodes.coordonnees(plateau, 'N', modeJeu);
+                                methodes.coordonnees(plateau, joueur, modeJeu);
                             }
-                            methodes.coordonnees(plateau, 'N', modeJeu);
+                            methodes.coordonnees(plateau, joueur, modeJeu);
                             if (!abandonJoueur) {
                                 methodes.remplir(plateau);
                             }
                         } else {
-                            methodes.robotChoix(plateau, 'N');
+                            methodes.robotChoix(plateau, joueur);
                             methodes.remplir(plateau);
                         }
                     }
@@ -150,24 +169,24 @@ public class Main {
                     if (tour % 2 == 0) {
                         if(robot==1) {
                             System.out.println("Au tour de " + pseudoBlanc + " (bleus)");
-                            if (methodes.estEnEchec(plateau, 'B')) {
+                            if (methodes.estEnEchec(plateau, joueur)) {
                                 System.out.println(pseudoBlanc + " : votre Roi est en échec, vous devez le parer");
                             }
-                            methodes.coordonnees(plateau, 'B', modeJeu);
+                            methodes.coordonnees(plateau, joueur, modeJeu);
                             if (!abandonJoueur) {
                                 methodes.remplir2(plateau);
                             }
                         }
                         else {
-                            methodes.robotChoix(plateau, 'B');
+                            methodes.robotChoix(plateau, joueur);
                             methodes.remplir2(plateau);
                         }
                     } else {
                         System.out.println("Au tour de " + pseudoNoir + " (jaunes)");
-                        if (methodes.estEnEchec(plateau, 'N')) {
+                        if (methodes.estEnEchec(plateau, joueur)) {
                             System.out.println(pseudoNoir + " : votre Roi est en échec, vous devez le parer");
                         }
-                        methodes.coordonnees(plateau, 'N', modeJeu);
+                        methodes.coordonnees(plateau, joueur, modeJeu);
                         if (!abandonJoueur) {
                             methodes.remplir(plateau);
                         }
