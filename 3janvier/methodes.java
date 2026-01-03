@@ -666,7 +666,11 @@ public class methodes {
                 } else if (plateau[i][j] == 12) {
                     System.out.print("|" + BLEU + "  Pion  " + RESET + "|");
                 } else {
-                    System.out.print("|        |");
+                    if ((i + j) % 2 == 0) {
+                        System.out.print("|        |");
+                    } else {
+                        System.out.print("| ****** |");
+                    }
                 }
             }
             System.out.println();
@@ -711,7 +715,11 @@ public class methodes {
                 } else if (piece == 12) {
                     System.out.print("|" + BLEU + "  Pion  " + RESET + "|");
                 } else {
-                    System.out.print("|        |");
+                    if ((i + j) % 2 == 0) {
+                        System.out.print("|        |");
+                    } else {
+                        System.out.print("| ****** |");
+                    }
                 }
             }
             System.out.println();
