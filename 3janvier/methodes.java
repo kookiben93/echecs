@@ -254,21 +254,21 @@ public class methodes {
         String coordonnee = "r";
 
         switch (colonne) {
-            case 0: coordonnee = "A";
+            case 0: coordonnee = "a";
                 break;
-            case 1: coordonnee = "B";
+            case 1: coordonnee = "b";
                 break;
-            case 2: coordonnee = "C";
+            case 2: coordonnee = "c";
                 break;
-            case 3: coordonnee = "D";
+            case 3: coordonnee = "d";
                 break;
-            case 4: coordonnee = "E";
+            case 4: coordonnee = "e";
                 break;
-            case 5: coordonnee = "F";
+            case 5: coordonnee = "f";
                 break;
-            case 6: coordonnee = "G";
+            case 6: coordonnee = "g";
                 break;
-            case 7: coordonnee = "H";
+            case 7: coordonnee = "h";
                 break;
         }
         return coordonnee;
@@ -527,21 +527,21 @@ public class methodes {
             while (!valide) {
                 System.out.print("Choisissez une direction : ");
                 if (LgrandHautGauche)
-                    System.out.print("1 pour aller en (" + (ligne - 1) + "," + colSans1 + ") ");
+                    System.out.print("1 pour aller en (" + colSans1 + "," + (ligne - 1)+ ") ");
                 if (LgrandHautDroit)
-                    System.out.print("2 pour aller en (" + (ligne - 1) + "," + colEt1 + ") ");
+                    System.out.print("2 pour aller en (" + colEt1 + "," + (ligne - 1)+ ") ");
                 if (LpetitHautGauche)
-                    System.out.print("3 pour aller en (" + ligne + "," + colSans2 + ") ");
+                    System.out.print("3 pour aller en (" + colSans2 + "," + ligne + ") ");
                 if (LpetitHautDroit)
-                    System.out.print("4 pour aller en (" + ligne + "," + colEt2 + ") ");
+                    System.out.print("4 pour aller en (" + colEt2 + "," + ligne + ") ");
                 if (LgrandBasGauche)
-                    System.out.print("5 pour aller en (" + (ligne + 3) + "," + colSans1 + ") ");
+                    System.out.print("5 pour aller en (" + colSans1 + "," + (ligne + 3) + ") ");
                 if (LgrandBasDroit)
-                    System.out.print("6 pour aller en (" + (ligne + 3) + "," + colEt1 + ") ");
+                    System.out.print("6 pour aller en (" + colEt1 + "," + (ligne + 3) + ") ");
                 if (LpetitBasGauche)
-                    System.out.print("7 pour aller en (" + (ligne + 2) + "," + colSans2 + ") ");
+                    System.out.print("7 pour aller en (" + colSans2 + "," + (ligne + 2) + ") ");
                 if (LpetitBasDroit)
-                    System.out.print("8 pour aller en (" + (ligne + 2) + "," + colEt2 + ") ");
+                    System.out.print("8 pour aller en (" + colEt2 + "," + (ligne + 2) + ") ");
 
                 System.out.print(": ");
                 String choixS = sc.nextLine();
@@ -1521,7 +1521,7 @@ public class methodes {
 
         if(choix==1){
             System.out.println();
-            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + (ligne+1) + "," + col4 + ")");
+            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + col4 + "," + (ligne+1) + ")");
             plateau[ligne][colonne] = 0;
             plateau[ligne][colonne+2] = Roi;
             plateau[ligne][colonne+3] = 0;
@@ -1529,7 +1529,7 @@ public class methodes {
         }
         else if(choix==2){
             System.out.println();
-            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + (ligne+1) + "," + col5 + ")");
+            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + col5 + "," + (ligne+1) + ")");
             plateau[ligne][colonne] = 0;
             plateau[ligne][colonne-2] = Roi;
             plateau[ligne][colonne-4] = 0;
@@ -1584,7 +1584,7 @@ public class methodes {
         }
 
         System.out.println();
-        System.out.println("\uD83C\uDF1F le pion " + couleur + " a fais une prise en passant en (" + (ligne + 2) + "," + col + ")");
+        System.out.println("\uD83C\uDF1F le pion " + couleur + " a fais une prise en passant en (" + col + "," + (ligne + 2) + ")");
 
         plateau[ligne][colonne+1] = 0;
         plateau[ligneAvant][colonneAvant] = 0;
@@ -1606,7 +1606,7 @@ public class methodes {
         }
 
         System.out.println();
-        System.out.println("\uD83C\uDF1F le pion " + couleur + " a fais une prise en passant en (" + ligne + "," + col + ")");
+        System.out.println("\uD83C\uDF1F le pion " + couleur + " a fais une prise en passant en (" + col + "," + ligne + ")");
 
         plateau[ligne][colonne-1] = 0;
         plateau[ligneAvant][colonneAvant] = 0;
@@ -1762,9 +1762,9 @@ public class methodes {
 
             System.out.println();
             if (distance > 0) {
-                System.out.println("\uD83C\uDF1F " + piece + couleur + "avance de " + distance + " cases " + directions + " (" + (ligne + 1) + "," + col + ") -> (" + (nvLigne + 1) + "," + nvCol + ")");
+                System.out.println("\uD83C\uDF1F " + piece + couleur + "avance de " + distance + " cases " + directions + " (" + col + "," + (ligne + 1) + ") -> (" + nvCol + "," + (nvLigne + 1) + ")");
             } else {
-                System.out.println("\uD83C\uDF1F " + piece + couleur + "s'est déplacé de la case (" + (ligne + 1) + "," + col + ") vers la case (" + (nvLigne + 1) + "," + nvCol + ")");
+                System.out.println("\uD83C\uDF1F " + piece + couleur + "s'est déplacé de la case (" + col + "," + (ligne + 1) + ") vers la case (" + nvCol + "," + (nvLigne + 1)+ ")");
             }
         }
     }
