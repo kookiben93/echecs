@@ -1,0 +1,45 @@
+public static boolean estEnEchecEtMat(int[][] plateau, char joueur) {
+        //Si le roi n'est pas en échec il n'y a pas échec et mat
+        if (!estEnEchec(plateau, joueur)) {
+            return false;
+        }
+
+        //On parcourt tout le plateau pour trouver les pièces
+        for (int l = 0; l < 8; l++) {
+            for (int c = 0; c < 8; c++) {
+                int piece = plateau[l][c];
+
+                //On vérifie si la pièce appartient au joueur actuel
+                if (piece != 0 && ((joueur == 'B' && piece > 6) || (joueur == 'J' && piece <= 6))) {
+
+                    //On teste toutes les cases d'arrivée possibles
+                    for (int nl = 0; nl < 8; nl++) {
+                        for (int nc = 0; nc < 8; nc++) {
+
+                            //On regarde si le mouvement est possible
+                            boolean mouvementPossible = false;
+
+                            // Vérifier que la case de destination est dans le plateau
+                            if(caseValide(nl, nc) && !memeCouleur(plateau, nl, nc, piece)) {
+                                mouvementPossible = true;
+                            }
+
+                            if (mouvementPossible) {
+                                //Si le mouvement est possible on simule le coup sur une copie du plateau
+                                int[][] copiePlateau = copiePlateau(plateau);
+                                copiePlateau[nl][nc] = piece;
+                                copiePlateau[l][c] = 0;
+
+                                //Si après ce coup le roi n'est plus en échec alors il n'y a pas échec et mat
+                                if (!estEnEchec(copiePlateau, joueur)) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //Si on a tout essayé et qu'aucun mouvement pare l'échec
+        return true;
+    }
