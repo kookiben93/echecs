@@ -1259,7 +1259,7 @@ public class methodes {
             }
 
             // On place le pion ou la promotion
-            if (ligne == ligneFin) {
+            if (nvLigne == ligneFin) {
                 plateau[NvLigne][NvColonne] = ChoixPromotion(pion);
             } else {
                 AffichageSituation(plateau, joueur, pion, ligne, colonne, NvLigne, NvColonne, avancer, 0);
