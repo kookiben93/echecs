@@ -24,7 +24,7 @@ public class Main {
         }
         while (choix == 2 || choix == 4) {
             if (choix == 4){
-                System.out.println("Easter egg : On peut appuyer sur la coordonnée X dans 'colonne' pour rechoisir d'autres coordonnées)");
+                System.out.println("Easter egg : On peut appuyer sur la coordonnée X dans 'colonne' pour rechoisir d'autres coordonnées");
                 System.out.println();
                 choix = methodes.debut();
             } else {
