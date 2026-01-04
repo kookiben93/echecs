@@ -26,17 +26,23 @@ public class methodes {
     }
     public static int coordonneeLigne() {
         Scanner scanner = new Scanner(System.in);
+        int ligne;
 
         System.out.print("ligne : ");
         String li = scanner.nextLine();
 
-        int ligne = conversionLigneEnInt(li);
-
-        while (ligne < 0 || ligne > 7) {
-            System.out.println("❌ Coordonnées impossible");
-            System.out.print("ligne : ");
-            li = scanner.nextLine();
+        if(li.equals("abandon")){
+            ligne = 10;
+        }
+        else {
             ligne = conversionLigneEnInt(li);
+
+            while (ligne < 0 || ligne > 7) {
+                System.out.println("❌ Coordonnées impossible");
+                System.out.print("ligne : ");
+                li = scanner.nextLine();
+                ligne = conversionLigneEnInt(li);
+            }
         }
         return ligne;
     }
@@ -59,16 +65,22 @@ public class methodes {
     }
 
     public static void coordonnees(int[][] plateau, char joueur, int mode) {
-        int colonne, ligne;
+        int colonne=10;
+        int ligne;
 
         do{
             System.out.println("Quelle pièce voulez vous jouer ? ");
             ligne = coordonneeLigne();
 
-            colonne = coordonneeColonne();
-        } while (colonne==10);
+            if(ligne == 10)
+                Main.abandon(plateau, joueur, mode);
+            else
+                colonne = coordonneeColonne();
+        } while (ligne!=10 && colonne==10);
 
-        appelPiece(plateau, ligne, colonne, joueur, mode);
+        if(ligne!=10) {
+            appelPiece(plateau, ligne, colonne, joueur, mode);
+        }
     }
 
     public static boolean mouvementPionRobot(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne, int piece) {
@@ -228,6 +240,7 @@ public class methodes {
                 break;
             case "8": coordonnee = 0;
                 break;
+            case "10": coordonnee = 10;
         }
         return coordonnee;
     }
@@ -344,13 +357,10 @@ public class methodes {
             } else if (plateau[ligne][colonne] == 10 || plateau[ligne][colonne] == 5) {
                 if (pieceAutour2(plateau, ligne, colonne) && pieceAutour(plateau, ligne, colonne)) {
                     System.out.println("❌ Impossible de bouger le roi");
-                    Main.abandon(plateau, ligne, colonne, -1, -1, -1, joueur, mode);
                 } else {
                     if (plateau[ligne][colonne] == 5) {
-                        Main.abandon(plateau, ligne, colonne, mvtTourA1, mvtTourH1, mvtRoiN, joueur, mode);
                         mvtRoiN++;
                     } else {
-                        Main.abandon(plateau, ligne, colonne, mvtTourA8, mvtTourH8, mvtRoiB, joueur, mode);
                         mvtRoiB++;
                     }
                 }
