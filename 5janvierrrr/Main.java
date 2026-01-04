@@ -209,7 +209,6 @@ public class Main {
                 tour++;
             }
             if (abandonJoueur) {
-                System.out.println("\n =========================================== ABANDON ============================================");
                 if(robot==1) {
                     if (tour % 2 == 0)
                         System.out.println("Félicitations ! c'est " + pseudoBlanc + " qui a gagné");
@@ -226,7 +225,7 @@ public class Main {
         }
     }
 
-    public static void abandon(int[][] plateau, int ligne, int colonne, int tourLoin, int tourProche, int Roi, char joueur, int mode) {
+    public static void abandon(int[][] plateau, char joueur, int mode) {
         Scanner sc = new Scanner(System.in);
         String abandon;
         String couleur;
@@ -246,9 +245,9 @@ public class Main {
 
         if (abandon.equals("oui")) {
             abandonJoueur=true;
+            System.out.println("\n =========================================== ABANDON ============================================");
             System.out.println("Abandon du Roi " + couleur + " !");
-        } else if (abandon.equals("non") && tourLoin!=-1) {
-            pieces.roi(plateau, ligne, colonne, tourLoin, tourProche, Roi, joueur, mode);
+            System.out.println();
         } else {
             methodes.coordonnees(plateau, joueur, mode);
         }
