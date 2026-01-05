@@ -69,6 +69,8 @@ public class methodes {
         return colonne;
     }
 
+    //Méthode appelant "coordoonneeLigne" et "coordoonneeColonne" pour sélectionner
+    //la pièce que le joueur veut jouer
     public static void coordonnees(int[][] plateau, char joueur, int mode) {
         int colonne=10;
         int ligne;
@@ -77,14 +79,15 @@ public class methodes {
             System.out.println("Quelle pièce voulez vous jouer ? ");
             ligne = coordonneeLigne();
 
-            if(ligne == 10)
+            if(ligne == 10)                                 //Si ligne = 10, appel de la méthode d'abandon
                 Main.abandon(plateau, joueur, mode);
             else
-                colonne = coordonneeColonne();
-        } while (ligne!=10 && colonne==10);
+                colonne = coordonneeColonne();              //Sinon, appel de la méthode pour choisir la colonne
 
-        if(ligne!=10) {
-            appelPiece(plateau, ligne, colonne, joueur, mode);
+        } while (ligne!=10 && colonne==10);         //redemande au joueur la pièce qu'il veut jouer tant que ligne est différent de 10 (10=abandon)
+                                                    //et colonne de 10 (recommencer la saisie de ligne)
+        if(ligne!=10) {             //Si le joueur ne voulait pas abandonner
+            appelPiece(plateau, ligne, colonne, joueur, mode);      //appel de la pièce sélectionnée
         }
     }
 
