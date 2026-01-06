@@ -22,8 +22,8 @@ public class Main {
         while (choix != 1 && choix != 2 && choix != 3) {
             choix = methodes.debut();
         }
-        if (choix == 2) {
-                choix = methodes.regles();
+        while (choix == 2) {
+            choix = methodes.regles();
         }
 
         if (choix == 3) {
