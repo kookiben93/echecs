@@ -1,6 +1,7 @@
 
 public class pieces {
 
+    //Méthode pour le Pion
     public static void pion(int[][] plateau, int ligne, int colonne, char joueur, int mode) {
         int pion = plateau[ligne][colonne];
 
@@ -45,7 +46,7 @@ public class pieces {
         }
     }
 
-    //Méthode pour la Cavalier
+    //Méthode pour le Cavalier
     public static void cavalier(int[][] plateau, int ligne, int colonne, int mode, char joueur) {
         int NvColonne;
         int NvLigne;
@@ -105,6 +106,7 @@ public class pieces {
         }
     }
 
+    //Méthode pour la Dame
     public static void dame(int[][] plateau, int ligne, int colonne, char joueur, int mode) {
         int couleur = plateau[ligne][colonne];
 
