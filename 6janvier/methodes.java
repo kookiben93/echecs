@@ -12,7 +12,7 @@ public class methodes {
     static int ligneAvant;          //Variable prenant comme valeur la ligne du Pion précédent ayant avancé de 2 cases d'un coup
     static int colonneAvant;        //Variable prenant comme valeur la colonne du Pion précédent ayant avancé de 2 cases d'un coup
 
-    //fonction qui affiche le menu du début et renvoie le choix de l'utilisateur
+    //fonction qui affiche le menu du début et renvoie le choix du joueur
     public static int debut() {
         int choix;
         Scanner scanner = new Scanner(System.in);
@@ -23,13 +23,14 @@ public class methodes {
 
         choix = methodes.conversionEnInt(choixS);   //la convertit en int
 
-        return choix;   //renvoie le choix de l'utilisateur
+        return choix;   //renvoie le choix du joueur
     }
 
     //fonction qui renvoie les règles du jeu d'échecs et raffiche le menu puis renvoie la valeur du nouveau choix
     public static int regles() {
         int choix;
 
+        //affiche les règles du jeu
         System.out.println("=======================================================================================");
         System.out.println("                             ♟ RÈGLES DU JEU D'ÉCHECS ♟\n");
         System.out.println("=======================================================================================");
@@ -63,9 +64,10 @@ public class methodes {
                 "-pat (nul)\n" + "-accord de nulle\n" + "-plus de matériel suffisant pour mater (ex : roi contre roi)");
         System.out.println("=======================================================================================");
         System.out.println();
-        choix = methodes.debut();
 
-        return choix;
+        choix = methodes.debut();   //redemande le choix en affichant le menu
+
+        return choix;               //renvoie le nouveau choix
     }
 
     //Fonction demandant la valeur de la ligne choisie en String
@@ -135,39 +137,41 @@ public class methodes {
         }
     }
 
+    //fonction qui prend un pion, ses coordonnées et de nouvelles coordonnées et renvoie si ce pion peut aller dans ces nouvelles coordonnées
     public static boolean mouvementPionRobot(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne, int piece) {
         int sens;
         int ligneDepart;
 
-        if (piece == 12) {
-            sens = -1;
+        if (piece == 12) {      //pion bleu
+            sens = -1;          //monte
             ligneDepart = 6;
-        } else {
-            sens = 1;
+        } else {                //pion jaune
+            sens = 1;           //descend
             ligneDepart = 1;
         }
 
-        if (!caseValide(nvLigne, nvColonne)) {
+        if (!caseValide(nvLigne, nvColonne)) {      //si les nouvelles coordonnées ne sont pas dans le plateau c'est faux
             return false;
         }
 
-        int distL = (nvLigne - ligne) * sens;
-        int distC = Math.abs(nvColonne - colonne);
+        int distL = (nvLigne - ligne) * sens;           //distance entre la ligne et la nouvelle ligne
+        int distC = Math.abs(nvColonne - colonne);      //distance entre la colonne et la nouvelle colonne positive
 
-        // Avancer de 1 case tout droit
-        if (distC == 0 && distL == 1 && plateau[nvLigne][nvColonne] == 0) {
+        //avancer de 1 case
+        if (distC == 0 && distL == 1 && plateau[nvLigne][nvColonne] == 0) {     //si le pion reste sur la même colonne + il avance que de 1 + la case devant lui est vide c'est vrai
             return true;
         }
 
         // Avancer de 2 cases
-        else if (distC == 0 && distL == 2 && ligne == ligneDepart && plateau[ligne + sens][colonne] == 0 && plateau[nvLigne][nvColonne] == 0) {
-            return true;
-        }
+        else if (distC == 0 && distL == 2 && ligne == ligneDepart && plateau[ligne + sens][colonne] == 0 && plateau[nvLigne][nvColonne] == 0) { //si le pion reste sur la même colonne
+            return true;                                                                                                                        // + il avance de 2 + il n'a pas bougé
+        }                                                                                                                                       // + les 2 cases devant lui sont vide
+                                                                                                                                                // c'est vrai
         // Manger en diagonale
-        else if (distC == 1 && distL == 1 && plateau[nvLigne][nvColonne] != 0 && !memeCouleur(plateau, nvLigne, nvColonne, piece)) {
-            return true;
+        else if (distC == 1 && distL == 1 && !memeCouleurEtVide(plateau, nvLigne, nvColonne, piece)) {    // si le pion va sur 1 colonne avant ou 1 après + il avance de 1
+            return true;                                                                                  // + la case ou il va n'est pas vide et est une pièce ennemi c'est vrai
         }
-        return false;
+        return false; //si aucun de ces 3 mouvements n'est bon alors ce n'est pas un mouvememnt valide pour le pion
     }
 
     //fonction booléenne qui retourne vrai si le mouvement prise en passant est possible
@@ -196,11 +200,13 @@ public class methodes {
         return mouvementValide;
     }
 
-    public static boolean mouvementRoiRobot(int ligne, int col, int nvL, int nvC) {
-        int distLigne = Math.abs(nvL - ligne);
-        int distColonne = Math.abs(nvC - col);
+    //fonction qui prend en paramètre les coordonnées du roi et de nouvelles coordonnées et renvoie si il peut y aller
+    public static boolean mouvementRoiRobot(int ligne, int colonne, int nvLigne, int nvColonne) {
+        int distLigne = Math.abs(nvLigne - ligne);           //distance entre la ligne et la nouvelle ligne
+        int distColonne = Math.abs(nvColonne - colonne);     //distance entre la colonne et la nouvelle colonne
 
-        return (distLigne <= 1 && distColonne <= 1 && (distLigne != 0 || distColonne != 0));
+        return (distLigne <= 1 && distColonne <= 1 && (distLigne != 0 || distColonne != 0));    //chaque distance peut être à 0 ou 1 car le roi n'avance que de 1
+                                                                                                //mais le roi doit bouger il ne peut pas y avoir (0,0)
     }
 
     //Méthode répertoriant et executant tous les mouvements du robot par
@@ -370,20 +376,22 @@ public class methodes {
         return coordonnee;
     }
 
+    //fonction qui renvoie la copie du plateau pris en paramètre
     public static int[][] copiePlateau(int[][] plateau) {
-        int[][] copie = new int[8][8];
+        int[][] copie = new int[8][8];                  //créé un nouveau plateau
         for (int ligne = 0; ligne < 8; ligne++) {
             for (int colonne = 0; colonne < 8; colonne++) {
-                copie[ligne][colonne] = plateau[ligne][colonne];
+                copie[ligne][colonne] = plateau[ligne][colonne];    //chaque case est copié
             }
         }
-        return copie;
+        return copie;       //renvoie la copie
     }
 
+    //méthode qui prend en paramètre un plateau et sa version précédente et va le modifier pour qu'il soit à sa version précédente
     public static void plateauPrecedent(int[][] plateau, int[][] plateauPrecedent) {
         for (int ligne = 0; ligne < 8; ligne++) {
             for (int colonne = 0; colonne < 8; colonne++) {
-                plateau[ligne][colonne] = plateauPrecedent[ligne][colonne];
+                plateau[ligne][colonne] = plateauPrecedent[ligne][colonne];     //chaque case est remis comme dans la version précédente
             }
         }
     }
@@ -392,7 +400,7 @@ public class methodes {
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode) {
         int[][] sauvegarde = copiePlateau(plateau);
 
-        if (couleurJoueur(plateau, ligne, colonne, joueur)) {        //Si le joueur joue des pièces à lui
+        if (couleurJoueur(plateau, ligne, colonne, joueur)) {        //si le joueur joue des pièces à lui
 
             //appel des pions
             if (plateau[ligne][colonne] == 6 || plateau[ligne][colonne] == 12) {
@@ -464,6 +472,8 @@ public class methodes {
                 System.out.println("❌ Case vide, veuillez recommencer");
                 coordonnees(plateau, joueur, mode);
             }
+
+            //si après le mouvement le roi est toujours en échec le joueur rejoue
             if (estEnEchec(plateau, joueur)) {
                 System.out.println("❌ Mouvement interdit : votre roi est en échec");
 
@@ -471,18 +481,18 @@ public class methodes {
 
                 coordonnees(plateau, joueur, mode);
             }
-        } else {       //Si le joueur joue des pièces de l'adversaire
+        } else {       //si le joueur joue des pièces de l'adversaire
             System.out.print("Ce ne sont pas vos pièces ! ");
             coordonnees(plateau, joueur, mode);
         }
     }
 
-    //Regarde si la Tour prise en paramètre a déjà bougé (pour le roque)
+    //fonction qui regarde si la Tour prise en paramètre a déjà bougé (pour le roque)
     public static boolean TourPasBougee(int compteurTour) {
         return compteurTour == 0;
     }
 
-    //Regarde si la pièce du plateau jouée par le joueur lui appartient et
+    //fonction qui regarde si la pièce du plateau jouée par le joueur lui appartient et
     // renvoi un booléen en fonction de si c'est le cas ou non
     public static boolean couleurJoueur(int[][] plateau, int ligne, int colonne, char joueur) {
         boolean valeur = true;
@@ -499,12 +509,12 @@ public class methodes {
         return valeur;
     }
 
-    //booleen qui prend que les cases valide du plateau
+    //fonction qui renvoie un booleen pour savoir si la case est dans le plateau
     public static boolean caseValide(int ligne, int colonne) {
         return (ligne >= 0 && ligne < 8) && (colonne >= 0 && colonne < 8);
     }
 
-    //booleen qui regarde si le mouvement du Cavalier est possible (mode 2)
+    //fonction qui renvoie un booleen pour savoir si le mouvement du Cavalier est possible (mode 2)
     public static boolean bougerCavalier(int[][] plateau, int ligne, int colonne) {
         int piece = plateau[ligne][colonne];
         int nouvelleL;
@@ -653,7 +663,7 @@ public class methodes {
         return choix;
     }
 
-    //méthode qui vérifie que les cases+1 du haut, du bas, de gauche et de droite
+    //fonction qui vérifie que les cases+1 du haut, du bas, de gauche et de droite
     //sont disponibles pour la pièce jouée actuelle
     public static boolean pieceAutour(int[][] plateau, int ligne, int colonne) {
         int piece = plateau[ligne][colonne];
@@ -682,8 +692,8 @@ public class methodes {
         return true;
     }
 
-    //méthode qui vérifie que les cases+1 du haut, du bas, de gauche, de droite
-    //et les 4 diagonales sont disponibles pour la pièce jouée actuelle
+    //fonction qui vérifie que les cases+1 des 4 diagonales
+    // sont disponibles pour la pièce jouée actuelle
     public static boolean pieceAutour2(int[][] plateau, int ligne, int colonne) {
         int piece = plateau[ligne][colonne];
         int nouvelleL;
@@ -711,23 +721,23 @@ public class methodes {
         return true;
     }
 
+    //fonction qui renvoie un boolean pour savoir si le pion peut bouger
     public static boolean pieceAutour3(int[][] plateau, int ligne, int colonne) {
         int pion = plateau[ligne][colonne];
         int sens;
 
-        // Déterminer le sens selon la couleur
-        if (pion == 12) {
-            sens = -1; // Bleu monte
-        } else {
-            sens = 1;  // Jaune descend
+        if (pion == 12) {   //pion bleu
+            sens = -1; // monte
+        } else {            //pion jaune
+            sens = 1;  // descend
         }
 
-        // On vérifie les 3 possibilités de mouvement
+        //on vérifie les 3 possibilités de mouvement
         boolean diagoGauche = caseValide(ligne + sens, colonne - 1) && !memeCouleurEtVide(plateau, ligne + sens, colonne - 1, pion);
         boolean diagoDroite = caseValide(ligne + sens, colonne + 1) && !memeCouleurEtVide(plateau, ligne + sens, colonne + 1, pion);
         boolean peutAvancer = caseValide(ligne + sens, colonne) && plateau[ligne + sens][colonne] == 0;
 
-        // Si une des options est possible, on renvoie vrai
+        //si une des options est possible on renvoie faux
         if (diagoGauche || diagoDroite || peutAvancer) {
             return false;
         } else {
@@ -782,7 +792,7 @@ public class methodes {
         plateau[7][3] = 11;
     }
 
-    //Affichage des pièces sur le plateau
+    //Affichage des pièces sur le plateau vu par les bleus
     public static void remplir(int[][] plateau) {
         String RESET = "\u001B[0m";
         String BLEU = "\u001B[34m";
@@ -831,6 +841,7 @@ public class methodes {
         System.out.println();
     }
 
+    //Affichage des pièces sur le plateau vu par les jaunes
     public static void remplir2(int[][] plateau) {
         String RESET = "\u001B[0m";
         String BLEU = "\u001B[34m";
@@ -881,9 +892,9 @@ public class methodes {
         System.out.println();
     }
 
-    //méthode qui vérifie si le mouvement est possible en vérifiant
-    //s'il y a des pièces empêchant un mouvement de plusieurs
-    //lignes (sah g la flemme de bien expliquer sorry)
+    //fonction qui vérifie si le mouvement est possible en vérifiant
+    //s'il y a des pièces empêchant un mouvement d'une distance vers une direction
+    //prisent en paramètre
     public static boolean empechement(int[][] plateau, int ligne, int colonne, int distance, int directionLigne, int directionColonne) {
         for (int i = 1; i < distance; i++) {
             int l = ligne + i * directionLigne;
@@ -926,7 +937,7 @@ public class methodes {
     }
 
 
-    //méthode qui vérifie si la pièce actuelle est de la même couleur que
+    //fonction qui vérifie si la pièce actuelle est de la même couleur que
     //celle de la couleur de la pièce de notre choix en fonction de sa
     //position dans le plateau
     public static boolean memeCouleur(int[][] plateau, int ligne, int colonne, int couleur) {
@@ -940,6 +951,9 @@ public class methodes {
         return bleu == pieceEnFace;
     }
 
+    //fonction qui vérifie si la pièce actuelle est de la même couleur que
+    //celle de la couleur de la pièce de notre choix en fonction de sa
+    //position dans le plateau ou alors qu'elle est vide
     public static boolean memeCouleurEtVide(int[][] plateau, int ligne, int colonne, int couleur) {
         if (plateau[ligne][colonne] == 0) return true;
 
@@ -1013,6 +1027,7 @@ public class methodes {
         return choix;
     }
 
+    //fonction qui renvoie les choix que peut faire le joueur pour bouger le pion
     public static int affichageChoixPion(boolean diagoDroite, boolean diagoGauche, boolean avanceUn, char joueur) {
         Scanner sc = new Scanner(System.in);
         int choix = 0;
@@ -1026,8 +1041,9 @@ public class methodes {
         if(avanceUn)
             possibilites++;
 
-        if(possibilites>1) {
+        if(possibilites>1) {        //si il y a minimum une possibilité
             while (!valide) {
+                //affichage des possibilés en fonction du joueur
                 if (joueur == 'B') {
                     if (diagoGauche)
                         System.out.print("1 prendre la pièce en diagonale gauche ");
@@ -1056,46 +1072,47 @@ public class methodes {
         return choix;
     }
 
+    //méthode qui renvoie le choix de la promotion pour son pion au joueur
     public static int ChoixPromotion(int pion){
         Scanner sc = new Scanner(System.in);
         int choix = 0;
-        int promotion = -1;
+        int promotion;
 
         while (choix != 1 && choix != 2 && choix != 3 && choix != 4) {
             System.out.print("1 promouvoir en dame, 2 promouvoir en tour, 3 promouvoir en fou, 4 promouvoir en cavalier : ");
             String choixS = sc.nextLine();
             choix = methodes.conversionEnInt(choixS);
         }
-        if (pion == 12) { // Cas du pion bleu
+        if (pion == 12) { //pion bleu
             if (choix == 1){
-                promotion = 11;
+                promotion = 11; //dame bleu
             }
             else if (choix == 2){
-                promotion = 7;
+                promotion = 7;  //tour bleu
             }
             else if (choix == 3){
-                promotion = 9;
+                promotion = 9;  //fou bleu
             }
             else {
-                promotion = 8;
+                promotion = 8;  //cavalier bleu
             }
         }
-        else {          // Cas du pion jaune
+        else {          //pion jaune
             if (choix == 1){
-                promotion = 4;
+                promotion = 4;  //dame jaune
             }
             else if (choix == 2){
-                promotion = 1;
+                promotion = 1;  //tour jaune
             }
             else if (choix == 3){
-                promotion = 3;
+                promotion = 3;  //fou jaune
             }
             else {
-                promotion = 2;
+                promotion = 2;  //cavalier jaune
             }
         }
 
-        return promotion;
+        return promotion;       //renvoie la promotion du pion
     }
 
     public static void priseEnPassantRobot(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne, int pion) {
@@ -1118,6 +1135,7 @@ public class methodes {
         }
     }
 
+    //fonction qui affiche au joueur si les coordonnées qu'il a inscrite peuvent faire bouger le pion et le fais avancer si possible (mode 2)
     public static void mouvementPion(int[][] plateau, int ligne, int colonne, int pion, char joueur) {
         int nvLigne;
         int nvColonne;
@@ -1138,6 +1156,7 @@ public class methodes {
 
             } while (nvColonne == 10);
 
+            //tous les mouvements que le pion peut faire
             mouvementValide = mouvementPionRobot(plateau, ligne, colonne, nvLigne, nvColonne, pion) || pepRobot(plateau, ligne, colonne, nvLigne, nvColonne, pion);
 
             priseEnPassantRobot(plateau, ligne, colonne, nvLigne, nvColonne, pion);
@@ -1147,21 +1166,22 @@ public class methodes {
             }
         } while (!mouvementValide);
 
-        // Mise à jour du plateau
+        //mise à jour du plateau
         plateau[ligne][colonne] = 0;
         plateau[nvLigne][nvColonne] = pion;
 
-        // Affichage du mouvement
+        //affichage du mouvement
         if(!pepRobot(plateau, ligne, colonne, nvLigne, nvColonne, pion)) {
             AffichageSituation(plateau, joueur, pion, ligne, colonne, nvLigne, nvColonne, -1, -1);
         }
 
-        // Vérification de la promotion
+        //vérification de la promotion
         if (nvLigne == ligneFin) {
             plateau[nvLigne][nvColonne] = ChoixPromotion(pion);
         }
     }
 
+    //fonction qui affiche au joueur si les coordonnées qu'il a inscrite peuvent faire bouger le roi et le fais avancer si possible (mode 2)
     public static void mouvementRoi(int[][] plateau, int ligne, int colonne, int piece, char joueur) {
         int nvLigne, nvColonne;
         boolean mouvementValide = false;
@@ -1174,14 +1194,14 @@ public class methodes {
 
             }while(nvColonne==10);
 
-            // Calcul de la distance parcourue
+            //calcul de la distance des ligne et colonne
             int distL = Math.abs(nvLigne - ligne);
             int distC = Math.abs(nvColonne - colonne);
 
-            // Le roi se déplace d'une case et il doit bouger
+            //chaque distance peut être à 0 ou 1 car le roi n'avance que de 1 mais le roi doit bouger il ne peut pas y avoir (0,0)
             if (distL <= 1 && distC <= 1 && (distL != 0 || distC != 0)) {
 
-                // On vérifie qu'il ne va pas sur une case avec ses propres pièces
+                //on vérifie qu'il va sur une case avec des ennemis ou vide
                 if (!memeCouleur(plateau, nvLigne, nvColonne, piece)) {
                     mouvementValide = true;
                 } else {
@@ -1192,26 +1212,26 @@ public class methodes {
             }
         } while (!mouvementValide);
 
-        // Mise à jour du plateau
+        // mise à jour du plateau
         plateau[ligne][colonne] = 0;
         plateau[nvLigne][nvColonne] = piece;
 
-        // Affichage du mouvement
+        //affichage du mouvement
         AffichageSituation(plateau, joueur, piece, ligne, colonne, nvLigne, nvColonne, -1, -1);
 
     }
 
-    //booleen qui recense tous les mouvements possibles du cavalier (mode 2)
+    //fonction qui renvoie un booleen qui recense tous les mouvements possibles du cavalier (mode 2)
     public static boolean mouvementCavalier(int ligne, int colonne, int nvLigne, int nvColonne) {
         return (Math.abs(nvLigne-ligne)==2 && Math.abs(nvColonne-colonne)==1) || (Math.abs(nvLigne-ligne)==1 && Math.abs(nvColonne-colonne)==2);
     }
 
-    //booleen qui recense tous les mouvements possibles de la Tour (mode 2)
+    //fonction qui renvoie un booleen qui recense tous les mouvements possibles de la Tour (mode 2)
     public static boolean mouvementTour(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
         return (nvLigne==ligne && nvColonne!=colonne) || (nvLigne!=ligne && nvColonne==colonne) && !empechementRobot(plateau, ligne, colonne, nvLigne, nvColonne);    //mouvements seulement droits
     }
 
-    //booleen qui recense tous les mouvements possibles du fou (mode 2)
+    //fonction qui renvoie un booleen qui recense tous les mouvements possibles du fou (mode 2)
     public static boolean mouvementFou(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
         return Math.abs(nvLigne - ligne) == Math.abs(nvColonne - colonne) && !empechementRobot(plateau, ligne, colonne, nvLigne, nvColonne);      //mouvements seulement en diagonale
     }
@@ -1289,6 +1309,7 @@ public class methodes {
         return caseValide(ligne + 1, colonne) && !(memeCouleur(plateau, ligne + 1, colonne, couleur));
     }
 
+    //fonction qui affiche au joueur les possibilités pour faire avancer son pion et le fais avancer si possible (mode 1)
     public static void BougePion(int[][] plateau, int ligne, int colonne, char joueur, int pion) {
         Scanner sc = new Scanner(System.in);
 
@@ -1296,34 +1317,32 @@ public class methodes {
         int reponse = -1;
         boolean priseEnPassantG = pepPossibleGauche(plateau, ligne, colonne, pion);
         boolean priseEnPassantD = pepPossibleDroite(plateau, ligne, colonne, pion);
-        // On définit les règles selon la couleur du pion
+
         int sens;           // -1 pour monter, 1 pour descendre
-        int ligneDepart;    // La ligne où il peut avancer de 2
-        int ligneFin;       // La ligne où il a une promotion
+        int ligneDepart;    //la ligne où il peut avancer de 2
+        int ligneFin;       //la ligne où il a une promotion
         int NvLigne = ligne;
         int NvColonne = colonne;
-        /*int direction = 0;*/
 
-        if (pion == 12) { // Cas du pion bleu
+        if (pion == 12) { //pion bleu
             sens = -1;
             ligneDepart = 6;
             ligneFin = 0;
-        } else {         // Cas du pion jaune
+        } else {         //pion jaune
             sens = 1;
             ligneDepart = 1;
             ligneFin = 7;
         }
 
-        // On regarde ce qu'il y a autour
+        //on regarde ce qu'il y a autour
         boolean diagoDroite = caseValide(ligne + sens, colonne + 1) && !memeCouleurEtVide(plateau, ligne + sens, colonne + 1, pion);
         boolean diagoGauche = caseValide(ligne + sens, colonne - 1) && !memeCouleurEtVide(plateau, ligne + sens, colonne - 1, pion);
         boolean peutAvancerUn = plateau[ligne + sens][colonne] == 0;
         boolean peutAvancerDeux = (ligne == ligneDepart) && plateau[ligne + (2 * sens)][colonne] == 0;
 
-        // Demander au joueur ce qu'il veut faire
+        //choix du joueur
         int choix = affichageChoixPion(diagoDroite, diagoGauche, peutAvancerUn, joueur);
 
-        // On vide la case de départ
         plateau[ligne][colonne] = 0;
 
         if (priseEnPassantG || priseEnPassantD) {
@@ -1343,15 +1362,13 @@ public class methodes {
         }
         else {
             pep = false;
-            if ((diagoGauche && !diagoDroite && !peutAvancerUn) || choix == 1) { // Mouvement Diagonale Gauche
+            if ((diagoGauche && !diagoDroite && !peutAvancerUn) || choix == 1) { //mouvement diagonale gauche
                 NvLigne = ligne + sens;
                 NvColonne = colonne - 1;
-                /*direction = 5;*/
-            } else if ((!diagoGauche && diagoDroite && !peutAvancerUn) || choix == 2) { // Mouvement Diagonale Droite
+            } else if ((!diagoGauche && diagoDroite && !peutAvancerUn) || choix == 2) { //mouvement diagonale droite
                 NvLigne = ligne + sens;
                 NvColonne = colonne + 1;
-                /*direction = 6;*/
-            } else if ((!diagoGauche && !diagoDroite && peutAvancerUn) || choix == 3) { // Avancer tout droit
+            } else if ((!diagoGauche && !diagoDroite && peutAvancerUn) || choix == 3) { //avancer tout droit
                 if (peutAvancerDeux) {
                     do {
                         System.out.print("Avancer de 1 ou 2 cases : ");
@@ -1367,10 +1384,9 @@ public class methodes {
                 } else {
                     NvLigne = ligne + sens;
                 }
-                /*direction = 1;*/
             }
 
-            // On place le pion ou la promotion
+            //on place le pion ou la promotion
             if (NvLigne == ligneFin) {
                 plateau[NvLigne][NvColonne] = ChoixPromotion(pion);
             } else {
@@ -1380,6 +1396,7 @@ public class methodes {
         }
     }
 
+    //fonction qui affiche au joueur les possibilités pour faire avancer son roi et le fais avancer si possible (mode 1)
     public static void BougeRoi(int[][] plateau, int ligne, int colonne, char joueur, int couleur, int mvtTourLoin, int mvtTourProche, int mvtRoi){
         Scanner sc = new Scanner(System.in);
 
@@ -1414,7 +1431,7 @@ public class methodes {
         if (oui == 1) {
             roque(plateau, couleur, ligne, colonne, TourLointaine, TourProche);
         } else {
-            if (ligneDroite && diagonale) {
+            if (ligneDroite && diagonale) {         //si il peut faire les 2 on affiche le choix sinon non
                 while (choix != 1 && choix != 2) {
                     System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale");
                     String choixS = sc.nextLine();
@@ -1434,6 +1451,7 @@ public class methodes {
         }
     }
 
+    //fonction qui affiche au joueur les possibilités pour faire avancer sa dame et la fais avancer si possible (mode 1)
     public static void BougeDame(int[][] plateau, int ligne, int colonne, char joueur, int couleur, int mode){
         Scanner sc = new Scanner(System.in);
         int choix = 0;
@@ -1452,7 +1470,7 @@ public class methodes {
         boolean diagonale = (hautGauche || hautDroite || basGauche || basDroite);
 
         if (ligneDroite && diagonale) {
-            while (choix != 1 && choix != 2) {
+            while (choix != 1 && choix != 2) {      //si il peut faire les 2 on affiche le choix sinon non
                 System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale : ");
                 String choixS = sc.nextLine();
                 choix = methodes.conversionEnInt(choixS);
@@ -1563,8 +1581,8 @@ public class methodes {
             Methode1(plateau, ligne, colonne, couleur, hautBas, gaucheDroite, valeurDirection, joueur);
         }
         else{       //rois
-            int NvLigne = ligne + hautBas;            //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
-            int NvColonne = colonne + gaucheDroite;   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
+            int NvLigne = ligne + hautBas;            //change en fonction de si le joueur veut monter/descendre ou aucun des 2
+            int NvColonne = colonne + gaucheDroite;   //change en fonction de si le joueur veut aller à gauche/droite ou aucun des 2
 
             AffichageSituation(plateau, joueur, couleur, ligne, colonne, NvLigne, NvColonne, 1, valeurDirection);
 
@@ -1606,8 +1624,8 @@ public class methodes {
             Methode1(plateau, ligne, colonne, couleur, hautBas, gaucheDroite, valeurDirection, joueur);
         }
         else{
-            int NvLigne = ligne + hautBas;            //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
-            int NvColonne = colonne + gaucheDroite;   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
+            int NvLigne = ligne + hautBas;            //change en fonction de si le joueur veut monter/descendre ou aucun des 2
+            int NvColonne = colonne + gaucheDroite;   //change en fonction de si le joueur veut aller à gauche/droite ou aucun des 2
 
             AffichageSituation(plateau, joueur, couleur, ligne, colonne, NvLigne, NvColonne, 1, valeurDirection);
 
@@ -1769,13 +1787,13 @@ public class methodes {
         int choix=1;
 
         if(!empechement(plateau, ligne, colonne, 3, hautBas, gaucheDroite)) {
-            System.out.print("Tu veux avancer de combien ? ");      //demande de combien l'utilisateur veut se déplacer sans prendre en compte la direction
+            System.out.print("Tu veux avancer de combien ? ");      //demande de combien le joueur veut se déplacer sans prendre en compte la direction
             String choixS = sc.nextLine();
             choix = methodes.conversionEnInt(choixS);
         }
         boolean empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
-        NvLigne = ligne + (hautBas * choix);        //change en fonction de si l'utilisateur veut monter/descendre ou aucun des 2
-        NvColonne = colonne + (gaucheDroite * choix);   //change en fonction de si l'utilisateur veut aller à gauche/droite ou aucun des 2
+        NvLigne = ligne + (hautBas * choix);        //change en fonction de si le joueur veut monter/descendre ou aucun des 2
+        NvColonne = colonne + (gaucheDroite * choix);   //change en fonction de si le joueur veut aller à gauche/droite ou aucun des 2
 
         while (!(caseValide(NvLigne, NvColonne)) || memeCouleur(plateau, NvLigne, NvColonne, couleur) || empechement) {
             System.out.println("❌ impossible d'avancer jusque là");
@@ -1923,94 +1941,47 @@ public class methodes {
         return false;
     }
 
-    /*public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligneRoi, int colonneRoi) {
-        int piece = plateau[ligneEnnemi][colonneEnnemi];
-        boolean possible = false;
-
-        // cas du cavalier
-        if (piece == 2 || piece == 8) {
-            if (mouvementCavalier(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
-                possible = true;
-            }
-        }
-
-        // cas de la tour
-        else if (piece == 1 || piece == 7) {
-            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
-                    possible = true;
-                }
-            }
-
-        // cas du fou
-        else if (piece == 3 || piece == 9) {
-            if (mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
-                    possible = true;
-                }
-            }
-
-        // cas de la dame
-        else if (piece == 4 || piece == 11) {
-            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi) ||
-                    mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
-                    possible = true;
-                }
-            }
-
-        // cas du pion
-        else if (piece == 6) { // Pion Jaune
-            if (ligneRoi == ligneEnnemi + 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
-                possible = true;
-            }
-        }
-        else if (piece == 12) { // Pion Bleu
-            if (ligneRoi == ligneEnnemi - 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
-                possible = true;
-            }
-        }
-        return possible;
-    }*/
-
     public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligneRoi, int colonneRoi) {
         int piece = plateau[ligneEnnemi][colonneEnnemi];
         boolean possible = false;
 
-        // cas du cavalier
+        //cas du cavalier
         if (piece == 2 || piece == 8) {
             if (mouvementCavalier(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 possible = true;
             }
         }
 
-        // cas de la tour
+        //cas de la tour
         else if (piece == 1 || piece == 7) {
-            // On regarde si la tour est dans la même ligne ou même colonne que le roi
+            //on regarde si la tour est dans la même ligne ou même colonne que le roi
             if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
-                // On calcule la distance et la direction du mouvement
+                //on calcule la distance et la direction du mouvement
                 int distance = Math.max(Math.abs(ligneRoi - ligneEnnemi), Math.abs(colonneRoi - colonneEnnemi));
 
                 int directionLigne = 0;
-                if (ligneRoi > ligneEnnemi){    // La tour attaque du haut
+                if (ligneRoi > ligneEnnemi){    //la tour attaque du haut
                     directionLigne = 1;
                 }
-                else if (ligneRoi < ligneEnnemi){   // La tour attaque du bas
+                else if (ligneRoi < ligneEnnemi){   //la tour attaque du bas
                     directionLigne = -1;
                 }
                 int directionColonne = 0;
-                if (colonneRoi > colonneEnnemi){    // La tour attaque de la gauche
+                if (colonneRoi > colonneEnnemi){    //la tour attaque de la gauche
                     directionColonne = 1;
                 }
-                else if (colonneRoi < colonneEnnemi){   // La tour attaque de la droite
+                else if (colonneRoi < colonneEnnemi){   //la tour attaque de la droite
                     directionColonne = -1;
                 }
 
-                // On vérifie s'il y a un obstacle sur le chemin
+                //on vérifie s'il y a un obstacle sur le chemin
                 if (!empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne)) {
                     possible = true;
                 }
             }
         }
 
-        // cas du fou
+        //cas du fou
         else if (piece == 3 || piece == 9) {
             if (mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 int distance = Math.abs(ligneRoi - ligneEnnemi);
@@ -2037,7 +2008,7 @@ public class methodes {
             }
         }
 
-        // cas de la dame
+        //cas de la dame
         else if (piece == 4 || piece == 11) {
             if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi) ||
                     mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
@@ -2055,7 +2026,7 @@ public class methodes {
                 if (colonneRoi > colonneEnnemi){    //la dame attaque de la gauche
                     directionColonne = 1;
                 }
-                else if (colonneRoi < colonneEnnemi){   //le fou attaque de la droite
+                else if (colonneRoi < colonneEnnemi){   //la dame attaque de la droite
                     directionColonne = -1;
                 }
 
@@ -2065,13 +2036,13 @@ public class methodes {
             }
         }
 
-        // cas du pion
-        else if (piece == 6) { // Pion Jaune
+        //cas du pion
+        else if (piece == 6) { //pion Jaune
             if (ligneRoi == ligneEnnemi + 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
                 possible = true;
             }
         }
-        else if (piece == 12) { // Pion Bleu
+        else if (piece == 12) { //pion Bleu
             if (ligneRoi == ligneEnnemi - 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
                 possible = true;
             }
@@ -2079,11 +2050,9 @@ public class methodes {
         return possible;
     }
 
-
-
-
+    //fonction qui renvoie un booléen pour savoir si le joueur a son roi en echec ou non
     public static boolean estEnEchec(int[][] plateau, char joueur) {
-        //Couleur du roi
+        //couleur du roi
         int Roi;
         if (joueur == 'B') {
             Roi = 10;
@@ -2091,7 +2060,7 @@ public class methodes {
             Roi = 5;
         }
 
-        // Trouver la position du Roi sur le plateau
+        // on trouve la position du roi sur le plateau
         int roiL = -1;
         int roiC = -1;
         for (int l = 0; l < 8; l++) {
@@ -2103,10 +2072,11 @@ public class methodes {
             }
         }
 
-        // Parcourir tout le plateau pour trouver les pièces ennemies
+        //on parcourt tout le plateau pour trouver les pièces ennemies
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
                 int piece = plateau[l][c];
+                //si la piece n'est pas une case vide + une piece ennemie + elle peut attaquer le roi alors c'est vrai
                 if (piece != 0 && !memeCouleur(plateau, l, c, Roi) && peutAttaquer(plateau, l, c, roiL, roiC)) {
                     return true;
                 }
@@ -2131,48 +2101,49 @@ public class methodes {
         return false;
     }
 
-    public static boolean mouvementDame(int[][] plateau, int l, int c, int nl, int nc) {
-        return mouvementTour(plateau, l, c, nl, nc) ||
-                mouvementFou(plateau, l, c, nl, nc);
-    }
-
+    //fonction qui renvoie un booléen pour savoir si le joueur est en échec et mat
     public static boolean estEnEchecEtMat(int[][] plateau, char joueur) {
 
-        if (!estEnEchec(plateau, joueur)) return false;
+        //si le joueur n'est pas en échec c'est faux
+        if (!estEnEchec(plateau, joueur)){
+            return false;
+        }
 
         boolean joueurBleu = (joueur == 'B');
 
+        //on parcourt tout le tableau et on prend chaque pièce
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
 
                 int piece = plateau[l][c];
-                if (piece != 0) {
-                    if ((joueurBleu && piece > 6) || (!joueurBleu && piece <= 6)) {
+                if (piece != 0) {   //si la piece n'est pas une case vide
+                    if ((joueurBleu && piece > 6) || (!joueurBleu && piece <= 6)) { //si la pièce appartient au joueur
 
+                        //on parcourt encore le tableau et on prend chaque destination
                         for (int nl = 0; nl < 8; nl++) {
                             for (int nc = 0; nc < 8; nc++) {
 
                                 boolean mouvementValide = false;
-                                if (caseValide(nl, nc) && !memeCouleur(plateau, nl, nc, piece)) {
+                                //si la destination de la pièce est soit vide soit c'est une pièce ennemie
+                                if (!memeCouleur(plateau, nl, nc, piece)) {
 
-                                    if (piece == 5 || piece == 10) {
+                                    if (piece == 5 || piece == 10) {    //mouvement roi
                                         mouvementValide = mouvementRoiRobot(l, c, nl, nc);
-                                    } else if (piece == 6 || piece == 12) {
+                                    } else if (piece == 6 || piece == 12) {     //mouvement pion
                                         mouvementValide = mouvementPionRobot(plateau, l, c, nl, nc, piece);
-                                    }else if (piece == 8 || piece == 2) {
-                                        mouvementValide = mouvementCavalier(l, c, nl, nc);
-                                    } else {
+                                    } else {        //autres pièces
                                         mouvementValide = peutAttaquer(plateau, l, c, nl, nc);
                                     }
                                 }
 
-                                if (mouvementValide) {
+                                if (mouvementValide) {      //si le mouvement est valide
 
+                                    //on simule le coup que cela ferait sur une copie
                                     int[][] copie = copiePlateau(plateau);
                                     copie[nl][nc] = piece;
                                     copie[l][c] = 0;
 
-                                    if (!estEnEchec(copie, joueur)) {
+                                    if (!estEnEchec(copie, joueur)) {   //si le roi n'est plus en échec après la simulation alors il y a une moyen de parer l'échec donc faux
                                         return false;
                                     }
                                 }
@@ -2182,6 +2153,7 @@ public class methodes {
                 }
             }
         }
+        //après avoir tester toutes les pièces le programme n'a pas renvoyer faux donc vrai
         return true;
     }
 }
