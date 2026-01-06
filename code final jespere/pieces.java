@@ -1,4 +1,3 @@
-
 public class pieces {
 
     //Méthode pour le Pion
@@ -40,9 +39,9 @@ public class pieces {
         int couleur = plateau[ligne][colonne]; //couleur de la pièce
 
         if (mode == 1) {
-            methodes.BougeRoi(plateau, ligne, colonne, joueur, couleur, mvtTourLoin, mvtTourProche, mvtRoi);
+            methodes.demandeRoque(plateau, ligne, colonne, couleur, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 1);
         } else {
-            methodes.mouvementRoi(plateau, ligne, colonne, couleur, joueur);
+            methodes.demandeRoque(plateau, ligne, colonne, couleur, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 1);
         }
     }
 
