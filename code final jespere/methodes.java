@@ -1833,7 +1833,7 @@ public class methodes {
         return pieces;
     }
     public static String direction(int direction, int piece){
-        String directions="vide";
+        String directions="";
 
         if(piece<=6) {
             switch (direction) {
@@ -1880,6 +1880,7 @@ public class methodes {
         return directions;
     }
 
+    //Méthode affichant chaque mouvement effectué par le joueur précédent pour faciliter la compréhension du jeu
     public static void AffichageSituation(int[][] plateau, char joueur, int pieceC, int ligne, int colonne, int nvLigne, int nvColonne, int distance, int direction) {
         String piece = piece(pieceC);
         String directions = direction(direction, pieceC);
@@ -1887,21 +1888,23 @@ public class methodes {
         String col = conversionEnString(colonne);
         String nvCol = conversionEnString(nvColonne);
 
-        if (!estEnEchec(plateau, joueur)) {
+        if (!estEnEchec(plateau, joueur)) {     //affichage que si le mouvement ne met pas en échec
             if (pieceC > 6)
                 couleur = "bleue ";
             else
                 couleur = "jaune ";
 
             System.out.println();
-            if (distance > 0) {
+            if (distance > 0) {         //pour le mode 1 (débutant)
                 System.out.println("\uD83C\uDF1F " + piece + couleur + "avance de " + distance + " cases " + directions + " (" + col + "," + (8-ligne) + ") -> (" + nvCol + "," + (8 - nvLigne) + ")");
-            } else {
+            } else {                    //pour le mode 2 (moyen) -> plus "pro"
                 System.out.println("\uD83C\uDF1F " + piece + couleur + "s'est déplacé de la case (" + col + "," + (8 - ligne) + ") vers la case (" + nvCol + "," + (8 - nvLigne)+ ")");
             }
         }
     }
 
+    //fonction booléenne qui parcourt tout le tableau et retourne vrai quand un
+    //des cas de matériel insuffisant est présent (cas énumérés dans la méthode)
     public static boolean MaterielInsuffisant(int[][] plateau){
         int nbFou = 0;
         int nbCavalier = 0;
