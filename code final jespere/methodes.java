@@ -1173,15 +1173,9 @@ public class methodes {
     }
 
     //fonction qui affiche au joueur si les coordonnées qu'il a inscrite peuvent faire bouger le roi et le fais avancer si possible (mode 2)
-    public static void mouvementRoi(int[][] plateau, int ligne, int colonne, int piece, char joueur) {
+    public static void mouvementRoi(int[][] plateau, int ligne, int colonne, char joueur, int roi) {
         int nvLigne, nvColonne;
         boolean mouvementValide = false;
-
-        /*boolean TourLointaine = TourPasBougee(mvtTourLoin);
-        boolean TourProche = TourPasBougee(mvtTourProche);
-        boolean mouvementAzero = nbMouvementsTourRoi(TourLointaine, TourProche, mvtRoi);
-        boolean petit = PetitRoque(plateau, ligne, colonne, TourProche, couleur);
-        boolean grand = GrandRoque(plateau, ligne, colonne, TourLointaine, couleur);*/
 
         do {
             do {
@@ -1199,7 +1193,7 @@ public class methodes {
             if (distL <= 1 && distC <= 1 && (distL != 0 || distC != 0)) {
 
                 //on vérifie qu'il va sur une case avec des ennemis ou vide
-                if (!memeCouleur(plateau, nvLigne, nvColonne, piece)) {
+                if (!memeCouleur(plateau, nvLigne, nvColonne, roi)) {
                     mouvementValide = true;
                 } else {
                     System.out.println("Le roi ne peut pas aller là");
@@ -1211,10 +1205,10 @@ public class methodes {
 
         // mise à jour du plateau
         plateau[ligne][colonne] = 0;
-        plateau[nvLigne][nvColonne] = piece;
+        plateau[nvLigne][nvColonne] = roi;
 
         //affichage du mouvement
-        AffichageSituation(plateau, joueur, piece, ligne, colonne, nvLigne, nvColonne, -1, -1);
+        AffichageSituation(plateau, joueur, roi, ligne, colonne, nvLigne, nvColonne, -1, -1);
 
     }
 
@@ -1394,17 +1388,9 @@ public class methodes {
     }
 
     //fonction qui affiche au joueur les possibilités pour faire avancer son roi et le fais avancer si possible (mode 1)
-    public static void BougeRoi(int[][] plateau, int ligne, int colonne, char joueur, int couleur, int mvtTourLoin, int mvtTourProche, int mvtRoi){
+    public static void BougeRoi(int[][] plateau, int ligne, int colonne, char joueur, int couleur) {
         Scanner sc = new Scanner(System.in);
-
         int choix = 0;
-        int oui = 0;
-
-        boolean TourLointaine = TourPasBougee(mvtTourLoin);
-        boolean TourProche = TourPasBougee(mvtTourProche);
-        boolean mouvementAzero = nbMouvementsTourRoi(TourLointaine, TourProche, mvtRoi);
-        boolean petit = PetitRoque(plateau, ligne, colonne, TourProche, couleur);
-        boolean grand = GrandRoque(plateau, ligne, colonne, TourLointaine, couleur);
 
         boolean haut = haut(plateau, ligne, colonne, joueur);
         boolean gauche = gauche(plateau, ligne, colonne, joueur);
@@ -1419,31 +1405,22 @@ public class methodes {
         boolean ligneDroite = (haut || gauche || droite || bas);
         boolean diagonale = (hautGauche || hautDroite || basGauche || basDroite);
 
-        if (mouvementAzero && (petit || grand)) {
-            System.out.print("Voulez-vous roquer ? (1 pour oui, n'importe pour non) : ");
-            String ouiS = sc.nextLine();
-            oui = methodes.conversionEnInt(ouiS);
+        if (ligneDroite && diagonale) {         //si il peut faire les 2 on affiche le choix sinon non
+            while (choix != 1 && choix != 2) {
+                System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale : ");
+                String choixS = sc.nextLine();
+                choix = methodes.conversionEnInt(choixS);
+            }
+        } else if (ligneDroite) {
+            choix = 1;
+        } else if (diagonale) {
+            choix = 2;
         }
-        if (oui == 1) {
-            roque(plateau, couleur, ligne, colonne, TourLointaine, TourProche);
-        } else {
-            if (ligneDroite && diagonale) {         //si il peut faire les 2 on affiche le choix sinon non
-                while (choix != 1 && choix != 2) {
-                    System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale : ");
-                    String choixS = sc.nextLine();
-                    choix = methodes.conversionEnInt(choixS);
-                }
-            } else if (ligneDroite) {
-                choix = 1;
-            } else if (diagonale) {
-                choix = 2;
-            }
 
-            if (choix == 1) {
-                BougeTour(plateau, ligne, colonne, couleur, joueur);
-            } else if (choix == 2) {
-                BougeFou(plateau, ligne, colonne, couleur, joueur);
-            }
+        if (choix == 1) {
+            BougeTour(plateau, ligne, colonne, couleur, joueur);
+        } else if (choix == 2) {
+            BougeFou(plateau, ligne, colonne, couleur, joueur);
         }
     }
 
@@ -1630,10 +1607,39 @@ public class methodes {
         }
     }
 
+    public static int demandeRoque(int[][] plateau, int ligne, int colonne, int couleur, char joueur, int mvtTourLoin, int mvtTourProche, int mvtRoi, int mode){
+        Scanner sc = new Scanner(System.in);
+
+        boolean TourLointaine = TourPasBougee(mvtTourLoin);
+        boolean TourProche = TourPasBougee(mvtTourProche);
+        boolean mouvementAzero = nbMouvementsTourRoi(TourLointaine, TourProche, mvtRoi);
+        boolean petit = PetitRoque(plateau, ligne, colonne, TourProche, couleur);
+        boolean grand = GrandRoque(plateau, ligne, colonne, TourLointaine, couleur);
+        int oui=0;
+
+        if (mouvementAzero && (petit || grand)) {
+            System.out.print("Voulez-vous roquer ? (1 pour oui, n'importe pour non) : ");
+            String ouiS = sc.nextLine();
+            oui = methodes.conversionEnInt(ouiS);
+        }
+        if (oui == 1) {
+            roque(plateau, couleur, ligne, colonne, TourLointaine, TourProche);
+        }
+        else{
+            if (mode == 1){
+                BougeRoi(plateau, ligne, colonne, joueur, couleur);
+            }
+            else{
+                methodes.mouvementRoi(plateau, ligne, colonne, joueur, couleur);
+            }
+        }
+        return oui;
+    }
+
     public static void roque(int[][] plateau, int Roi, int ligne, int colonne, boolean tourLoin, boolean tourProche){
         int Tour;
         String couleur;
-        int choix = demandeRoque(plateau, ligne, colonne, tourLoin, tourProche, Roi);
+        int choix = demandeTourRoque(plateau, ligne, colonne, tourLoin, tourProche, Roi);
         String col4 = conversionEnString(colonne+4);
         String col5 = conversionEnString(5-colonne);
 
@@ -1662,7 +1668,7 @@ public class methodes {
             plateau[ligne][colonne-1] = Tour;
         }
     }
-    public static int demandeRoque(int[][] plateau, int ligne, int colonne, boolean TourLoin, boolean TourProche, int roi){
+    public static int demandeTourRoque(int[][] plateau, int ligne, int colonne, boolean TourLoin, boolean TourProche, int roi){
         Scanner scanner = new Scanner(System.in);
 
         boolean petit = PetitRoque(plateau, ligne, colonne, TourProche, roi);
