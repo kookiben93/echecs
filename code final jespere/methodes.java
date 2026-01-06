@@ -1429,7 +1429,7 @@ public class methodes {
         } else {
             if (ligneDroite && diagonale) {         //si il peut faire les 2 on affiche le choix sinon non
                 while (choix != 1 && choix != 2) {
-                    System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale");
+                    System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale : ");
                     String choixS = sc.nextLine();
                     choix = methodes.conversionEnInt(choixS);
                 }
@@ -1941,104 +1941,42 @@ public class methodes {
         int piece = plateau[ligneEnnemi][colonneEnnemi];
         boolean possible = false;
 
-        //cas du cavalier
+        // cas du cavalier
         if (piece == 2 || piece == 8) {
             if (mouvementCavalier(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
                 possible = true;
             }
         }
 
-        //cas de la tour
+        // cas de la tour
         else if (piece == 1 || piece == 7) {
-            //on regarde si la tour est dans la même ligne ou même colonne que le roi
             if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
-                //on calcule la distance et la direction du mouvement
-                int distance = Math.max(Math.abs(ligneRoi - ligneEnnemi), Math.abs(colonneRoi - colonneEnnemi));
-
-                int directionLigne = 0;
-                if (ligneRoi > ligneEnnemi){    //la tour attaque du haut
-                    directionLigne = 1;
-                }
-                else if (ligneRoi < ligneEnnemi){   //la tour attaque du bas
-                    directionLigne = -1;
-                }
-                int directionColonne = 0;
-                if (colonneRoi > colonneEnnemi){    //la tour attaque de la gauche
-                    directionColonne = 1;
-                }
-                else if (colonneRoi < colonneEnnemi){   //la tour attaque de la droite
-                    directionColonne = -1;
-                }
-
-                //on vérifie s'il y a un obstacle sur le chemin
-                if (!empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne)) {
-                    possible = true;
-                }
+                possible = true;
             }
         }
 
-        //cas du fou
+        // cas du fou
         else if (piece == 3 || piece == 9) {
             if (mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
-                int distance = Math.abs(ligneRoi - ligneEnnemi);
-
-                int directionLigne = 0;
-                if (ligneRoi > ligneEnnemi){        //le fou attaque du haut
-                    directionLigne = 1;
-                }
-                else if (ligneRoi < ligneEnnemi){   //le fou attaque du bas
-                    directionLigne = -1;
-                }
-
-                int directionColonne = 0;
-                if (colonneRoi > colonneEnnemi){        //le fou attaque de la gauche
-                    directionColonne = 1;
-                }
-                else if (colonneRoi < colonneEnnemi){   //le fou attaque de la droite
-                    directionColonne = -1;
-                }
-
-                if (!empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne)) {
-                    possible = true;
-                }
+                possible = true;
             }
         }
 
-        //cas de la dame
+        // cas de la dame
         else if (piece == 4 || piece == 11) {
             if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi) ||
                     mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
-
-                int distance = Math.max(Math.abs(ligneRoi - ligneEnnemi), Math.abs(colonneRoi - colonneEnnemi));
-
-                int directionLigne = 0;
-                if (ligneRoi > ligneEnnemi){        //la dame attaque du haut
-                    directionLigne = 1;
-                }
-                else if (ligneRoi < ligneEnnemi){   //la dame attaque du bas
-                    directionLigne = -1;
-                }
-                int directionColonne = 0;
-                if (colonneRoi > colonneEnnemi){    //la dame attaque de la gauche
-                    directionColonne = 1;
-                }
-                else if (colonneRoi < colonneEnnemi){   //la dame attaque de la droite
-                    directionColonne = -1;
-                }
-
-                if (!empechement(plateau, ligneEnnemi, colonneEnnemi, distance, directionLigne, directionColonne)) {
-                    possible = true;
-                }
+                possible = true;
             }
         }
 
-        //cas du pion
-        else if (piece == 6) { //pion Jaune
+        // cas du pion
+        else if (piece == 6) { // Pion Jaune
             if (ligneRoi == ligneEnnemi + 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
                 possible = true;
             }
         }
-        else if (piece == 12) { //pion Bleu
+        else if (piece == 12) { // Pion Bleu
             if (ligneRoi == ligneEnnemi - 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
                 possible = true;
             }
