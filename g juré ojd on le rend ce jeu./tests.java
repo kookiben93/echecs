@@ -1,4 +1,3 @@
-
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +37,6 @@ class MethodesTest {
         assertTrue(methodes.mouvementTour(plateau, 6, 4, 6, 6), "cas mouvement horizontal");
         assertTrue(methodes.mouvementTour(plateau, 6, 4, 3, 4), "cas mouvement vertical");
         assertTrue(methodes.mouvementTour(plateau, 6, 4, 2, 4), "cas prise d'une pièce ennemie");
-        //assertFalse(methodes.mouvementTour(plateau, 6, 4, 6, 0), "cas mouvement impossible (obstacle)");
         assertFalse(methodes.mouvementTour(plateau, 6, 4, 6, 4), " cas aucun mouvement");
     }
 
@@ -100,4 +98,34 @@ class MethodesTest {
         plateau[3][3] = 4;  //dame jaune
         assertFalse(methodes.MaterielInsuffisant(plateau), "cas materiel suffisant");
     }
+
+    @Test
+    void testPat() {
+
+        int[][] plateau1 = {
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 5, 0, 0, 0},       // roi jaune (4,4)
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 4, 0, 0},       // dame jaune (6,5)
+                {0, 0, 0, 0, 0, 0, 0, 10}       // roi bleu (7,7)
+        };
+        assertTrue(methodes.pat(plateau1, 'B'), "cas pat");
+
+        int[][] plateau2 = {
+                {0, 0, 0, 0, 4, 0, 0, 0},       // dame jaune (0,4)
+                {5, 0, 0, 0, 0, 0, 0, 0},       //roi jaune (1, 0)
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 10, 0, 0, 0}       // roi bleu (7, 4)
+        };
+        assertFalse(methodes.pat(plateau2, 'B'), "cas pas pat (le roi peut bouger)");
+    }
+
 }
+
