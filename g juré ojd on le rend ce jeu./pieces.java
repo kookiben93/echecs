@@ -101,6 +101,7 @@ public class pieces {
             String NvCol = methodes.conversionEnString(NvColonne);
 
             //affichage du mouvement et déplacement de la pièce
+            System.out.println();
             System.out.println("\uD83C\uDF1F " + "Le cavalier s'est déplacé en L de la case (" + (8 - ligne) + ',' + col + ") jusqu'à la case (" + (8 - NvLigne) + "," + NvCol + ")");
             plateau[ligne][colonne] = 0;
             plateau[NvLigne][NvColonne] = cavalier;
