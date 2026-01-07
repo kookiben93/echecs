@@ -2064,6 +2064,8 @@ public class methodes {
         return false;
     }
 
+    //fonction qui renvoie un booleen pour savoir si une piece de coordonnée (ligneEnnemi, colonneEnnemi) est en 
+    //train d'attaquer le roi (ou une autre pièce) de coordonnée (ligneRoi, colonneRoi)
     public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligneRoi, int colonneRoi) {
         int piece = plateau[ligneEnnemi][colonneEnnemi];
         boolean possible = false;
