@@ -41,7 +41,7 @@ public class pieces {
         if (mode == 1) {
             methodes.demandeRoque(plateau, ligne, colonne, couleur, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 1);
         } else {
-            methodes.demandeRoque(plateau, ligne, colonne, couleur, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 1);
+            methodes.demandeRoque(plateau, ligne, colonne, couleur, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 2);
         }
     }
 
