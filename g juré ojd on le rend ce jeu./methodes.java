@@ -2064,8 +2064,8 @@ public class methodes {
         return false;
     }
 
-    //fonction qui renvoie un booleen pour savoir si une piece de coordonnée (ligneEnnemi, colonneEnnemi) peut aller
-    //sur la case de coordonnée (ligne, colonne) (s'il peut l'attaquer)
+    //fonction qui renvoie vrai si une piece de coordonnée (ligneEnnemi, colonneEnnemi) peut aller
+    //sur la case de coordonnée (ligne, colonne) (s'il peut l'attaquer) et faux sinon
     public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligne, int colonne) {
         int piece = plateau[ligneEnnemi][colonneEnnemi];
         boolean possible = false;
