@@ -469,7 +469,7 @@ public class methodes {
                 coordonnees(plateau, joueur, mode);
             }
 
-            //si après le mouvement le roi est toujours en échec le joueur rejoue
+            //si après le mouvement le roi est en échec le joueur rejoue
             if (estEnEchec(plateau, joueur)) {
                 System.out.println("❌ Mouvement interdit : votre roi est en échec");
 
