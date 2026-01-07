@@ -2124,7 +2124,7 @@ public class methodes {
             Roi = 5;
         }
 
-        // on trouve la position du roi sur le plateau
+        //on trouve la position du roi sur le plateau
         int roiL = -1;
         int roiC = -1;
         for (int l = 0; l < 8; l++) {
@@ -2136,29 +2136,19 @@ public class methodes {
             }
         }
 
-        //on parcourt tout le plateau pour trouver les pièces ennemies
-        for (int l = 0; l < 8; l++) {
-            for (int c = 0; c < 8; c++) {
-                int piece = plateau[l][c];
-                //si la piece n'est pas une case vide + une piece ennemie + elle peut attaquer le roi alors c'est vrai
-                if (piece != 0 && !memeCouleur(plateau, l, c, Roi) && peutAttaquer(plateau, l, c, roiL, roiC)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return caseEnEchec(plateau, roiL, roiC, Roi);
     }
 
     //fonction qui retourne vrai si la case du plateau choisie est attaquée par une pièce ennemie
     //(si la case mettrait le roi en échec)
     //permet de vérifier si le mouvement roque est possible pour le roi
-    public static boolean caseEnEchec(int[][] plateau, int ligne, int colonne, int Roi) {
+    public static boolean caseEnEchec(int[][] plateau, int roiL, int roiC, int Roi) {
         // Parcourir tout le plateau pour trouver les pièces ennemies
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
 
-                //si la case est occupée par une pièce ennemie et qu'elle peut attaquer
-                if (!memeCouleurEtVide(plateau, l, c, Roi) && peutAttaquer(plateau, l, c, ligne, colonne)) {
+                //si la case est occupée par une pièce ennemie et qu'elle peut attaquer le roi
+                if (!memeCouleurEtVide(plateau, l, c, Roi) && peutAttaquer(plateau, l, c, roiL, roiC)) {
                     return true;        //retourne vrai
                 }
             }
