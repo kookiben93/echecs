@@ -1211,6 +1211,7 @@ public class methodes {
     public static void destinationPiece(int[][] plateau, int ligne, int colonne, int piece, char joueur) {
         int NvLigne, NvColonne;
         boolean mouvementValide;
+        String pieceS = piece(piece);
 
         do {
             do {
@@ -1239,7 +1240,7 @@ public class methodes {
             //regarde si la case est valide et pas occupée par une pièce de même couleur ou return false
             if (!(caseValide(NvLigne, NvColonne)) || memeCouleur(plateau, NvLigne, NvColonne, piece)) {
                 mouvementValide = false;
-                System.out.println("La pièce ne peut pas aller là");
+                System.out.println(pieceS + " ne peut pas aller là");
             }
 
         } while (!mouvementValide);     //tant que le mouvement est pas valide on redemande les coordonnées
