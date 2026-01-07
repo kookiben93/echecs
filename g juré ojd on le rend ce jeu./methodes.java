@@ -2064,47 +2064,49 @@ public class methodes {
         return false;
     }
 
-    public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligneRoi, int colonneRoi) {
+    //fonction qui renvoie un booleen pour savoir si une piece de coordonnée (ligneEnnemi, colonneEnnemi) peut aller
+    //sur la case de coordonnée (ligne, colonne) (s'il peut l'attaquer)
+    public static boolean peutAttaquer(int[][] plateau, int ligneEnnemi, int colonneEnnemi, int ligne, int colonne) {
         int piece = plateau[ligneEnnemi][colonneEnnemi];
         boolean possible = false;
 
         // cas du cavalier
         if (piece == 2 || piece == 8) {
-            if (mouvementCavalier(ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
+            if (mouvementCavalier(ligneEnnemi, colonneEnnemi, ligne, colonne)) {
                 possible = true;
             }
         }
 
         // cas de la tour
         else if (piece == 1 || piece == 7) {
-            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
+            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligne, colonne)) {
                 possible = true;
             }
         }
 
         // cas du fou
         else if (piece == 3 || piece == 9) {
-            if (mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
+            if (mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligne, colonne)) {
                 possible = true;
             }
         }
 
         // cas de la dame
         else if (piece == 4 || piece == 11) {
-            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi) ||
-                    mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligneRoi, colonneRoi)) {
+            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligne, colonne) ||
+                    mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligne, colonne)) {
                 possible = true;
             }
         }
 
         // cas du pion
         else if (piece == 6) { // Pion Jaune
-            if (ligneRoi == ligneEnnemi + 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
+            if (ligne == ligneEnnemi + 1 && (colonne == colonneEnnemi + 1 || colonne == colonneEnnemi - 1)) {
                 possible = true;
             }
         }
         else if (piece == 12) { // Pion Bleu
-            if (ligneRoi == ligneEnnemi - 1 && (colonneRoi == colonneEnnemi + 1 || colonneRoi == colonneEnnemi - 1)) {
+            if (ligne == ligneEnnemi - 1 && (colonne == colonneEnnemi + 1 || colonne == colonneEnnemi - 1)) {
                 possible = true;
             }
         }
