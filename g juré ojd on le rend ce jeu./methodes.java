@@ -103,7 +103,7 @@ public class methodes {
 
         int colonne = conversionColEnInt(col);      //appel de méthode pour transformer la valeur String en int
 
-        while (colonne < 0 || colonne > 7 && colonne != 10) {       //on force de la saisie tant que la valeur est supérieure aux indices possibles du tableau
+        while ((colonne < 0 || colonne > 7) && colonne != 10) {       //on force de la saisie tant que la valeur est supérieure aux indices possibles du tableau
             System.out.println("❌ Coordonnées impossible");
             System.out.print("colonne : ");
             col = scanner.nextLine();
@@ -673,12 +673,13 @@ public class methodes {
             nouvelleL = ligne + lignes[i];
             nouvelleC = colonne + colonnes[i];
 
-            boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;        //booleen contenant la valeur vrais si la pièce en face est bleue aussi
+            if (caseValide(nouvelleL, nouvelleC)){  //si la case existe sur le plateau
+                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;        //booleen contenant la valeur vrais si la pièce en face est bleue aussi
 
-            //retourne faux si la nouvelle coordonnée formée est dans le plateau, si la case est vide et ne contient pas de
-            //pièce de la même couleur
-            if (caseValide(nouvelleL, nouvelleC) && plateau[nouvelleL][nouvelleC] == 0 && pieceEnFace != bleu) {
-                return false;
+                //retourne faux si si la case est vide ou ne contient pas de pièce de la même couleur
+                if(plateau[nouvelleL][nouvelleC] == 0 || pieceEnFace != bleu) {
+                    return false;
+                }
             }
         }
         return true;        //sinon retourne vrai il y a des pièces autour
@@ -700,12 +701,13 @@ public class methodes {
             nouvelleL = ligne + lignes[i];
             nouvelleC = colonne + colonnes[i];
 
-            boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;        //booleen contenant la valeur vrai si la pièce en face est bleue aussi
+            if (caseValide(nouvelleL, nouvelleC)) {     //si la case existe sur le plateau
+                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;        //booleen contenant la valeur vrai si la pièce en face est bleue aussi
 
-            //retourne faux si la nouvelle coordonnée formée est dans le plateau, si la case est vide et ne contient pas de
-            //pièce de la même couleur
-            if (caseValide(nouvelleL, nouvelleC) && plateau[nouvelleL][nouvelleC] == 0 && pieceEnFace != bleu) {
-                return false;
+                //retourne faux si si la case est vide ou ne contient pas de pièce de la même couleur
+                if (plateau[nouvelleL][nouvelleC] == 0 || pieceEnFace != bleu) {
+                    return false;
+                }
             }
         }
         return true;        //sinon retourne vrai il y a des pièces autour
@@ -1834,9 +1836,8 @@ public class methodes {
         int c = colonne + 2 * directionColonne;     //en fonction de la direction
 
         //si la case+2 de la pièce jouée est dans le plateau et pas occupée par une pièce de même couleur+que la case+1 est vide
-        //retourne faux (la pièce peut avancer au moins de 2cases supplémentaires
         if (caseValide(l, c) && !memeCouleur(plateau, l, c, piece) && plateau[l-1][c-1]!=0) {
-            return false;
+            return false;           //retourne faux (la pièce peut avancer au moins de 2cases supplémentaires
         }
         return true;
     }
