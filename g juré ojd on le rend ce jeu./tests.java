@@ -124,7 +124,21 @@ class MethodesTest {
                 {0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 10, 0, 0, 0}       // roi bleu (7, 4)
         };
-        assertFalse(methodes.pat(plateau2, 'B'), "cas pas pat (le roi peut bouger)");
+        assertFalse(methodes.pat(plateau2, 'B'), "cas pas pat (le roi bleu peut bouger)");
+
+        int[][] plateau3 = {
+                {0, 0, 0, 0, 0, 0, 0, 0},       
+                {0, 0, 0, 0, 0, 0, 0, 0},       
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 10, 0, 0, 0},      //roi bleu (4,4)
+                {6, 0, 0, 0, 0, 0, 0, 0},       //pion jaune (5,0)
+                {0, 0, 0, 0, 0, 11, 0, 0},      //dame bleu (6,5) 
+                {0, 0, 0, 0, 0, 0, 0, 5}       // roi jaune (7, 7)
+        };
+        assertFalse(methodes.pat(plateau3, 'J'), "cas pas pat (le pion jaune peut bouger)");
+
+
     }
 
 }
