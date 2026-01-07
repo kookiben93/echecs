@@ -1731,15 +1731,15 @@ public class methodes {
     //fonction retournant vrai si le petit roque est possible en fonction de si la tour la plus proche n'a jamais bougé, et si les cases
     //séparant le roi et cette Tour sont vides et pas sous échec
     public static boolean PetitRoque(int[][] plateau, int ligne, int colonne, boolean TourProche, int roi){
-        return TourProche && plateau[ligne][colonne+1]==0 && !estEnEchecCoordonnee(plateau, ligne, colonne+1, roi)
-                && plateau[ligne][colonne+2]==0 && !estEnEchecCoordonnee(plateau, ligne, colonne+2, roi);
+        return TourProche && plateau[ligne][colonne+1]==0 && !caseEnEchec(plateau, ligne, colonne+1, roi)
+                && plateau[ligne][colonne+2]==0 && !caseEnEchec(plateau, ligne, colonne+2, roi);
     }
     //fonction retournant vrai si le grand roque est possible en fonction de si la tour la plus éloignée n'a jamais bougé, et si les cases
     //séparant le roi et cette Tour sont vides et pas sous échec
     public static boolean GrandRoque(int[][] plateau, int ligne, int colonne, boolean TourLoin, int roi){
-        return TourLoin && plateau[ligne][colonne-1]==0 && !estEnEchecCoordonnee(plateau, ligne, colonne-1, roi) &&
-                plateau[ligne][colonne-2]==0 && !estEnEchecCoordonnee(plateau, ligne, colonne-2, roi)
-                && plateau[ligne][colonne-3]==0 && !estEnEchecCoordonnee(plateau, ligne, colonne-3, roi) ;
+        return TourLoin && plateau[ligne][colonne-1]==0 && !caseEnEchec(plateau, ligne, colonne-1, roi) &&
+                plateau[ligne][colonne-2]==0 && !caseEnEchec(plateau, ligne, colonne-2, roi)
+                && plateau[ligne][colonne-3]==0 && !caseEnEchec(plateau, ligne, colonne-3, roi) ;
     }
 
     //méthode effectuant la prise en passant vers la droite
@@ -2016,7 +2016,6 @@ public class methodes {
                 }
             }
         }
-
         // 6️⃣ Aucun coup trouvé + pas en échec → PAT
         return true;
     }
@@ -2150,7 +2149,7 @@ public class methodes {
     //fonction qui retourne vrai si la case du plateau choisie est attaquée par une pièce ennemie
     //(si la case mettrait le roi en échec)
     //permet de vérifier si le mouvement roque est possible pour le roi
-    public static boolean estEnEchecCoordonnee(int[][] plateau, int ligne, int colonne, int Roi) {
+    public static boolean caseEnEchec(int[][] plateau, int ligne, int colonne, int Roi) {
         // Parcourir tout le plateau pour trouver les pièces ennemies
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
