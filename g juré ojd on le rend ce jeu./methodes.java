@@ -1836,8 +1836,10 @@ public class methodes {
         int c = colonne + 2 * directionColonne;     //en fonction de la direction
 
         //si la case+2 de la pièce jouée est dans le plateau et pas occupée par une pièce de même couleur+que la case+1 est vide
-        if (caseValide(l, c) && !memeCouleur(plateau, l, c, piece) && plateau[l+directionLigne][c+directionColonne]!=0) {
-            return false;           //retourne faux (la pièce peut avancer au moins de 2cases supplémentaires
+        if (caseValide(l, c) && !memeCouleur(plateau, l, c, piece)){
+            if(plateau[ligne+directionLigne][colonne+directionColonne]==0) {
+                return false;           //retourne faux (la pièce peut avancer au moins de 2cases supplémentaires
+            }
         }
         return true;
     }
