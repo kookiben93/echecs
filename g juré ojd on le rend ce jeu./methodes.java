@@ -488,8 +488,8 @@ public class methodes {
         return compteurTour == 0;       //si le compteur est resté à 0
     }
 
-    //fonction qui retourne vrai si la pièce du plateau jouée par le joueur lui appartient et
-    // renvoi un booléen en fonction de si c'est le cas ou non
+    //fonction qui retourne vrai si la pièce du plateau jouée par le joueur lui appartient
+    //faux sinon
     public static boolean couleurJoueur(int[][] plateau, int ligne, int colonne, char joueur) {
         boolean valeur = true;
 
