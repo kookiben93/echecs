@@ -1668,8 +1668,8 @@ public class methodes {
         int Tour;
         String couleur;
         int choix = demandeTourRoque(plateau, ligne, colonne, tourLoin, tourProche, Roi);
-        String col4 = conversionEnString(colonne+4);
-        String col5 = conversionEnString(5-colonne);
+        String col4 = conversionEnString(11-colonne);
+        String col5 = conversionEnString(colonne-4);
 
         if(Roi==5) {    //roi jaune
             Tour = 1;   //tour jaune
@@ -1682,7 +1682,7 @@ public class methodes {
         //affichage de la situation et déplacement du roi+de la tour en fonction du roque effectué
         if(choix==1){       //pour le petit roque
             System.out.println();
-            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + col4 + "," + (ligne+1) + ")");
+            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + col4 + "," + (8-ligne) + ")");
             plateau[ligne][colonne] = 0;
             plateau[ligne][colonne+2] = Roi;
             plateau[ligne][colonne+3] = 0;
@@ -1690,7 +1690,7 @@ public class methodes {
         }
         else if(choix==2){      //pour le grand roque
             System.out.println();
-            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + col5 + "," + (ligne+1) + ")");
+            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + col5 + "," + (8-ligne) + ")");
             plateau[ligne][colonne] = 0;
             plateau[ligne][colonne-2] = Roi;
             plateau[ligne][colonne-4] = 0;
