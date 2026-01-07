@@ -101,6 +101,25 @@ public class Main {
                     joueur = 'N';
                 }
 
+                //Affichage des gagnants quand il y a échec et mat
+                if (methodes.estEnEchecEtMat(plateau, joueur)) {
+                    System.out.println("\n =========================================== ÉCHEC ET MAT ============================================");
+                    if(robot==1) {      //mode 1v1, il y a toujours un joueur qui a gagné
+                        if (joueur == 'B') {
+                            System.out.println("Félicitations " + pseudoNoir + " ! Les Jaunes ont gagné.");
+                        } else {
+                            System.out.println("Félicitations " + pseudoBlanc + " ! Les Bleus ont gagné.");
+                        }
+                    }
+                    else {          //mode robot, le joueur a soit gagné soit perdu
+                        if ((bleu.equals("oui") && joueur == 'B') || (bleu.equals("non") && joueur == 'N'))
+                            System.out.println("Félicitations " + pseudo1 + " ! Vous avez gagné.");
+                        else
+                            System.out.println(pseudo1 + " vous avez perdu !");
+                    }
+                    break;
+                }
+
                 if (bleu.equals("oui")) {       //si le joueur1 joue les bleus,
                     if (tour % 2 == 0) {        //il commence (en mode robot ET en mode 1v1, c'est lui qui commence)
                         System.out.println("Au tour de " + pseudoBlanc + " (bleus)");
@@ -158,25 +177,6 @@ public class Main {
                     }
                 }
                 tour++;
-
-                //Affichage des gagnants quand il y a échec et mat
-                if (methodes.estEnEchecEtMat(plateau, joueur)) {
-                    System.out.println("\n =========================================== ÉCHEC ET MAT ============================================");
-                    if(robot==1) {      //mode 1v1, il y a toujours un joueur qui a gagné
-                        if (joueur == 'B') {
-                            System.out.println("Félicitations " + pseudoNoir + " ! Les Jaunes ont gagné.");
-                        } else {
-                            System.out.println("Félicitations " + pseudoBlanc + " ! Les Bleus ont gagné.");
-                        }
-                    }
-                    else {          //mode robot, le joueur a soit gagné soit perdu
-                        if ((bleu.equals("oui") && joueur == 'B') || (bleu.equals("non") && joueur == 'N'))
-                            System.out.println("Félicitations " + pseudo1 + " ! Vous avez gagné.");
-                        else
-                            System.out.println(pseudo1 + " vous avez perdu !");
-                    }
-                    break;
-                }
             }
             //Affichage des gagnants quand il y a abandon
             if (abandonJoueur) {
