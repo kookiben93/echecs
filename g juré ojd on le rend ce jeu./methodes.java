@@ -267,7 +267,7 @@ public class methodes {
         plateau[nvLigne][nvColonne]=piece;
     }
 
-    //Convertit un type String pris en paramètre en un int spécifique pour le choix de la colonne
+    //fonction qui convertit un type String pris en paramètre en un int spécifique pour le choix de la colonne
     //Sépare donc l'affichage, des coordonnées réelles des pièces
     public static int conversionColEnInt(String colonne) {
         int coordonnee = 8;
@@ -294,7 +294,7 @@ public class methodes {
         return coordonnee;
     }
 
-    //Convertit un type String pris en paramètre en un int spécifique pour le choix de colonne
+    //fonction qui convertit un type String pris en paramètre en un int spécifique pour le choix de colonne
     //Sépare donc l'affichage, des coordonnées réelles des pièces
     public static int conversionLigneEnInt(String ligne) {
         int coordonnee = 8;
@@ -321,7 +321,7 @@ public class methodes {
         return coordonnee;
     }
 
-    //Convertit un type String pris en paramètre en un int spécifique pour le choix de colonne
+    //fonction qui convertit un type String pris en paramètre en un int spécifique pour le choix de colonne
     //Sépare donc l'affichage, des coordonnées réelles des pièces
     public static int conversionEnInt(String valeur) {
         int coordonnee = 9;
@@ -347,7 +347,7 @@ public class methodes {
         return coordonnee;
     }
 
-    //Reconverti un int pris en paramètre en sa valeur en String
+    //fonction qui reconverti un int pris en paramètre en sa valeur en String
     public static String conversionEnString(int colonne) {
         String coordonnee = "r";
 
@@ -392,7 +392,7 @@ public class methodes {
         }
     }
 
-    //appel des méthodes en fonction de la pièce jouée
+    //méthode qui appel d'autre méthodes en fonction de la pièce jouée
     public static void appelPiece(int[][] plateau, int ligne, int colonne, char joueur, int mode) {
         int[][] sauvegarde = copiePlateau(plateau);
 
@@ -505,7 +505,7 @@ public class methodes {
         return valeur;
     }
 
-    //fonction qui renvoie un booleen pour savoir si la case est dans le plateau
+    //fonction qui renvoie vrai si la case est dans le plateau, faux sinon
     public static boolean caseValide(int ligne, int colonne) {
         return (ligne >= 0 && ligne < 8) && (colonne >= 0 && colonne < 8);      //si les coordoonées sont supérieures à 0 et inférieures à 8
     }
@@ -713,7 +713,7 @@ public class methodes {
         return true;        //sinon retourne vrai il y a des pièces autour
     }
 
-    //fonction qui renvoie un boolean pour savoir si le pion peut bouger
+    //fonction qui renvoie vrai si le pion peut bouger, faux sinon
     public static boolean pieceAutour3(int[][] plateau, int ligne, int colonne) {
         int pion = plateau[ligne][colonne];
         int sens;
@@ -737,7 +737,7 @@ public class methodes {
         }
     }
 
-    //affichage du plateau
+    //méthode qui permet l'affichage du plateau 
     public static void plateau(int[][] plateau) {
         for (int i = 0; i < plateau.length; i++) {
             for (int j = 0; j < plateau[i].length; j++) {
@@ -784,7 +784,7 @@ public class methodes {
         plateau[7][3] = 11;
     }
 
-    //Affichage des pièces sur le plateau vu par les bleus
+    //méthode qui permet l'affichage des pièces sur le plateau vu par les bleus
     public static void remplir(int[][] plateau) {
         String RESET = "\u001B[0m";
         String BLEU = "\u001B[34m";
@@ -833,7 +833,7 @@ public class methodes {
         System.out.println();
     }
 
-    //Affichage des pièces sur le plateau vu par les jaunes
+    //méthode qui permet l'affichage des pièces sur le plateau vu par les jaunes
     public static void remplir2(int[][] plateau) {
         String RESET = "\u001B[0m";
         String BLEU = "\u001B[34m";
@@ -934,8 +934,8 @@ public class methodes {
         return false;       //sinon on retourne faux, aucun empêchement
     }
 
-    //fonction qui vérifie si la pièce actuelle est de la même couleur que celle de la couleur de la pièce de notre choix en
-    //fonction de sa position dans le plateau
+    //fonction qui renvoie vraie si la pièce actuelle est de la même couleur que celle de la couleur de la pièce sur la case de notre choix
+    //faux sinon
     public static boolean memeCouleur(int[][] plateau, int ligne, int colonne, int couleur) {
         if (plateau[ligne][colonne] == 0){
             return false;
@@ -947,8 +947,8 @@ public class methodes {
         return bleu == pieceEnFace;
     }
 
-    //fonction qui vérifie si la pièce actuelle est de la même couleur que celle de la couleur de la pièce de notre choix en fonction
-    //de sa position dans le plateau ou alors qu'elle est vide
+    //fonction qui renvoie vraie si la pièce actuelle est de la même couleur que celle de la couleur de la pièce sur la case de notre choix
+    //ou si la case est vide, faux sinon
     public static boolean memeCouleurEtVide(int[][] plateau, int ligne, int colonne, int couleur) {
         if (plateau[ligne][colonne] == 0) return true;
 
@@ -1141,7 +1141,7 @@ public class methodes {
         }
     }
 
-    //fonction qui affiche au joueur si les coordonnées qu'il a inscrite peuvent faire bouger le pion et le fais avancer si possible (mode 2)
+    //méthode qui affiche au joueur si les coordonnées qu'il a inscrite peuvent faire bouger le pion et le fais avancer si possible (mode 2)
     public static void mouvementPion(int[][] plateau, int ligne, int colonne, int pion, char joueur) {
         int nvLigne;
         int nvColonne;
@@ -1187,7 +1187,7 @@ public class methodes {
         }
     }
 
-    //fonction qui affiche au joueur si les coordonnées qu'il a inscrite peuvent faire bouger le roi et le fais avancer si possible (mode 2)
+    //méthode qui affiche au joueur si les coordonnées qu'il a inscrite peuvent faire bouger le roi et le fais avancer si possible (mode 2)
     public static void mouvementRoi(int[][] plateau, int ligne, int colonne, char joueur, int roi) {
         int nvLigne, nvColonne;
         boolean mouvementValide = false;
@@ -1227,17 +1227,17 @@ public class methodes {
 
     }
 
-    //fonction qui renvoie un booleen qui recense tous les mouvements possibles du cavalier (mode 2)
+    //fonction qui renvoie vrai si les nouvelle coordonnées peuvent être dans les mouvements possibles du cavalier (mode 2)
     public static boolean mouvementCavalier(int ligne, int colonne, int nvLigne, int nvColonne) {
         return (Math.abs(nvLigne-ligne)==2 && Math.abs(nvColonne-colonne)==1) || (Math.abs(nvLigne-ligne)==1 && Math.abs(nvColonne-colonne)==2);
     }
 
-    //fonction qui renvoie un booleen qui recense tous les mouvements possibles de la Tour (mode 2)
+    //fonction qui renvoie vrai si les nouvelle coordonnées peuvent être dans les mouvements possibles de la tour (mode 2)
     public static boolean mouvementTour(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
         return (nvLigne==ligne && nvColonne!=colonne) || (nvLigne!=ligne && nvColonne==colonne) && !empechementRobot(plateau, ligne, colonne, nvLigne, nvColonne);    //mouvements seulement droits
     }
 
-    //fonction qui renvoie un booleen qui recense tous les mouvements possibles du fou (mode 2)
+    //fonction qui renvoie vrai si les nouvelle coordonnées peuvent être dans les mouvements possibles du fou (mode 2)
     public static boolean mouvementFou(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
         return Math.abs(nvLigne - ligne) == Math.abs(nvColonne - colonne) && !empechementRobot(plateau, ligne, colonne, nvLigne, nvColonne);      //mouvements seulement en diagonale
     }
@@ -1314,7 +1314,7 @@ public class methodes {
         return caseValide(ligne + 1, colonne) && !(memeCouleur(plateau, ligne + 1, colonne, couleur));
     }
 
-    //fonction qui affiche au joueur les possibilités pour faire avancer son pion et le fais avancer si possible (mode 1)
+    //méthode qui affiche au joueur les possibilités pour faire avancer son pion et le fais avancer si possible (mode 1)
     public static void BougePion(int[][] plateau, int ligne, int colonne, char joueur, int pion) {
         Scanner sc = new Scanner(System.in);
 
@@ -1401,7 +1401,7 @@ public class methodes {
         }
     }
 
-    //fonction qui affiche au joueur les possibilités pour faire avancer son roi et le fais avancer si possible (mode 1)
+    //méthode qui affiche au joueur les possibilités pour faire avancer son roi et le fais avancer si possible (mode 1)
     public static void BougeRoi(int[][] plateau, int ligne, int colonne, char joueur, int couleur) {
         Scanner sc = new Scanner(System.in);
         int choix = 0;
@@ -1438,7 +1438,7 @@ public class methodes {
         }
     }
 
-    //fonction qui affiche au joueur les possibilités pour faire avancer sa dame et la fais avancer si possible (mode 1)
+    //méthode qui affiche au joueur les possibilités pour faire avancer sa dame et la fais avancer si possible (mode 1)
     public static void BougeDame(int[][] plateau, int ligne, int colonne, char joueur, int couleur, int mode){
         Scanner sc = new Scanner(System.in);
         int choix = 0;
@@ -1698,7 +1698,7 @@ public class methodes {
         }
     }
 
-    //méthode retournant un int en demandant avec quelle Tour le joueur veut roquer quand les 2 roques sont possibles
+    //fonction retournant un int en demandant avec quelle Tour le joueur veut roquer quand les 2 roques sont possibles
     //ou un int atitré quand seulement un seul roque est possible
     public static int demandeTourRoque(int[][] plateau, int ligne, int colonne, boolean TourLoin, boolean TourProche, int roi){
         Scanner scanner = new Scanner(System.in);
@@ -1900,6 +1900,7 @@ public class methodes {
 
         return pieces;
     }
+    
     //fonction retournant un String pour l'affichage des mouvements, en fonction de la direction et
     //de la pièce jouée
     public static String direction(int direction, int piece){
