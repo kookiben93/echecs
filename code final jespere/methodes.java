@@ -70,8 +70,7 @@ public class methodes {
         return choix;               //renvoie le nouveau choix
     }
 
-    //Fonction demandant la valeur de la ligne choisie en String
-    //et la retourne en int
+    //Fonction demandant la valeur de la ligne choisie en String et la retourne en int
     public static int coordonneeLigne() {
         Scanner scanner = new Scanner(System.in);
         int ligne;
@@ -104,7 +103,7 @@ public class methodes {
 
         int colonne = conversionColEnInt(col);      //appel de méthode pour transformer la valeur String en int
 
-        while (colonne < 0 || colonne > 7 && colonne != 10) {       //on force de la saisie tant que la valeur est supérieure aux indices possibles du tableau
+        while ((colonne < 0 || colonne > 7) && colonne != 10) {       //on force de la saisie tant que la valeur est supérieure aux indices possibles du tableau
             System.out.println("❌ Coordonnées impossible");
             System.out.print("colonne : ");
             col = scanner.nextLine();
@@ -538,39 +537,37 @@ public class methodes {
         return true;
     }
 
-    public static boolean LGrandHautGauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne - 2, colonne - 1) && !(memeCouleur(plateau, ligne - 2, colonne - 1, couleur));
+
+    //plusieurs mini fonctions retournant true si le mouvement en L est possible en fonction de la position du cavalier sur le plateau
+    public static boolean LGrandHautGauche(int[][] plateau, int ligne, int colonne, int cavalier) {
+        return caseValide(ligne - 2, colonne - 1) && !(memeCouleur(plateau, ligne - 2, colonne - 1, cavalier));
+    }
+    public static boolean LGrandHautDroit(int[][] plateau, int ligne, int colonne, int cavalier) {
+        return caseValide(ligne - 2, colonne + 1) && !(memeCouleur(plateau, ligne - 2, colonne + 1, cavalier));
+    }
+    public static boolean LPetitHautGauche(int[][] plateau, int ligne, int colonne, int cavalier) {
+        return caseValide(ligne - 1, colonne - 2) && !(memeCouleur(plateau, ligne - 1, colonne - 2, cavalier));
+    }
+    public static boolean LPetitHautDroit(int[][] plateau, int ligne, int colonne, int cavalier) {
+        return caseValide(ligne - 1, colonne + 2) && !(memeCouleur(plateau, ligne - 1, colonne + 2, cavalier));
+    }
+    public static boolean LGrandBasGauche(int[][] plateau, int ligne, int colonne, int cavalier) {
+        return caseValide(ligne + 2, colonne - 1) && !(memeCouleur(plateau, ligne + 2, colonne - 1, cavalier));
+    }
+    public static boolean LGrandBasDroit(int[][] plateau, int ligne, int colonne, int cavalier) {
+        return caseValide(ligne + 2, colonne + 1) && !(memeCouleur(plateau, ligne + 2, colonne + 1, cavalier));
+    }
+    public static boolean LPetitBasGauche(int[][] plateau, int ligne, int colonne, int cavalier) {
+        return caseValide(ligne + 1, colonne - 2) && !(memeCouleur(plateau, ligne + 1, colonne - 2, cavalier));
+    }
+    public static boolean LPetitBasDroit(int[][] plateau, int ligne, int colonne, int cavalier) {
+        return caseValide(ligne + 1, colonne + 2) && !(memeCouleur(plateau, ligne + 1, colonne + 2, cavalier));
     }
 
-    public static boolean LGrandHautDroit(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne - 2, colonne + 1) && !(memeCouleur(plateau, ligne - 2, colonne + 1, couleur));
-    }
-
-    public static boolean LPetitHautGauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne - 1, colonne - 2) && !(memeCouleur(plateau, ligne - 1, colonne - 2, couleur));
-    }
-
-    public static boolean LPetitHautDroit(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne - 1, colonne + 2) && !(memeCouleur(plateau, ligne - 1, colonne + 2, couleur));
-    }
-
-    public static boolean LGrandBasGauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 2, colonne - 1) && !(memeCouleur(plateau, ligne + 2, colonne - 1, couleur));
-    }
-
-    public static boolean LGrandBasDroit(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 2, colonne + 1) && !(memeCouleur(plateau, ligne + 2, colonne + 1, couleur));
-    }
-
-    public static boolean LPetitBasGauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 1, colonne - 2) && !(memeCouleur(plateau, ligne + 1, colonne - 2, couleur));
-    }
-
-    public static boolean LPetitBasDroit(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 1, colonne + 2) && !(memeCouleur(plateau, ligne + 1, colonne + 2, couleur));
-    }
-
-    public static int directionCavalier(int[][] plateau, int ligne, int colonne, int couleur) {
+    //fonction qui affiche les directions disponibles pour le cavalier en fonction de sa position actuelle sur le plateau s'il y a
+    //plus d'une direction, le joueur peut en choisir une, sinon la direction sera choisie d'office et ce choix sera retourné
+    //en un int (pour le mode 1)
+    public static int AffichageDirectionsCavalier(int[][] plateau, int ligne, int colonne, int couleur) {
         Scanner sc = new Scanner(System.in);
 
         int possibilites = 0;
@@ -624,7 +621,7 @@ public class methodes {
             choix = 8;
         }
 
-        if (possibilites > 1) {
+        if (possibilites > 1) {         //s'il y a plus d'une direction possible
             while (!valide) {
                 System.out.print("Choisissez une direction : ");
                 if (LgrandHautGauche)
@@ -648,6 +645,7 @@ public class methodes {
                 String choixS = sc.nextLine();
                 choix = methodes.conversionEnInt(choixS);
 
+                //choix valide seulement si le mouvement auquel il correspond est disponible
                 if ((choix == 1 && LgrandHautGauche) || (choix == 2 && LgrandHautDroit) || (choix == 3 && LpetitHautGauche) || (choix == 4 && LpetitHautDroit)
                         || (choix == 5 && LgrandBasGauche) || (choix == 6 && LgrandBasDroit) || (choix == 7 && LpetitBasGauche) || (choix == 8 && LpetitBasDroit)) {
                     valide = true;
@@ -664,27 +662,27 @@ public class methodes {
         int piece = plateau[ligne][colonne];
         int nouvelleL;
         int nouvelleC;
-        boolean bleu = piece > 6;
+        boolean bleu = piece > 6;       //booleen contenant la valeur vrai si la pièce est bleue
 
+        //tableaux contenant l'ensemble des coordonnées de lignes et colonnes possibles pour des mouvements droits
         int[] lignes = {0, 0, -1, 1};
         int[] colonnes = {-1, 1, 0, 0};
 
+        //génère toutes les 4 possibilités de combinaisons possibles de lignes et colonnes pour les 4 directions droites
         for (int i = 0; i < 4; i++) {
             nouvelleL = ligne + lignes[i];
             nouvelleC = colonne + colonnes[i];
 
-            if (caseValide(nouvelleL, nouvelleC)) {
-                if (plateau[nouvelleL][nouvelleC] == 0) {
-                    return false;
-                }
-                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;
+            if (caseValide(nouvelleL, nouvelleC)){  //si la case existe sur le plateau
+                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;        //booleen contenant la valeur vrais si la pièce en face est bleue aussi
 
-                if (pieceEnFace != bleu) {
+                //retourne faux si si la case est vide ou ne contient pas de pièce de la même couleur
+                if(plateau[nouvelleL][nouvelleC] == 0 || pieceEnFace != bleu) {
                     return false;
                 }
             }
         }
-        return true;
+        return true;        //sinon retourne vrai il y a des pièces autour
     }
 
     //fonction qui retourne vrai si les cases+1 des 4 diagonales sont disponibles pour la pièce jouée actuelle
@@ -692,27 +690,27 @@ public class methodes {
         int piece = plateau[ligne][colonne];
         int nouvelleL;
         int nouvelleC;
-        boolean bleu = piece > 6;
+        boolean bleu = piece > 6;       //booleen contenant la valeur vrai si la pièce est bleue
 
+        //tableaux contenant l'ensemble des coordonnées de lignes et colonnes possibles pour des mouvements en diagonale
         int[] lignes = {-1, 1, -1, 1};
         int[] colonnes = {-1, 1, 1, -1};
 
+        //génère toutes les 4 possibilités de combinaisons possibles de lignes et colonnes pour les 4 directions diagonales
         for (int i = 0; i < 4; i++) {
             nouvelleL = ligne + lignes[i];
             nouvelleC = colonne + colonnes[i];
 
-            if (caseValide(nouvelleL, nouvelleC)) {
-                if (plateau[nouvelleL][nouvelleC] == 0) {
-                    return false;
-                }
-                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;
+            if (caseValide(nouvelleL, nouvelleC)) {     //si la case existe sur le plateau
+                boolean pieceEnFace = plateau[nouvelleL][nouvelleC] > 6;        //booleen contenant la valeur vrai si la pièce en face est bleue aussi
 
-                if (pieceEnFace != bleu) {
+                //retourne faux si si la case est vide ou ne contient pas de pièce de la même couleur
+                if (plateau[nouvelleL][nouvelleC] == 0 || pieceEnFace != bleu) {
                     return false;
                 }
             }
         }
-        return true;
+        return true;        //sinon retourne vrai il y a des pièces autour
     }
 
     //fonction qui renvoie un boolean pour savoir si le pion peut bouger
@@ -900,9 +898,12 @@ public class methodes {
         return false;
     }
 
+    //fonction qui retourne vrai s'il y a des pièces entre la position initiale de la pièce et sa destination-1 avec
+    //simplement les lignes de départ et d'arrivée de chaque pièce
     public static boolean empechementRobot(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
-        int directionLigne = 0;
-        int directionColonne = 0;
+        //initialisation des directions
+        int directionLigne = 0;     //HautBas
+        int directionColonne = 0;      //GaucheDroite
 
         //Direction des lignes
         if (nvLigne > ligne)
@@ -916,19 +917,22 @@ public class methodes {
         else if (nvColonne < colonne)
             directionColonne = -1;
 
+        //initialisation de la première case à tester en fonction de la direction (on extrait la ligne de départ pour le test)
         int l = ligne + directionLigne;
         int c = colonne + directionColonne;
 
-        while (l != nvLigne || c != nvColonne) {
-            if (caseValide(l, c) && plateau[l][c] != 0) {
-                return true;
+        while (l != nvLigne || c != nvColonne) {    //tant qu'on est pas arrivé à la case finale
+
+            if (caseValide(l, c) && plateau[l][c] != 0) {   //si la case est dans le plateau et occupée
+                return true;            //on retourne vrai (il y a un empechement)
             }
+
+            //on ajoute/enlève 1 à chaque indice en fonction de la direction du mouvement
             l = l + directionLigne;
             c = c + directionColonne;
         }
-        return false;
+        return false;       //sinon on retourne faux, aucun empêchement
     }
-
 
     //fonction qui vérifie si la pièce actuelle est de la même couleur que celle de la couleur de la pièce de notre choix en
     //fonction de sa position dans le plateau
@@ -954,16 +958,19 @@ public class methodes {
         return bleu == pieceEnFace;
     }
 
-    public static int affichageDirections(int[][] plateau, int ligne, int colonne, int couleur, char joueur) {
+    //fonction qui affiche les directions disponibles en lignes droites en fonction de sa position actuelle sur le plateau s'il y a
+    //plus d'une direction, le joueur peut en choisir une, sinon la direction sera choisie d'office et ce choix sera retourné
+    //en un int (pour le mode 1)
+    public static int affichageDirectionDroites(int[][] plateau, int ligne, int colonne, int piece, char joueur) {
         Scanner sc = new Scanner(System.in);
         int choix = 0;
         boolean valide = false;
         int possibilites = 0;
 
-        boolean haut = haut(plateau, ligne, colonne, couleur);
-        boolean gauche = gauche(plateau, ligne, colonne, couleur);
-        boolean droite = droite(plateau, ligne, colonne, couleur);
-        boolean bas = bas(plateau, ligne, colonne, couleur);
+        boolean haut = haut(plateau, ligne, colonne, piece);
+        boolean gauche = gauche(plateau, ligne, colonne, piece);
+        boolean droite = droite(plateau, ligne, colonne, piece);
+        boolean bas = bas(plateau, ligne, colonne, piece);
 
         if (haut) {
             possibilites++;
@@ -982,10 +989,10 @@ public class methodes {
             choix = 3;
         }
 
-        if (possibilites > 1) {
+        if (possibilites > 1) {             //s'il y a plus d'une direction possible, on demande au joueur de choisir
             while (!valide) {
                 System.out.print("Choisissez une direction : ");
-                if (joueur == 'B') {
+                if (joueur == 'B') {        //Si le joueur joue les bleus
                     if (haut)
                         System.out.print("1 pour aller en haut ");
                     if (gauche)
@@ -994,7 +1001,7 @@ public class methodes {
                         System.out.print("3 pour aller à droite ");
                     if (bas)
                         System.out.print("4 pour aller en bas ");
-                } else {
+                } else {                    //Si le joueur joue les jaunes (plateau inversé)
                     if (haut)
                         System.out.print("1 pour aller en bas ");
                     if (gauche)
@@ -1008,6 +1015,7 @@ public class methodes {
                 String choixS = sc.nextLine();
                 choix = methodes.conversionEnInt(choixS);
 
+                //choix valide seulement si le mouvement auquel il correspond est disponible
                 if ((choix == 1 && haut) || (choix == 2 && gauche) || (choix == 3 && droite) || (choix == 4 && bas)) {
                     valide = true;
                 } else {
@@ -1106,22 +1114,29 @@ public class methodes {
         return promotion;       //renvoie la promotion du pion
     }
 
+    //méthode s'occupant de la prise en passant pour les modes robot et 2
+    //change la valeur de pep quand le pion bouge de 2 cases et enregistre ses coordonnées
+    //autorise la prise en passant si elle est légale et appel les méthodes nécessaires pour effectuer le déplacement
+    //des pièces lors de la prise en passant
     public static void priseEnPassantRobot(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne, int pion) {
         boolean priseEnPassantG = pepPossibleGauche(ligne, colonne, pion);
         boolean priseEnPassantD = pepPossibleDroite(ligne, colonne, pion);
 
+        //si le mouvement prise en passant est effectué et autorisé
         if (pepRobot(ligne, colonne, nvLigne, nvColonne, pion)) {
-            if (priseEnPassantG)
-                PriseEnPassantG(plateau, ligne, colonne, pion);
-            else if (priseEnPassantD)
-                PriseEnPassantD(plateau, ligne, colonne, pion);
+            if (priseEnPassantG) {            //si la prise en passant se fait par la gauche et est légale
+                PriseEnPassantG(plateau, ligne, colonne, pion);         //appelle la méthode spécifique pour la gauche
+            }
+            else if (priseEnPassantD) {       //si la prise en passant se fait par la droite et est légale
+                PriseEnPassantD(plateau, ligne, colonne, pion);         //appelle la méthode spécifique pour la droite
+            }
         }
 
-        if (Math.abs(ligne - nvLigne) == 2) {
+        if (Math.abs(ligne - nvLigne) == 2) {       //si le pion a avancé de 2cases, change la valeur de pep en true (pour le tour suivant)
             pep = true;
-            ligneAvant = nvLigne;
-            colonneAvant = colonne;
-        } else {
+            ligneAvant = nvLigne;           //coordonnées du pion ayant
+            colonneAvant = colonne;         // avancé de 2cases
+        } else {           //si il n'a pas avancé de 2cases, change la valeur de pep en false (pour le tour suivant)
             pep = false;
         }
     }
@@ -1227,6 +1242,8 @@ public class methodes {
         return Math.abs(nvLigne - ligne) == Math.abs(nvColonne - colonne) && !empechementRobot(plateau, ligne, colonne, nvLigne, nvColonne);      //mouvements seulement en diagonale
     }
 
+    //méthode qui demande au joueur de saisir des coordonnées pour la destination de la pièce jouée et vérifie si le mouvement
+    //de cette pièce est valide et force la saisie, avant d'effectuer le mouvement (pour le mode de jeu 2)
     public static void destinationPiece(int[][] plateau, int ligne, int colonne, int piece, char joueur) {
         int NvLigne, NvColonne;
         boolean mouvementValide;
@@ -1240,29 +1257,33 @@ public class methodes {
                 NvColonne = coordonneeColonne();
             } while (NvColonne == 10);
 
-            if (piece == 1 || piece == 7 || piece == 4 || piece == 11) {
+            //regarde en fonction de la pièce jouée si le mouvement est valide
+            if (piece == 1 || piece == 7 || piece == 4 || piece == 11) {        //Tour ou Damme
                 if (mouvementTour(plateau, ligne, colonne, NvLigne, NvColonne) && !empechementRobot(plateau, ligne, colonne, NvLigne, NvColonne)){
                     mouvementValide = true;
                 }
             }
-            if (piece == 3 || piece == 9 || piece == 4 || piece == 11) {
+            if (piece == 3 || piece == 9 || piece == 4 || piece == 11) {        //Fou ou Dame
                 if (mouvementFou(plateau, ligne, colonne, NvLigne, NvColonne)) {
                     mouvementValide = true;
                 }
             }
-            if (piece == 2 || piece == 8) {
+            if (piece == 2 || piece == 8) {                     //Cavalier
                 mouvementValide = mouvementCavalier(ligne, colonne, NvLigne, NvColonne);
             }
 
+            //regarde si la case est valide et pas occupée par une pièce de même couleur ou return false
             if (!(caseValide(NvLigne, NvColonne)) || memeCouleur(plateau, NvLigne, NvColonne, piece)) {
                 mouvementValide = false;
                 System.out.println("La pièce ne peut pas aller là");
             }
 
-        } while (!mouvementValide);
+        } while (!mouvementValide);     //tant que le mouvement est pas valide on redemande les coordonnées
 
+        //affichage du déplacement de la pièce
         AffichageSituation(plateau, joueur, piece, ligne, colonne, NvLigne, NvColonne, -1, -1);
 
+        //déplacement de la pièce
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = piece;
     }
@@ -1454,19 +1475,19 @@ public class methodes {
         }
     }
 
-    //fonction qui affiche les directions disponibles pour le fou en fonction de sa position actuelle sur le plateau s'il y a 
+    //fonction qui affiche les directions disponibles en diagonales en fonction de sa position actuelle sur le plateau s'il y a
     //plus d'une direction, le joueur peut en choisir une, sinon la direction sera choisie d'office et ce choix sera retourné
     //en un int (pour le mode 1)
-    public static int affichageDirectionsFou(int[][] plateau, int ligne, int colonne, int couleur, char joueur) {
+    public static int affichageDirectionDiagonales(int[][] plateau, int ligne, int colonne, int piece, char joueur) {
         Scanner sc = new Scanner(System.in);
         int choix = 0;
         boolean valide = false;
         int possibilites = 0;
 
-        boolean hautGauche = hautGauche(plateau, ligne, colonne, couleur);
-        boolean hautDroite = hautDroite(plateau, ligne, colonne, couleur);
-        boolean basGauche = basGauche(plateau, ligne, colonne, couleur);
-        boolean basDroite = basDroite(plateau, ligne, colonne, couleur);
+        boolean hautGauche = hautGauche(plateau, ligne, colonne, piece);
+        boolean hautDroite = hautDroite(plateau, ligne, colonne, piece);
+        boolean basGauche = basGauche(plateau, ligne, colonne, piece);
+        boolean basDroite = basDroite(plateau, ligne, colonne, piece);
 
         if (hautGauche) {
             possibilites++;
@@ -1488,7 +1509,7 @@ public class methodes {
         if (possibilites > 1) {         //s'il y a plus d'une direction possible, on demande au joueur de choisir
             while (!valide) {
                 System.out.print("Choisissez une direction : ");
-                if (joueur == 'B') {
+                if (joueur == 'B') {            //Si le joueur joue les bleus
                     if (hautGauche)
                         System.out.print("1 pour aller en haut à gauche ");
                     if (hautDroite)
@@ -1497,7 +1518,7 @@ public class methodes {
                         System.out.print("3 pour aller en bas à gauche ");
                     if (basDroite)
                         System.out.print("4 pour aller en bas à droite ");
-                } else {
+                } else {            //Si le joueur joue les jaunes (plateau inversé)
                     if (hautGauche)
                         System.out.print("1 pour aller en bas à droite ");
                     if (hautDroite)
@@ -1525,7 +1546,7 @@ public class methodes {
     //méthode effectuant les mouvements en ligne droite (pour la Tour, le Roi et la Dame)
     public static void BougeTour(int[][] plateau, int ligne, int colonne, int piece, char joueur) {
         int valeurDirection = 0;
-        int direction = affichageDirections(plateau, ligne, colonne, piece, joueur);
+        int direction = affichageDirectionDroites(plateau, ligne, colonne, piece, joueur);
 
         int hautBas = 0;    //valeur pour le mouvement Haut ou Bas selon la demande
         int gaucheDroite = 0;   //valeur pour le mouvement gauche ou droite selon la demande
@@ -1566,7 +1587,7 @@ public class methodes {
 
     //méthode effectuant les mouvements en diagonale (pour le Fou, le Roi et la Dame)
     public static void BougeFou(int[][] plateau, int ligne, int colonne, int piece, char joueur) {
-        int direction = affichageDirectionsFou(plateau, ligne, colonne, piece, joueur);
+        int direction = affichageDirectionDiagonales(plateau, ligne, colonne, piece, joueur);
         int valeurDirection = 0;
 
         int hautBas = 0;    //valeur pour le mouvement Haut ou Bas selon la demande
@@ -1809,11 +1830,14 @@ public class methodes {
         return possible;
     }
 
-    public static boolean avancerUneCaseMax(int[][] plateau, int ligne, int colonne, int couleur, int directionLigne, int directionColonne) {
-        int l = ligne + 2 * directionLigne;
-        int c = colonne + 2 * directionColonne;
+    //fonction qui retourne vrai quand la pièce jouée ne peut avancer que d'une case maximum
+    public static boolean avancerUneCaseMax(int[][] plateau, int ligne, int colonne, int piece, int directionLigne, int directionColonne) {
+        int l = ligne + 2 * directionLigne;         //nouvelles coordonnées de la pièce pour un mouvement de 2cases
+        int c = colonne + 2 * directionColonne;     //en fonction de la direction
 
-        if (caseValide(l, c) && !memeCouleur(plateau, l, c, couleur) && plateau[l-1][c-1]!=0) {
+        //si la case+2 de la pièce jouée est dans le plateau et pas occupée par une pièce de même couleur+que la case+1 est vide
+        //retourne faux (la pièce peut avancer au moins de 2cases supplémentaires
+        if (caseValide(l, c) && !memeCouleur(plateau, l, c, piece) && plateau[l-1][c-1]!=0) {
             return false;
         }
         return true;
@@ -1826,6 +1850,8 @@ public class methodes {
         int NvLigne, NvColonne;
         int choix=1;
 
+        //si la pièce peut avancer de plus de 2cases, on demande de combien on veut avancer, sinon la case avance automatiquement
+        //d'une case
         if(!avancerUneCaseMax(plateau, ligne, colonne, couleur, hautBas, gaucheDroite)) {
             System.out.print("Tu veux avancer de combien ? ");      //demande de combien le joueur veut se déplacer sans prendre en compte la direction
             String choixS = sc.nextLine();
@@ -1878,7 +1904,7 @@ public class methodes {
     public static String direction(int direction, int piece){
         String directions=" ";
 
-        if(piece<=6) {
+        if(piece<=6) {          //pour le mouvement des pièces jaunes (quand les bleus sont en bas du plateau)
             switch (direction) {
                 case 1: directions = "vers le haut";
                     break;
@@ -1898,7 +1924,7 @@ public class methodes {
                     break;
             }
         }
-        else{
+        else{                           //pour le mouvement des pièces bleues (quand les jaunes sont en bas du plateau)
             switch (direction) {
                 case 1: directions = "vers le bas";
                     break;
@@ -2120,16 +2146,17 @@ public class methodes {
         return false;
     }
 
+    //fonction qui retourne vrai si la case du plateau choisie est attaquée par une pièce ennemie
+    //(si la case mettrait le roi en échec)
+    //permet de vérifier si le mouvement roque est possible pour le roi
     public static boolean estEnEchecCoordonnee(int[][] plateau, int ligne, int colonne, int Roi) {
         // Parcourir tout le plateau pour trouver les pièces ennemies
         for (int l = 0; l < 8; l++) {
             for (int c = 0; c < 8; c++) {
-                int piece = plateau[l][c];
 
-                if (piece != 0 && !memeCouleur(plateau, l, c, Roi)) {
-                    if (peutAttaquer(plateau, l, c, ligne, colonne)) {
-                        return true;
-                    }
+                //si la case est occupée par une pièce ennemie et qu'elle peut attaquer
+                if (!memeCouleurEtVide(plateau, l, c, Roi) && peutAttaquer(plateau, l, c, ligne, colonne)) {
+                    return true;        //retourne vrai
                 }
             }
         }
