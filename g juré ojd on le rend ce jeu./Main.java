@@ -91,9 +91,9 @@ public class Main {
                 methodes.remplir(plateau);              //et le joueur choisi les blancs (commence donc la partie)
 
             int tour = 0;
-            char joueur='B';
+            char joueur;
 
-            while (!abandonJoueur && !methodes.MaterielInsuffisant(plateau) && !methodes.pat(plateau, joueur)) {
+            while (!abandonJoueur && !methodes.MaterielInsuffisant(plateau)) {
                 //initialise les couleurs en fonction du tour (pair = blancs et impair = noirs)
                 if (tour % 2 == 0){
                     joueur = 'B';
@@ -175,6 +175,13 @@ public class Main {
                         else
                             System.out.println(pseudo1 + " vous avez perdu !");
                     }
+                    break;
+                }
+
+                //Affichage des gagnants quand il y a pat
+                if (methodes.pat(plateau, joueur)) {
+                    System.out.println("\n ============================================= PAT ==============================================");
+                    System.out.println("Partie nulle : il y a pat");
                     break;
                 }
             }
