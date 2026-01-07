@@ -224,7 +224,7 @@ public class methodes {
             } else if (plateau[ligne][colonne] == 9 || plateau[ligne][colonne] == 3){     //fous
                 bouger = pieceAutour2(plateau, ligne, colonne);
             } else if(plateau[ligne][colonne]==8||plateau[ligne][colonne]==2){            //cavaliers
-                bouger = bougerCavalier(plateau, ligne, colonne);
+                bouger = bougerCavalierPossible(plateau, ligne, colonne);
             } else {
                 bouger = pieceAutour(plateau, ligne, colonne) && pieceAutour2(plateau, ligne, colonne);
             }
@@ -449,7 +449,7 @@ public class methodes {
 
                 //appel des cavaliers
             } else if (plateau[ligne][colonne] == 8 || plateau[ligne][colonne] == 2) {
-                if (bougerCavalier(plateau, ligne, colonne)) {
+                if (bougerCavalierPossible(plateau, ligne, colonne)) {
                     System.out.println("❌ Impossible de bouger le cavalier");
                     coordonnees(plateau, joueur, mode);
                 } else {
@@ -511,7 +511,7 @@ public class methodes {
     }
 
     //fonction qui retourne vrai si le mouvement du Cavalier est en L et possible selon sa position (mode 2)
-    public static boolean bougerCavalier(int[][] plateau, int ligne, int colonne) {
+    public static boolean bougerCavalierPossible(int[][] plateau, int ligne, int colonne) {
         int piece = plateau[ligne][colonne];
         int nouvelleL;
         int nouvelleC;
@@ -737,7 +737,7 @@ public class methodes {
         }
     }
 
-    //méthode qui permet l'affichage du plateau 
+    //méthode qui permet l'affichage du plateau
     public static void plateau(int[][] plateau) {
         for (int i = 0; i < plateau.length; i++) {
             for (int j = 0; j < plateau[i].length; j++) {
@@ -896,42 +896,6 @@ public class methodes {
             }
         }
         return false;
-    }
-
-    //fonction qui retourne vrai s'il y a des pièces entre la position initiale de la pièce et sa destination-1 avec
-    //simplement les lignes de départ et d'arrivée de chaque pièce
-    public static boolean empechementRobot(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
-        //initialisation des directions
-        int directionLigne = 0;     //HautBas
-        int directionColonne = 0;      //GaucheDroite
-
-        //Direction des lignes
-        if (nvLigne > ligne)
-            directionLigne = 1;
-        else if (nvLigne < ligne)
-            directionLigne = -1;
-
-        //Direction des colonnes
-        if (nvColonne > colonne)
-            directionColonne = 1;
-        else if (nvColonne < colonne)
-            directionColonne = -1;
-
-        //initialisation de la première case à tester en fonction de la direction (on extrait la ligne de départ pour le test)
-        int l = ligne + directionLigne;
-        int c = colonne + directionColonne;
-
-        while (l != nvLigne || c != nvColonne) {    //tant qu'on est pas arrivé à la case finale
-
-            if (caseValide(l, c) && plateau[l][c] != 0) {   //si la case est dans le plateau et occupée
-                return true;            //on retourne vrai (il y a un empechement)
-            }
-
-            //on ajoute/enlève 1 à chaque indice en fonction de la direction du mouvement
-            l = l + directionLigne;
-            c = c + directionColonne;
-        }
-        return false;       //sinon on retourne faux, aucun empêchement
     }
 
     //fonction qui renvoie vraie si la pièce actuelle est de la même couleur que celle de la couleur de la pièce sur la case de notre choix
@@ -1286,6 +1250,42 @@ public class methodes {
         //déplacement de la pièce
         plateau[ligne][colonne] = 0;
         plateau[NvLigne][NvColonne] = piece;
+    }
+
+    //fonction qui retourne vrai s'il y a des pièces entre la position initiale de la pièce et sa destination-1 avec
+    //simplement les lignes de départ et d'arrivée de chaque pièce
+    public static boolean empechementRobot(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
+        //initialisation des directions
+        int directionLigne = 0;     //HautBas
+        int directionColonne = 0;      //GaucheDroite
+
+        //Direction des lignes
+        if (nvLigne > ligne)
+            directionLigne = 1;
+        else if (nvLigne < ligne)
+            directionLigne = -1;
+
+        //Direction des colonnes
+        if (nvColonne > colonne)
+            directionColonne = 1;
+        else if (nvColonne < colonne)
+            directionColonne = -1;
+
+        //initialisation de la première case à tester en fonction de la direction (on extrait la ligne de départ pour le test)
+        int l = ligne + directionLigne;
+        int c = colonne + directionColonne;
+
+        while (l != nvLigne || c != nvColonne) {    //tant qu'on est pas arrivé à la case finale
+
+            if (caseValide(l, c) && plateau[l][c] != 0) {   //si la case est dans le plateau et occupée
+                return true;            //on retourne vrai (il y a un empechement)
+            }
+
+            //on ajoute/enlève 1 à chaque indice en fonction de la direction du mouvement
+            l = l + directionLigne;
+            c = c + directionColonne;
+        }
+        return false;       //sinon on retourne faux, aucun empêchement
     }
 
     //plusieurs mini fonctions retournant true si le mouvement est possible en fonction de la position de la pièce sur le plateau
@@ -1900,7 +1900,7 @@ public class methodes {
 
         return pieces;
     }
-    
+
     //fonction retournant un String pour l'affichage des mouvements, en fonction de la direction et
     //de la pièce jouée
     public static String direction(int direction, int piece){
@@ -1974,51 +1974,41 @@ public class methodes {
         }
     }
 
+    //fonction booleene qui retourne vrai quand il y a pat, en parcourant le tableau à la recherche de mouvement possible
+    //pour chaque pièce trouvée de la couleur du joueur
     public static boolean pat(int[][] plateau, char joueur) {
         if (estEnEchec(plateau, joueur)) {      //S'il y a échec alors il n'y a pas de pat
             return false;
         }
 
+        //on parcourt tout le tableau à la recherche des pièces disponibles
         for (int ligne = 0; ligne < 8; ligne++) {
             for (int colonne = 0; colonne < 8; colonne++) {
 
-                int piece = plateau[ligne][colonne];
+                int piece = plateau[ligne][colonne];        //on récupère la pièce trouvée
 
                 if (couleurJoueur(plateau, ligne, colonne, joueur)) {     //On vérifie que la case contient une pièce du joueur
+                    boolean coupPossible = false;
 
-                    // 3️⃣ Tester toutes les destinations possibles
-                    for (int nvLigne = 0; nvLigne < 8; nvLigne++) {
-                        for (int nvColonne = 0; nvColonne < 8; nvColonne++) {
+                    //Vérifier si la pièce peut bouger selon son type
+                    if (piece == 6 || piece == 12)
+                        coupPossible = pieceAutour3(plateau, ligne, colonne);
+                    else if (piece == 1 || piece == 7)      //tours
+                        coupPossible = pieceAutour(plateau, ligne, colonne);
+                    else if (piece == 3 || piece == 9)      //fous
+                        coupPossible = pieceAutour2(plateau, ligne, colonne);
+                    else if (piece == 2 || piece == 8)      //cavalier
+                        coupPossible = bougerCavalierPossible(plateau, ligne, colonne);
+                    else if (piece == 4 || piece == 11 || piece == 5 || piece == 10)        //dame roi
+                        coupPossible = pieceAutour2(plateau, ligne, colonne) || pieceAutour(plateau, ligne, colonne);
 
-                            if (caseValide(nvLigne, nvColonne) && !memeCouleur(plateau, nvLigne, nvColonne, piece)) {
-                                boolean coupPossible = false;
-
-                                // 4️⃣ Vérifier selon le type de pièce
-                                if (piece == 6 || piece == 12)
-                                    coupPossible = mouvementPionRobot(plateau, ligne, colonne, nvLigne, nvColonne, piece);
-                                else if (piece == 1 || piece == 7)
-                                    coupPossible = mouvementTour(plateau, ligne, colonne, nvLigne, nvColonne);
-                                else if (piece == 3 || piece == 9)
-                                    coupPossible = mouvementFou(plateau, ligne, colonne, nvLigne, nvColonne);
-                                else if (piece == 2 || piece == 8)
-                                    coupPossible = mouvementCavalier(ligne, colonne, nvLigne, nvColonne);
-                                else if (piece == 4 || piece == 11)
-                                    coupPossible = mouvementTour(plateau, ligne, colonne, nvLigne, nvColonne) || mouvementFou(plateau, ligne, colonne, nvLigne, nvColonne);
-                                else if (piece == 5 || piece == 10)
-                                    coupPossible = mouvementRoiRobot(ligne, colonne, nvLigne, nvColonne);
-
-                                // 5️⃣ Dès qu’un coup est possible → PAS pat
-                                if (coupPossible) {
-                                    return false;
-                                }
-                            }
-                        }
+                    if (coupPossible) {         //si une pièce au moins peut bouger alors pas pat
+                        return false;
                     }
                 }
             }
         }
-        // 6️⃣ Aucun coup trouvé + pas en échec → PAT
-        return true;
+        return true;        //si aucune pièce peut bouger+le roi n'est pas en échec alors pat
     }
 
 
