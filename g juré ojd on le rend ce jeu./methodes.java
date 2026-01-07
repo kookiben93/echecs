@@ -1238,9 +1238,9 @@ public class methodes {
             }
 
             //regarde si la case est valide et pas occupée par une pièce de même couleur ou return false
-            if (!(caseValide(NvLigne, NvColonne)) || memeCouleur(plateau, NvLigne, NvColonne, piece)) {
+            if (!(caseValide(NvLigne, NvColonne)) || memeCouleur(plateau, NvLigne, NvColonne, piece) || !mouvementValide {
                 mouvementValide = false;
-                System.out.println(pieceS + " ne peut pas aller là");
+                System.out.println(pieceS + "ne peut pas aller là");
             }
 
         } while (!mouvementValide);     //tant que le mouvement est pas valide on redemande les coordonnées
