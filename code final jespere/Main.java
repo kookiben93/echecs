@@ -117,7 +117,7 @@ public class Main {
                         else
                             System.out.println(pseudo1 + " vous avez perdu !");
                     }
-                    break;
+                    break;        //si il y a échec et mat on sort de la boucle : la partie est finie
                 }
 
                 if (bleu.equals("oui")) {       //si le joueur1 joue les bleus,
