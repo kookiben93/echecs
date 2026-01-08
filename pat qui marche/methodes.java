@@ -1742,7 +1742,7 @@ public class methodes {
 
     //fonction retournant vrai si le roi n'a pas bougé et si l'une des 2 Tours de sa couleur, également
     public static boolean nbMouvementsTourRoi(boolean TourLoin, boolean TourProche, int nbMouvementR){
-        return nbMouvementR==0 (TourLoin || TourProche);
+        return nbMouvementR==0 && (TourLoin || TourProche);
     }
     //fonction retournant vrai si le petit roque est possible en fonction de si la tour la plus proche n'a jamais bougé, et si les cases
     //séparant le roi et cette Tour sont vides et pas sous échec
