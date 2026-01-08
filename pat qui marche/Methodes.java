@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class methodes {
+public class Methodes {
     static int mvtTourA1 = 0;       //Mouvements de la Tour Bleue Loin initialisés à 0
     static int mvtTourA8 = 0;       //Mouvements de la Tour Jaune Loin initialisés à 0
     static int mvtTourH1 = 0;       //Mouvements de la Tour Bleue Proche initialisés à 0
@@ -21,7 +21,7 @@ public class methodes {
         System.out.println("3. Quitter le jeu");
         String choixS = scanner.nextLine();     //prend la valeur sous forme de String pour éviter les erreurs
 
-        choix = methodes.conversionEnInt(choixS);   //la convertit en int
+        choix = Methodes.conversionEnInt(choixS);   //la convertit en int
 
         return choix;   //renvoie le choix du joueur
     }
@@ -65,7 +65,7 @@ public class methodes {
         System.out.println("=======================================================================================");
         System.out.println();
 
-        choix = methodes.debut();   //redemande le choix en affichant le menu
+        choix = Methodes.debut();   //redemande le choix en affichant le menu
 
         return choix;               //renvoie le nouveau choix
     }
@@ -404,7 +404,7 @@ public class methodes {
                     System.out.println("❌ Impossible de bouger le pion");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.pion(plateau, ligne, colonne, joueur, mode);
+                    Pieces.pion(plateau, ligne, colonne, joueur, mode);
                 }
 
                 //appel des tours
@@ -413,7 +413,7 @@ public class methodes {
                     System.out.println("❌ Impossible de bouger la tour");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.tour(plateau, ligne, colonne, mode, joueur);
+                    Pieces.tour(plateau, ligne, colonne, mode, joueur);
                     if (ligne == 0 && colonne == 0)
                         mvtTourA8++;
                     else if (ligne == 0 && colonne == 7)
@@ -430,7 +430,7 @@ public class methodes {
                     System.out.println("Impossible de bouger le fou");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.fou(plateau, ligne, colonne, mode, joueur);
+                    Pieces.fou(plateau, ligne, colonne, mode, joueur);
                 }
 
                 //appel des rois
@@ -439,10 +439,10 @@ public class methodes {
                     System.out.println("❌ Impossible de bouger le roi");
                 } else {
                     if (plateau[ligne][colonne] == 5) {
-                        pieces.roi(plateau, ligne, colonne, mvtTourA8, mvtTourH8, mvtRoiJ, joueur, mode);
+                        Pieces.roi(plateau, ligne, colonne, mvtTourA8, mvtTourH8, mvtRoiJ, joueur, mode);
                         mvtRoiJ++;
                     } else {
-                        pieces.roi(plateau, ligne, colonne, mvtTourA1, mvtTourH1, mvtRoiB, joueur, mode);
+                        Pieces.roi(plateau, ligne, colonne, mvtTourA1, mvtTourH1, mvtRoiB, joueur, mode);
                         mvtRoiB++;
                     }
                 }
@@ -453,7 +453,7 @@ public class methodes {
                     System.out.println("❌ Impossible de bouger le cavalier");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.cavalier(plateau, ligne, colonne, mode, joueur);
+                    Pieces.cavalier(plateau, ligne, colonne, mode, joueur);
                 }
 
                 //appel des dames
@@ -462,7 +462,7 @@ public class methodes {
                     System.out.println("❌ Impossible de bouger la dame");
                     coordonnees(plateau, joueur, mode);
                 } else {
-                    pieces.dame(plateau, ligne, colonne, joueur, mode);
+                    Pieces.dame(plateau, ligne, colonne, joueur, mode);
                 }
             } else {
                 System.out.println("❌ Case vide, veuillez recommencer");
@@ -643,7 +643,7 @@ public class methodes {
 
                 System.out.print(": ");
                 String choixS = sc.nextLine();
-                choix = methodes.conversionEnInt(choixS);
+                choix = Methodes.conversionEnInt(choixS);
 
                 //choix valide seulement si le mouvement auquel il correspond est disponible
                 if ((choix == 1 && LgrandHautGauche) || (choix == 2 && LgrandHautDroit) || (choix == 3 && LpetitHautGauche) || (choix == 4 && LpetitHautDroit)
@@ -992,7 +992,7 @@ public class methodes {
                 }
                 System.out.print(": ");
                 String choixS = sc.nextLine();
-                choix = methodes.conversionEnInt(choixS);
+                choix = Methodes.conversionEnInt(choixS);
 
                 //choix valide seulement si le mouvement auquel il correspond est disponible
                 if ((choix == 1 && haut) || (choix == 2 && gauche) || (choix == 3 && droite) || (choix == 4 && bas)) {
@@ -1037,7 +1037,7 @@ public class methodes {
                     System.out.print("3 pour avancer ");
                 System.out.print(": ");
                 String choixS = sc.nextLine();
-                choix = methodes.conversionEnInt(choixS);
+                choix = Methodes.conversionEnInt(choixS);
 
                 if ((choix == 1 && diagoGauche) || (choix == 2 && diagoDroite) || (choix == 3 && avanceUn)) {
                     valide = true;
@@ -1059,7 +1059,7 @@ public class methodes {
         while (choix != 1 && choix != 2 && choix != 3 && choix != 4) {
             System.out.print("1 promouvoir en dame, 2 promouvoir en tour, 3 promouvoir en fou, 4 promouvoir en cavalier : ");
             String choixS = sc.nextLine();
-            choix = methodes.conversionEnInt(choixS);
+            choix = Methodes.conversionEnInt(choixS);
         }
         if (pion == 12) { //pion bleu
             if (choix == 1){
@@ -1371,7 +1371,7 @@ public class methodes {
                 System.out.print("Voulez-vous faire une prise en passant ? (1 pour oui, 0 pour non) ");
                 String reponseS = sc.nextLine();
 
-                reponse = methodes.conversionEnInt(reponseS);
+                reponse = Methodes.conversionEnInt(reponseS);
             } while (reponse != 1 && reponse != 0);
         }
         if (reponse == 1){
@@ -1394,7 +1394,7 @@ public class methodes {
                     do {
                         System.out.print("Avancer de 1 ou 2 cases : ");
                         String avancerS = sc.nextLine();
-                        avancer = methodes.conversionEnInt(avancerS);
+                        avancer = Methodes.conversionEnInt(avancerS);
                     } while (avancer != 1 && avancer != 2);
                     NvLigne = ligne + (avancer * sens);
                     if (avancer == 2) {
@@ -1439,7 +1439,7 @@ public class methodes {
             while (choix != 1 && choix != 2) {
                 System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale : ");
                 String choixS = sc.nextLine();
-                choix = methodes.conversionEnInt(choixS);
+                choix = Methodes.conversionEnInt(choixS);
             }
         } else if (ligneDroite) {
             choix = 1;
@@ -1476,7 +1476,7 @@ public class methodes {
             while (choix != 1 && choix != 2) {      //si il peut faire les 2 on affiche le choix sinon non
                 System.out.print("1 pour aller en ligne droite, 2 pour aller en diagonale : ");
                 String choixS = sc.nextLine();
-                choix = methodes.conversionEnInt(choixS);
+                choix = Methodes.conversionEnInt(choixS);
             }
         } else if (ligneDroite) {
             choix = 1;
@@ -1485,9 +1485,9 @@ public class methodes {
         }
 
         if (choix == 1) {
-            pieces.tour(plateau, ligne, colonne, mode, joueur);
+            Pieces.tour(plateau, ligne, colonne, mode, joueur);
         } else {
-            pieces.fou(plateau, ligne, colonne, mode, joueur);
+            Pieces.fou(plateau, ligne, colonne, mode, joueur);
         }
     }
 
@@ -1546,7 +1546,7 @@ public class methodes {
                 }
                 System.out.print(": ");
                 String choixS = sc.nextLine();
-                choix = methodes.conversionEnInt(choixS);
+                choix = Methodes.conversionEnInt(choixS);
 
                 //choix valide seulement si le mouvement auquel il correspond est disponible
                 if ((choix == 1 && hautGauche) || (choix == 2 && hautDroite) || (choix == 3 && basGauche) || (choix == 4 && basDroite)) {
@@ -1663,7 +1663,7 @@ public class methodes {
             while(oui!=1 && oui!=0) {
                 System.out.print("Voulez-vous roquer ? (1 pour oui, 0 pour non) : ");
                 String ouiS = sc.nextLine();
-                oui = methodes.conversionEnInt(ouiS);
+                oui = Methodes.conversionEnInt(ouiS);
             }
         }
         if (oui == 1) {         //si le joueur veut, appel de la méthode de roque
@@ -1674,7 +1674,7 @@ public class methodes {
                 BougeRoi(plateau, ligne, colonne, joueur, couleur);
             }
             else{                   //mode moyen
-                methodes.mouvementRoi(plateau, ligne, colonne, joueur, couleur);
+                Methodes.mouvementRoi(plateau, ligne, colonne, joueur, couleur);
             }
         }
     }
@@ -1728,7 +1728,7 @@ public class methodes {
                 System.out.print("Tapez 1 pour un petit Roque (avec la Tour la plus proche) ou tapez 2 pour un grand Roque (avec la Tour la plus éloignée)  : ");
                 String choixRoqueS = scanner.nextLine();
 
-                choixRoque = methodes.conversionEnInt(choixRoqueS);
+                choixRoque = Methodes.conversionEnInt(choixRoqueS);
             } while(choixRoque!=1 && choixRoque!=2);
         }
         else if(petit){         //seulement le petit roque possible
@@ -1872,7 +1872,7 @@ public class methodes {
         if(!avancerUneCaseMax(plateau, ligne, colonne, couleur, hautBas, gaucheDroite)) {
             System.out.print("Tu veux avancer de combien ? ");      //demande de combien le joueur veut se déplacer sans prendre en compte la direction
             String choixS = sc.nextLine();
-            choix = methodes.conversionEnInt(choixS);
+            choix = Methodes.conversionEnInt(choixS);
         }
         boolean empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
         NvLigne = ligne + (hautBas * choix);        //change en fonction de si le joueur veut monter/descendre ou aucun des 2
@@ -1882,7 +1882,7 @@ public class methodes {
             System.out.println("❌ impossible d'avancer jusque là");
             System.out.print("de combien veux-tu avancer ? : ");
             String choixS = sc.nextLine();
-            choix = methodes.conversionEnInt(choixS);
+            choix = Methodes.conversionEnInt(choixS);
 
             empechement = empechement(plateau, ligne, colonne, choix, hautBas, gaucheDroite);
 
@@ -2017,7 +2017,7 @@ public class methodes {
                         coupPossible = !bougerCavalierPossible(plateau, ligne, colonne);
                     else if (piece == 4 || piece == 11 || piece == 5 || piece == 10)        //dame roi
                         coupPossible = !pieceAutour2(plateau, ligne, colonne) && !pieceAutour(plateau, ligne, colonne);
-                    
+
                     if (coupPossible) {         //si une pièce au moins peut bouger alors pas pat
                         return false;
                     }
