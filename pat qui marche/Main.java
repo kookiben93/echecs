@@ -8,7 +8,7 @@ public class Main {
 
         int[][] plateau = new int[8][8];
 
-        methodes.plateau(plateau);
+        Methodes.plateau(plateau);
 
         String pseudoBlanc;
         String pseudoNoir="";
@@ -20,10 +20,10 @@ public class Main {
 
         System.out.println("BIENVENUE");
         while (choix != 1 && choix != 2 && choix != 3) {
-            choix = methodes.debut();
+            choix = Methodes.debut();
         }
         while (choix == 2) {
-            choix = methodes.regles();
+            choix = Methodes.regles();
         }
 
         if (choix == 3) {
@@ -35,7 +35,7 @@ public class Main {
             do {
                 System.out.print("Voulez-vous jouer en 1v1 (1) contre le robot (2) ? : ");
                 String robotS = scanner.nextLine();
-                robot = methodes.conversionEnInt(robotS);
+                robot = Methodes.conversionEnInt(robotS);
             } while (robot!=1 && robot!=2);
 
             //choix difficulté (débutant ou moyen)
@@ -43,7 +43,7 @@ public class Main {
                 System.out.print("Tapez 1 pour le mode débutant, tapez 2 pour le mode moyen : ");
                 String modeS = scanner.nextLine();
 
-                modeJeu = methodes.conversionEnInt(modeS);
+                modeJeu = Methodes.conversionEnInt(modeS);
             } while (modeJeu!=1 && modeJeu!=2);
 
             //Si le mode est 1v1, demande le pseudo des 2 joueurs
@@ -88,12 +88,12 @@ public class Main {
             }
 
             if(robot == 1 || (bleu.equals("oui")))      //affiche le plateau si le mode est 1v1 ou si le mode est robot
-                methodes.remplir(plateau);              //et le joueur choisi les blancs (commence donc la partie)
+                Methodes.remplir(plateau);              //et le joueur choisi les blancs (commence donc la partie)
 
             int tour = 0;
             char joueur;
 
-            while (!abandonJoueur && !methodes.MaterielInsuffisant(plateau)) {
+            while (!abandonJoueur && !Methodes.MaterielInsuffisant(plateau)) {
                 //initialise les couleurs en fonction du tour (pair = blancs et impair = noirs)
                 if (tour % 2 == 0){
                     joueur = 'B';
@@ -102,7 +102,7 @@ public class Main {
                 }
 
                 //Affichage des gagnants quand il y a échec et mat
-                if (methodes.estEnEchecEtMat(plateau, joueur)) {
+                if (Methodes.estEnEchecEtMat(plateau, joueur)) {
                     System.out.println("\n =========================================== ÉCHEC ET MAT ============================================");
                     if(robot==1) {      //mode 1v1, il y a toujours un joueur qui a gagné
                         if (joueur == 'B') {
@@ -121,7 +121,7 @@ public class Main {
                 }
 
                 //Affichage des gagnants quand il y a pat
-                if (methodes.pat(plateau, joueur)) {
+                if (Methodes.pat(plateau, joueur)) {
                     System.out.println("\n ============================================= PAT ==============================================");
                     System.out.println("Partie nulle : il y a pat");
                     break;
@@ -130,28 +130,28 @@ public class Main {
                 if (bleu.equals("oui")) {       //si le joueur1 joue les bleus,
                     if (tour % 2 == 0) {        //il commence (en mode robot ET en mode 1v1, c'est lui qui commence)
                         System.out.println("Au tour de " + pseudoBlanc + " (bleus)");
-                        if (methodes.estEnEchec(plateau, joueur)) {     //tant que le joueur est en échec on le prévient qu'il doit changer la situation
+                        if (Methodes.estEnEchec(plateau, joueur)) {     //tant que le joueur est en échec on le prévient qu'il doit changer la situation
                             System.out.println();
                             System.out.println("⚠\uFE0F" + pseudoBlanc + " : votre Roi est en échec, vous devez le parer");
                         }
-                        methodes.coordonnees(plateau, joueur, modeJeu);     //appel de la méthode demandant les coordonnées de la pièce à bouger
+                        Methodes.coordonnees(plateau, joueur, modeJeu);     //appel de la méthode demandant les coordonnées de la pièce à bouger
                         if (!abandonJoueur && robot == 1) {         //si le joueur n'a pas encore abandonné
-                            methodes.remplir2(plateau);                 //Affichage du plateau avec les mouvements effectués pour le tour d'après
+                            Methodes.remplir2(plateau);                 //Affichage du plateau avec les mouvements effectués pour le tour d'après
                         }
                     } else {
                         if(robot==1) {      //Si le mode est 1v1
                             System.out.println("Au tour de " + pseudoNoir + " (jaunes)");
-                            if (methodes.estEnEchec(plateau, joueur)) {     //tant que le joueur est en échec on le prévient qu'il doit changer la situation
+                            if (Methodes.estEnEchec(plateau, joueur)) {     //tant que le joueur est en échec on le prévient qu'il doit changer la situation
                                 System.out.println();
                                 System.out.println("⚠\uFE0F" + pseudoNoir + " : votre Roi est en échec, vous devez le parer");
                             }
-                            methodes.coordonnees(plateau, joueur, modeJeu);     //appel de la méthode demandant les coordonnées de la pièce à bouger
+                            Methodes.coordonnees(plateau, joueur, modeJeu);     //appel de la méthode demandant les coordonnées de la pièce à bouger
                             if (!abandonJoueur) {                   //si le joueur n'a pas encore abandonné
-                                methodes.remplir(plateau);              //Affichage du plateau avec les mouvements effectués pour le tour d'après
+                                Methodes.remplir(plateau);              //Affichage du plateau avec les mouvements effectués pour le tour d'après
                             }
                         } else {            //Si le mode est robot, c'est donc le robot le joueur2
-                            methodes.robotChoix(plateau, joueur);       //appel de la méthode du robot
-                            methodes.remplir(plateau);          //affichage du plateau avec les bleus en bas et les mouvements effectués par le robot
+                            Methodes.robotChoix(plateau, joueur);       //appel de la méthode du robot
+                            Methodes.remplir(plateau);          //affichage du plateau avec les bleus en bas et les mouvements effectués par le robot
                         }
                     }
                 } else {                    //si le joueur1 joue les jaunes
@@ -159,27 +159,27 @@ public class Main {
                         //mode 1v1
                         if(robot==1) {
                             System.out.println("Au tour de " + pseudoBlanc + " (bleus)");
-                            if (methodes.estEnEchec(plateau, joueur)) {     //tant que le joueur est en échec on le prévient qu'il doit changer la situation
+                            if (Methodes.estEnEchec(plateau, joueur)) {     //tant que le joueur est en échec on le prévient qu'il doit changer la situation
                                 System.out.println(pseudoBlanc + " : votre Roi est en échec, vous devez le parer");
                             }
-                            methodes.coordonnees(plateau, joueur, modeJeu);     //appel de la méthode demandant les coordonnées de la pièce à bouger
+                            Methodes.coordonnees(plateau, joueur, modeJeu);     //appel de la méthode demandant les coordonnées de la pièce à bouger
                             if (!abandonJoueur) {                   //si le joueur n'a pas encore abandonné
-                                methodes.remplir2(plateau);             //Affichage du plateau avec les mouvements effectués pour le tour d'après
+                                Methodes.remplir2(plateau);             //Affichage du plateau avec les mouvements effectués pour le tour d'après
                             }
                         }
                         //mode robot
                         else {
-                            methodes.robotChoix(plateau, joueur);       //appel de la méthode du robot
-                            methodes.remplir2(plateau);         //affichage du plateau avec les jaunes et les mouvements effectués par le robot
+                            Methodes.robotChoix(plateau, joueur);       //appel de la méthode du robot
+                            Methodes.remplir2(plateau);         //affichage du plateau avec les jaunes et les mouvements effectués par le robot
                         }
                     } else {
                         System.out.println("Au tour de " + pseudoNoir + " (jaunes)");
-                        if (methodes.estEnEchec(plateau, joueur)) {     //tant que le joueur est en échec on le prévient qu'il doit changer la situation
+                        if (Methodes.estEnEchec(plateau, joueur)) {     //tant que le joueur est en échec on le prévient qu'il doit changer la situation
                             System.out.println(pseudoNoir + " : votre Roi est en échec, vous devez le parer");
                         }
-                        methodes.coordonnees(plateau, joueur, modeJeu);     //appel de la méthode demandant les coordonnées de la pièce à bouger
+                        Methodes.coordonnees(plateau, joueur, modeJeu);     //appel de la méthode demandant les coordonnées de la pièce à bouger
                         if (!abandonJoueur && robot == 1) {         //si le joueur n'a pas encore abandonné et le mode est 1v1 (en mode robot l'affichage est inutile après le tour du joueur)
-                            methodes.remplir(plateau);                  //Affichage du plateau avec les mouvements effectués pour le tour d'après
+                            Methodes.remplir(plateau);                  //Affichage du plateau avec les mouvements effectués pour le tour d'après
                         }
                     }
                 }
@@ -199,7 +199,7 @@ public class Main {
                 }
             }
             //Affichage de fin de partie en cas de NULL
-            else if (methodes.MaterielInsuffisant(plateau)) {
+            else if (Methodes.MaterielInsuffisant(plateau)) {
                 System.out.println("\n =========================================== NULL ============================================");
                 System.out.println("Partie nulle : matériel insuffisant pour continuer");
             }
@@ -234,7 +234,7 @@ public class Main {
             System.out.println();
         } else {
             System.out.println();
-            methodes.coordonnees(plateau, joueur, mode);
+            Methodes.coordonnees(plateau, joueur, mode);
         }
     }
 }
