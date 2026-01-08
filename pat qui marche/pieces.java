@@ -1,14 +1,14 @@
-public class pieces {
+public class Pieces {
 
     //Méthode pour le Pion
     public static void pion(int[][] plateau, int ligne, int colonne, char joueur, int mode) {
         int pion = plateau[ligne][colonne]; //couleur de la pièce
 
         if (mode == 1) {
-            methodes.BougePion(plateau, ligne, colonne, joueur, pion);
+            Methodes.BougePion(plateau, ligne, colonne, joueur, pion);
         }
         else{
-            methodes.mouvementPion(plateau, ligne, colonne, pion, joueur);
+            Methodes.mouvementPion(plateau, ligne, colonne, pion, joueur);
         }
     }
 
@@ -17,9 +17,9 @@ public class pieces {
         int tour = plateau[ligne][colonne]; //couleur de la pièce
 
         if(mode==1){
-            methodes.BougeTour(plateau, ligne, colonne, tour, joueur);
+            Methodes.BougeTour(plateau, ligne, colonne, tour, joueur);
         } else{
-            methodes.destinationPiece(plateau, ligne, colonne, tour, joueur);
+            Methodes.destinationPiece(plateau, ligne, colonne, tour, joueur);
         }
     }
 
@@ -28,9 +28,9 @@ public class pieces {
         int fou = plateau[ligne][colonne]; //couleur de la pièce
 
         if(mode==1) {
-            methodes.BougeFou(plateau, ligne, colonne, fou, joueur);
+            Methodes.BougeFou(plateau, ligne, colonne, fou, joueur);
         } else{
-            methodes.destinationPiece(plateau, ligne, colonne, fou, joueur);
+            Methodes.destinationPiece(plateau, ligne, colonne, fou, joueur);
         }
     }
 
@@ -39,9 +39,9 @@ public class pieces {
         int roi = plateau[ligne][colonne]; //couleur de la pièce
 
         if (mode == 1) {
-            methodes.demandeRoque(plateau, ligne, colonne, roi, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 1);
+            Methodes.demandeRoque(plateau, ligne, colonne, roi, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 1);
         } else {
-            methodes.demandeRoque(plateau, ligne, colonne, roi, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 2);
+            Methodes.demandeRoque(plateau, ligne, colonne, roi, joueur, mvtTourLoin, mvtTourProche, mvtRoi, 2);
         }
     }
 
@@ -49,7 +49,7 @@ public class pieces {
     public static void cavalier(int[][] plateau, int ligne, int colonne, int mode, char joueur) {
         int NvColonne;
         int NvLigne;
-        String col = methodes.conversionEnString(colonne);
+        String col = Methodes.conversionEnString(colonne);
         int cavalier = plateau[ligne][colonne]; //couleur de la pièce
 
         if (mode == 1){
@@ -57,7 +57,7 @@ public class pieces {
             int gaucheDroite = 0;   //valeur pour le mouvement gauche ou droite selon la demande
 
             //appel de méthode pour connaître la mouvement en L du cavalier choisi par le joueur
-            int direction = methodes.AffichageDirectionsCavalier(plateau, ligne, colonne, cavalier);
+            int direction = Methodes.AffichageDirectionsCavalier(plateau, ligne, colonne, cavalier);
 
             //coordoonées des ligne et colonne en fonction de la direction choisie
             switch (direction) {
@@ -98,7 +98,7 @@ public class pieces {
             NvLigne = ligne + hautBas;
             NvColonne = colonne + gaucheDroite;
 
-            String NvCol = methodes.conversionEnString(NvColonne);
+            String NvCol = Methodes.conversionEnString(NvColonne);
 
             //affichage du mouvement et déplacement de la pièce
             System.out.println();
@@ -107,7 +107,7 @@ public class pieces {
             plateau[NvLigne][NvColonne] = cavalier;
         }
         else{           //mode 2 cavalier
-            methodes.destinationPiece(plateau, ligne, colonne, cavalier, joueur);
+            Methodes.destinationPiece(plateau, ligne, colonne, cavalier, joueur);
         }
     }
 
@@ -116,9 +116,9 @@ public class pieces {
         int dame = plateau[ligne][colonne];
 
         if (mode == 1) {
-            methodes.BougeDame(plateau, ligne, colonne, joueur, dame, mode);
+            Methodes.BougeDame(plateau, ligne, colonne, joueur, dame, mode);
         } else {
-            methodes.destinationPiece(plateau, ligne, colonne, dame, joueur);
+            Methodes.destinationPiece(plateau, ligne, colonne, dame, joueur);
         }
     }
 }
