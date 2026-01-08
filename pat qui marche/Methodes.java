@@ -327,6 +327,8 @@ public class Methodes {
         int coordonnee = 9;
 
         switch(valeur){
+            case "0": coordonnee = 0;
+                break;
             case "1": coordonnee = 1;
                 break;
             case "2": coordonnee = 2;
