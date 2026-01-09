@@ -627,21 +627,21 @@ public class Methodes {
             while (!valide) {
                 System.out.print("Choisissez une direction : ");
                 if (LgrandHautGauche)
-                    System.out.print("1 pour aller en (" + colSans1 + "," + (10-ligne)+ ") ");
+                    System.out.print("✴\uFE0F" + " 1 pour aller en (" + colSans1 + "," + (10-ligne)+ ") ");
                 if (LgrandHautDroit)
-                    System.out.print("2 pour aller en (" + colEt1 + "," + (10-ligne)+ ") ");
+                    System.out.print("✴\uFE0F" + " 2 pour aller en (" + colEt1 + "," + (10-ligne)+ ") ");
                 if (LpetitHautGauche)
-                    System.out.print("3 pour aller en (" + colSans2 + "," + (9-ligne) + ") ");
+                    System.out.print("✴\uFE0F" + " 3 pour aller en (" + colSans2 + "," + (9-ligne) + ") ");
                 if (LpetitHautDroit)
-                    System.out.print("4 pour aller en (" + colEt2 + "," + (9-ligne) + ") ");
+                    System.out.print("✴\uFE0F" + " 4 pour aller en (" + colEt2 + "," + (9-ligne) + ") ");
                 if (LgrandBasGauche)
-                    System.out.print("5 pour aller en (" + colSans1 + "," + (6-ligne) + ") ");
+                    System.out.print("✴\uFE0F" + " 5 pour aller en (" + colSans1 + "," + (6-ligne) + ") ");
                 if (LgrandBasDroit)
-                    System.out.print("6 pour aller en (" + colEt1 + "," + (6-ligne) + ") ");
+                    System.out.print("✴\uFE0F" + " 6 pour aller en (" + colEt1 + "," + (6-ligne) + ") ");
                 if (LpetitBasGauche)
-                    System.out.print("7 pour aller en (" + colSans2 + "," + (7-ligne) + ") ");
+                    System.out.print("✴\uFE0F" + " 7 pour aller en (" + colSans2 + "," + (7-ligne) + ") ");
                 if (LpetitBasDroit)
-                    System.out.print("8 pour aller en (" + colEt2 + "," + (7-ligne) + ") ");
+                    System.out.print("✴\uFE0F" + " 8 pour aller en (" + colEt2 + "," + (7-ligne) + ") ");
 
                 System.out.print(": ");
                 String choixS = sc.nextLine();
@@ -975,22 +975,22 @@ public class Methodes {
                 System.out.print("Choisissez une direction : ");
                 if (joueur == 'B') {        //Si le joueur joue les bleus
                     if (haut)
-                        System.out.print("1 pour aller en haut ");
+                        System.out.print("✴\uFE0F" + " 1 pour aller en haut ");
                     if (gauche)
-                        System.out.print("2 pour aller à gauche ");
+                        System.out.print("✴\uFE0F" + " 2 pour aller à gauche ");
                     if (droite)
-                        System.out.print("3 pour aller à droite ");
+                        System.out.print("✴\uFE0F" + " 3 pour aller à droite ");
                     if (bas)
-                        System.out.print("4 pour aller en bas ");
+                        System.out.print("✴\uFE0F" + " 4 pour aller en bas ");
                 } else {                    //Si le joueur joue les jaunes (plateau inversé)
                     if (haut)
-                        System.out.print("1 pour aller en bas ");
+                        System.out.print("✴\uFE0F" + " 1 pour aller en bas ");
                     if (gauche)
-                        System.out.print("2 pour aller à droite ");
+                        System.out.print("✴\uFE0F" + " 2 pour aller à droite ");
                     if (droite)
-                        System.out.print("3 pour aller à gauche ");
+                        System.out.print("✴\uFE0F" + " 3 pour aller à gauche ");
                     if (bas)
-                        System.out.print("4 pour aller en haut ");
+                        System.out.print("✴\uFE0F" + " 4 pour aller en haut ");
                 }
                 System.out.print(": ");
                 String choixS = sc.nextLine();
@@ -1517,22 +1517,22 @@ public class Methodes {
                 System.out.print("Choisissez une direction : ");
                 if (joueur == 'B') {            //Si le joueur joue les bleus
                     if (hautGauche)
-                        System.out.print("1 pour aller en haut à gauche ");
+                        System.out.print("✴\uFE0F" + " 1 pour aller en haut à gauche ");
                     if (hautDroite)
-                        System.out.print("2 pour aller en haut à droite ");
+                        System.out.print("✴\uFE0F" + " 2 pour aller en haut à droite ");
                     if (basGauche)
-                        System.out.print("3 pour aller en bas à gauche ");
+                        System.out.print("✴\uFE0F" + " 3 pour aller en bas à gauche ");
                     if (basDroite)
-                        System.out.print("4 pour aller en bas à droite ");
+                        System.out.print("✴\uFE0F" + " 4 pour aller en bas à droite ");
                 } else {            //Si le joueur joue les jaunes (plateau inversé)
                     if (hautGauche)
-                        System.out.print("1 pour aller en bas à droite ");
+                        System.out.print("✴\uFE0F" + " 1 pour aller en bas à droite ");
                     if (hautDroite)
-                        System.out.print("2 pour aller en bas à gauche ");
+                        System.out.print("✴\uFE0F" + " 2 pour aller en bas à gauche ");
                     if (basGauche)
-                        System.out.print("3 pour aller en haut à droite ");
+                        System.out.print("✴\uFE0F" + " 3 pour aller en haut à droite ");
                     if (basDroite)
-                        System.out.print("4 pour aller en haut à gauche ");
+                        System.out.print("✴\uFE0F" + " 4 pour aller en haut à gauche ");
                 }
                 System.out.print(": ");
                 String choixS = sc.nextLine();
