@@ -1700,7 +1700,7 @@ public class Methodes {
         //affichage de la situation et déplacement du roi+de la tour en fonction du roque effectué
         if(choix==1){       //pour le petit roque
             System.out.println();
-            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + col4 + "," + (8-ligne) + ")");
+            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + (8-ligne) + "," + col4 + ")");
             plateau[ligne][colonne] = 0;
             plateau[ligne][colonne+2] = Roi;
             plateau[ligne][colonne+3] = 0;
@@ -1708,7 +1708,7 @@ public class Methodes {
         }
         else if(choix==2){      //pour le grand roque
             System.out.println();
-            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + col5 + "," + (8-ligne) + ")");
+            System.out.println("\uD83C\uDF1F Le roi " + couleur + " a roqué avec la tour (" + (8-ligne) + "," + col5 + ")");
             plateau[ligne][colonne] = 0;
             plateau[ligne][colonne-2] = Roi;
             plateau[ligne][colonne-4] = 0;
@@ -1749,15 +1749,21 @@ public class Methodes {
     //fonction retournant vrai si le petit roque est possible en fonction de si la tour la plus proche n'a jamais bougé, et si les cases
     //séparant le roi et cette Tour sont vides et pas sous échec
     public static boolean PetitRoque(int[][] plateau, int ligne, int colonne, boolean TourProche, int roi){
-        return TourProche && plateau[ligne][colonne+1]==0 && !caseEnEchec(plateau, ligne, colonne+1, roi)
-                && plateau[ligne][colonne+2]==0 && !caseEnEchec(plateau, ligne, colonne+2, roi);
+        if(caseValide(ligne, colonne + 1) && caseValide(ligne, colonne + 2) && !caseEnEchec(plateau, ligne, colonne, roi)) {
+            return TourProche && plateau[ligne][colonne + 1] == 0 && !caseEnEchec(plateau, ligne, colonne + 1, roi)
+                    && plateau[ligne][colonne + 2] == 0 && !caseEnEchec(plateau, ligne, colonne + 2, roi);
+        }
+        return false;
     }
     //fonction retournant vrai si le grand roque est possible en fonction de si la tour la plus éloignée n'a jamais bougé, et si les cases
     //séparant le roi et cette Tour sont vides et pas sous échec
     public static boolean GrandRoque(int[][] plateau, int ligne, int colonne, boolean TourLoin, int roi){
-        return TourLoin && plateau[ligne][colonne-1]==0 && !caseEnEchec(plateau, ligne, colonne-1, roi) &&
-                plateau[ligne][colonne-2]==0 && !caseEnEchec(plateau, ligne, colonne-2, roi)
-                && plateau[ligne][colonne-3]==0 && !caseEnEchec(plateau, ligne, colonne-3, roi) ;
+        if(caseValide(ligne, colonne-1) && caseValide(ligne, colonne+1) && caseValide(ligne, colonne-3) && !caseEnEchec(plateau, ligne, colonne, roi)) {
+            return TourLoin && plateau[ligne][colonne - 1] == 0 && !caseEnEchec(plateau, ligne, colonne - 1, roi) &&
+                    plateau[ligne][colonne - 2] == 0 && !caseEnEchec(plateau, ligne, colonne - 2, roi)
+                    && plateau[ligne][colonne - 3] == 0 && !caseEnEchec(plateau, ligne, colonne - 3, roi);
+        }
+        return false;
     }
 
     //méthode effectuant la prise en passant vers la droite
