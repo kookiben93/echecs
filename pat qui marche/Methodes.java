@@ -948,10 +948,10 @@ public class Methodes {
         boolean valide = false;
         int possibilites = 0;
 
-        boolean haut = haut(plateau, ligne, colonne, piece);
-        boolean gauche = gauche(plateau, ligne, colonne, piece);
-        boolean droite = droite(plateau, ligne, colonne, piece);
-        boolean bas = bas(plateau, ligne, colonne, piece);
+        boolean haut = caseValide(ligne - 1, colonne) && !(memeCouleur(plateau, ligne - 1, colonne, piece));
+        boolean gauche = caseValide(ligne, colonne - 1) && !(memeCouleur(plateau, ligne, colonne - 1, piece));
+        boolean droite = caseValide(ligne, colonne + 1) && !(memeCouleur(plateau, ligne, colonne + 1, piece));
+        boolean bas = caseValide(ligne + 1, colonne) && !(memeCouleur(plateau, ligne + 1, colonne, piece));
 
         if (haut) {
             possibilites++;
@@ -1319,18 +1319,6 @@ public class Methodes {
     public static boolean basDroite(int[][] plateau, int ligne, int colonne, int couleur) {
         return caseValide(ligne + 1, colonne + 1) && !(memeCouleur(plateau, ligne + 1, colonne + 1, couleur));
     }
-    public static boolean haut(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne - 1, colonne) && !(memeCouleur(plateau, ligne - 1, colonne, couleur));
-    }
-    public static boolean gauche(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne, colonne - 1) && !(memeCouleur(plateau, ligne, colonne - 1, couleur));
-    }
-    public static boolean droite(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne, colonne + 1) && !(memeCouleur(plateau, ligne, colonne + 1, couleur));
-    }
-    public static boolean bas(int[][] plateau, int ligne, int colonne, int couleur) {
-        return caseValide(ligne + 1, colonne) && !(memeCouleur(plateau, ligne + 1, colonne, couleur));
-    }
 
     //méthode qui affiche au joueur les possibilités pour faire avancer son pion et le fais avancer si possible (mode 1)
     public static void BougePion(int[][] plateau, int ligne, int colonne, char joueur, int pion) {
@@ -1424,10 +1412,10 @@ public class Methodes {
         Scanner sc = new Scanner(System.in);
         int choix = 0;
 
-        boolean haut = haut(plateau, ligne, colonne, joueur);
-        boolean gauche = gauche(plateau, ligne, colonne, joueur);
-        boolean droite = droite(plateau, ligne, colonne, joueur);
-        boolean bas = bas(plateau, ligne, colonne, joueur);
+        boolean haut = caseValide(ligne - 1, colonne) && !(memeCouleur(plateau, ligne - 1, colonne, couleur));
+        boolean gauche = caseValide(ligne, colonne - 1) && !(memeCouleur(plateau, ligne, colonne - 1, couleur));
+        boolean droite = caseValide(ligne, colonne + 1) && !(memeCouleur(plateau, ligne, colonne + 1, couleur));
+        boolean bas = caseValide(ligne + 1, colonne) && !(memeCouleur(plateau, ligne + 1, colonne, couleur));
 
         boolean hautGauche = hautGauche(plateau, ligne, colonne, couleur);
         boolean hautDroite = hautDroite(plateau, ligne, colonne, couleur);
@@ -1461,10 +1449,10 @@ public class Methodes {
         Scanner sc = new Scanner(System.in);
         int choix = 0;
 
-        boolean haut = haut(plateau, ligne, colonne, joueur);
-        boolean gauche = gauche(plateau, ligne, colonne, joueur);
-        boolean droite = droite(plateau, ligne, colonne, joueur);
-        boolean bas = bas(plateau, ligne, colonne, joueur);
+        boolean haut = caseValide(ligne - 1, colonne) && !(memeCouleur(plateau, ligne - 1, colonne, couleur));
+        boolean gauche = caseValide(ligne, colonne - 1) && !(memeCouleur(plateau, ligne, colonne - 1, couleur));
+        boolean droite = caseValide(ligne, colonne + 1) && !(memeCouleur(plateau, ligne, colonne + 1, couleur));
+        boolean bas = caseValide(ligne + 1, colonne) && !(memeCouleur(plateau, ligne + 1, colonne, couleur));
 
         boolean hautGauche = hautGauche(plateau, ligne, colonne, couleur);
         boolean hautDroite = hautDroite(plateau, ligne, colonne, couleur);
@@ -2108,8 +2096,7 @@ public class Methodes {
 
         // cas de la dame
         else if (piece == 4 || piece == 11) {
-            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligne, colonne) ||
-                    mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligne, colonne)) {
+            if (mouvementTour(plateau, ligneEnnemi, colonneEnnemi, ligne, colonne) || mouvementFou(plateau, ligneEnnemi, colonneEnnemi, ligne, colonne)) {
                 possible = true;
             }
         }
