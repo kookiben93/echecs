@@ -1215,7 +1215,7 @@ public class Methodes {
 
     //fonction qui renvoie vrai si les nouvelle coordonnées peuvent être dans les mouvements possibles de la tour (mode 2)
     public static boolean mouvementTour(int[][] plateau, int ligne, int colonne, int nvLigne, int nvColonne) {
-        return (nvLigne==ligne && nvColonne!=colonne) || (nvLigne!=ligne && nvColonne==colonne) && !empechementRobot(plateau, ligne, colonne, nvLigne, nvColonne);    //mouvements seulement droits
+        return ((nvLigne==ligne && nvColonne!=colonne) || (nvLigne!=ligne && nvColonne==colonne)) && !empechementRobot(plateau, ligne, colonne, nvLigne, nvColonne);    //mouvements seulement droits
     }
 
     //fonction qui renvoie vrai si les nouvelle coordonnées peuvent être dans les mouvements possibles du fou (mode 2)
