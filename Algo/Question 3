@@ -1,0 +1,42 @@
+import java.util.Arrays;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] données = générerDonnéesEntreBornes(20, 0, 20);   
+        afficher(données);
+        System.out.print("valeur la plus proche : ");
+        System.out.println(valeurLaPlusProche(données, 15));
+    }
+
+    public static int[] générerDonnéesEntreBornes(int longueur, int min, int max) {            Random random = new Random();
+        int[] t = new int[longueur];
+        for (int i = 0 ; i < t.length ; i++)
+            t[i] = random.nextInt(max-min+1)+min; // nextInt(borne) retourne un int compris entre 0 inclus et borne exclus.
+        return t;
+    }
+
+    public static void afficher(int[] tab){
+        for(int i = 1; i < tab.length; i++){
+            System.out.print(tab[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static int valeurLaPlusProche(int[] tab, int valeur){
+        int plusProche = tab[0];
+        int i=0;
+    
+        while(i < tab.length && plusProche!=valeur){
+            int distance = Math.abs(tab[i]-valeur);
+            int distanceLa = Math.abs(plusProche-valeur);
+            
+            if(distance<distanceLa)
+                plusProche = tab[i];
+            else if(distance==distanceLa && plusProche<tab[i])
+                plusProche = tab[i];
+            i++;
+        }
+        return plusProche;
+    }
+}
