@@ -1,0 +1,154 @@
+import java.util.Arrays;
+import java.util.Random;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] données = générerDonnéesEntreBornes(20, 0, 100);   
+        Arrays.sort(données);
+        afficher(données);
+        System.out.print("valeur la plus proche : ");
+        System.out.println(tkt(données, 25));
+    }
+
+    public static int[] générerDonnéesEntreBornes(int longueur, int min, int max) {            Random random = new Random();
+        int[] t = new int[longueur];
+        for (int i = 0 ; i < t.length ; i++)
+            t[i] = random.nextInt(max-min+1)+min; // nextInt(borne) retourne un int compris entre 0 inclus et borne exclus.
+        return t;
+    }
+
+    public static void afficher(int[] tab){
+        for(int i = 1; i < tab.length; i++){
+            System.out.print(tab[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static int valeurLaPlusProche(int[] tab, int valeur){
+        int plusProche = tab[0];
+        int i=0;
+    
+        while(i < tab.length && plusProche!=valeur){
+            int distance = Math.abs(tab[i]-valeur);
+            int distanceLa = Math.abs(plusProche-valeur);
+            
+            if(distance<distanceLa)
+                plusProche = tab[i];
+            else if(distance==distanceLa && plusProche<tab[i])
+                plusProche = tab[i];
+            i++;
+        }
+        return plusProche;
+    }
+
+    public static int valeurDichotomique(int[] tab, int valeur){
+        int plusProche = tab[0];
+        int i=1;
+    
+        while(i < tab.length && plusProche!=valeur){
+            int distance = Math.abs(tab[i]-valeur);
+            int distanceLa = Math.abs(plusProche-valeur);
+            
+            if(distance<distanceLa)
+                plusProche = tab[i];
+            else if(distance==distanceLa && plusProche<tab[i])
+                plusProche = tab[i];
+            i++;
+        }
+        return plusProche;
+    }
+
+    public static int tt(int[] tab, int val){
+        int indDebut = 0;
+        int indFin = tab.length-1;
+        int plusProche = tab[0];
+        int indMilieu;
+        boolean yep = false;
+
+        while(!yep && plusProche!=val && indDebut <= indFin){
+            indMilieu = (indDebut+indFin)/2;
+            int distance = Math.abs(tab[indMilieu]-val);
+            int distanceLa = Math.abs(plusProche-val);
+
+
+            
+            if(distance<distanceLa)
+                yep = true;
+            else if(distance==distanceLa && plusProche<tab[indMilieu]){
+                yep = true;
+                plusProche = tab[indMilieu];
+            }
+            
+            if(tab[indMilieu] == val){
+                plusProche = tab[indMilieu];
+            }
+            else if(val > tab[indMilieu]){
+                indDebut = indMilieu+1;
+                plusProche = tab[indMilieu+1];
+            }
+            else{
+                indFin = indMilieu-1;
+                plusProche = tab[indMilieu];
+            }
+        }
+        return plusProche;
+    }
+
+
+
+
+
+
+    public static int tkt(int[] tab, int val){
+    int indDebut = 0;
+    int indFin = tab.length - 1;
+    int plusProche = tab[0];
+    int indMilieu;
+    boolean yep = false;
+
+    while(!yep && indDebut <= indFin){
+        indMilieu = (indDebut + indFin) / 2;
+
+        int distance = Math.abs(tab[indMilieu] - val);
+        int distanceLa = Math.abs(plusProche - val);
+
+        // Mise à jour du plus proche
+        if(distance < distanceLa){
+            plusProche = tab[indMilieu];
+        } else if(distance == distanceLa && tab[indMilieu] > plusProche){
+            plusProche = tab[indMilieu];
+        }
+
+        // Si on a trouvé exactement la valeur
+        if(tab[indMilieu] == val){
+            plusProche = tab[indMilieu];
+            yep = true; // on peut sortir de la boucle
+        }
+        else if(val > tab[indMilieu]){
+            indDebut = indMilieu + 1;
+        }
+        else{
+            indFin = indMilieu - 1;
+        }
+    }
+
+    // Vérification finale si la valeur n'est pas exactement trouvée
+    if(!yep){
+        if(indDebut >= tab.length) 
+            indDebut = tab.length - 1;
+        if(indFin < 0) 
+            indFin = 0;
+
+        int distDebut = Math.abs(tab[indDebut] - val);
+        int distFin = Math.abs(tab[indFin] - val);
+
+        if(distDebut < distFin) 
+            plusProche = tab[indDebut];
+        else if(distFin < distDebut) 
+            plusProche = tab[indFin];
+        else 
+            plusProche = Math.max(tab[indDebut], tab[indFin]);
+    }
+
+    return plusProche;
+}
