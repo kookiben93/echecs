@@ -23,19 +23,52 @@ public class Main {
         System.out.println();
     }
 
+    //La question 3.a
     public static int valeurLaPlusProche(int[] tab, int valeur){
         int plusProche = tab[0];
-        int i=1;
+        int i=0;
     
         while(i < tab.length && plusProche!=valeur){
-            int distance = Math.abs(tab[i]-valeur);
-            int distanceLa = Math.abs(plusProche-valeur);
+            int distanceActuelle = Math.abs(tab[i]-valeur);
+            int distancePlusProche = Math.abs(plusProche-valeur);
             
-            if(distance<distanceLa)
+            if(distanceActuelle<distancePlusProche)
                 plusProche = tab[i];
-            else if(distance==distanceLa && plusProche<tab[i])
+            else if(distanceActuelle==distancePlusProche && plusProche<tab[i])
                 plusProche = tab[i];
             i++;
+        }
+        return plusProche;
+    }
+
+    //La questions 3.b
+    public static int valeurLaPlusProcheDichotomique(int[] tab, int valeur){
+        int indDebut = 0;
+        int indFin = tab.length - 1;
+        int indMilieu;
+        int plusProche = tab[0];
+    
+        while(indDebut <= indFin){
+            indMilieu = (indDebut + indFin) / 2;
+            int distanceActuelle = Math.abs(tab[indMilieu]-valeur);
+            int distancePlusProche = Math.abs(plusProche-valeur);
+    
+            if(distanceActuelle < distancePlusProche){
+                plusProche = tab[indMilieu];
+            }
+            else if(distanceActuelle == distancePlusProche && tab[indMilieu] > plusProche){
+                plusProche = tab[indMilieu];
+            }
+            
+            if(tab[indMilieu] == valeur){
+                return tab[indMilieu];
+            }
+            else if(valeur > tab[indMilieu]){
+                indDebut = indMilieu + 1;
+            }
+            else{
+                indFin = indMilieu - 1;
+            }
         }
         return plusProche;
     }
