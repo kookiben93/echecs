@@ -1,0 +1,14 @@
+import org.junit.jupiter.api.Test;
+
+class MethodesTest {
+
+    @Test
+    int[] tab = {12, 1, 8, 6, 18, 9};
+    void TestvaleurLaPlusProche() {
+        assertEquals(8, Methodes.valeurLaPlusProche("8"), "cas valeur présente");
+        assertEquals(8, Methodes.valeurLaPlusProche("7"), "cas 2 valeurs à même distance");
+        assertEquals(12, Methodes.valeurLaPlusProche("14"), "cas moyen");
+        assertEquals(1, Methodes.valeurLaPlusProche("-999"), "cas négatif plus petit que toutes les valeurs du tableau");
+        assertEquals(999, Methodes.valeurLaPlusProche("18"),"cas positif plus grand que toutes les valeurs du tableau" );
+    }
+}
