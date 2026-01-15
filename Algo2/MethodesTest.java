@@ -6,37 +6,37 @@ class MethodesTest {
 
     @Test
     void testTriInsertion() {
-        // 1. Tableau déjà trié
+        //Tableau déjà trié
         int[] tab1 = {1, 2, 3, 4, 5};
         int[] attendu1 = {1, 2, 3, 4, 5};
         Methodes.triInsertion(tab1);
         assertArrayEquals(attendu1, tab1);
 
-        // 2. Tableau trié à l'envers
+        //Tableau trié à l'envers
         int[] tab2 = {5, 4, 3, 2, 1};
         int[] attendu2 = {1, 2, 3, 4, 5};
         Methodes.triInsertion(tab2);
         assertArrayEquals(attendu2, tab2);
 
-        // 3. Tableau avec valeurs égales
+        //Tableau avec valeurs égales
         int[] tab3 = {2, 3, 2, 3, 1};
         int[] attendu3 = {1, 2, 2, 3, 3};
         Methodes.triInsertion(tab3);
         assertArrayEquals(attendu3, tab3);
 
-        // 4. Tableau avec une seule valeur
+        //Tableau avec une seule valeur
         int[] tab4 = {42};
         int[] attendu4 = {42};
         Methodes.triInsertion(tab4);
         assertArrayEquals(attendu4, tab4);
 
-        // 5. Tableau vide
+        //Tableau vide
         int[] tab5 = {};
         int[] attendu5 = {};
         Methodes.triInsertion(tab5);
         assertArrayEquals(attendu5, tab5);
 
-        // 6. Tableau avec nombres négatifs
+        //Tableau avec nombres négatifs
         int[] tab6 = {-2, -5, 0, 3, -1};
         int[] attendu6 = {-5, -2, -1, 0, 3};
         Methodes.triInsertion(tab6);
