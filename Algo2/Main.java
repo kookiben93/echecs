@@ -1,32 +1,20 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        long start = System.nanoTime();
 
-        //int[] données = Methodes.générerDonnéesEntreBornes(20, 0, 20);
-        //Methodes.afficher(données);
+        int[] données = Methodes.générerDonnéesEntreBornes(10000000, 0, 20);
+        //int[] données = Methodes.générerDonnées(10000000);  //cas moyen
+        //int[] données = Methodes.trierCroissant(10000000);  //meilleur cas
+        //int[] données = Methodes.trierDecroissant(200000); // pire cas
 
-        //int[] données = Methodes.générerDonnées(200000);  //cas moyen
-        //int[] données = Methodes.trierCroissant(200000);  //meilleur cas
-        int[] données = Methodes.trierDecroissant(200000); // pire cas
-        Methodes.triInsertion(données);    // trie le tableau en utilisant un tri par insertion
-
+        //Methodes.triInsertion(données);    // trie le tableau en utilisant un algorithme de tri par insertion
         //Arrays.sort(données); // trie le tableau en utilisant un algorithme de type Quicksort
 
-        //System.out.println(Arrays.toString(données));
+        System.out.print("valeur la plus proche de 15: ");
+        System.out.println(Methodes.valeurLaPlusProche(données, 15)); //tableau pas trié
+        //System.out.println(Methodes.valeurLaPlusProcheDichotomique(données, 15)); //tableau trié
 
-        /*System.out.print("valeur la plus proche : ");
-        int valeur = sc.nextInt();
-
-        System.out.println(Methodes.valeurLaPlusProche(données, valeur));*/
-
-        long end = System.nanoTime();
-
-        System.out.println((end - start) / 1_000_000.0 + " ms");
     }
-
 }
