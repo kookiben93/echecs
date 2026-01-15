@@ -6,7 +6,7 @@ public class Methodes {
     public static void triInsertion(int[] tab) {
         int temp;
         int j;
-        for (int i = 1; i < tab.length - 1; i++) {
+        for (int i = 1; i < tab.length; i++) {
             j = i - 1;
             while ((j >= 0) && (tab[j] > tab[j + 1])) {
                 temp = tab[j + 1];
