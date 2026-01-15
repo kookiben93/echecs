@@ -13,6 +13,9 @@ class MethodesTest {
         assertEquals(12, Methodes.valeurLaPlusProche(tab, 14), "cas moyen");
         assertEquals(1, Methodes.valeurLaPlusProche(tab, -999), "cas négatif plus petit que toutes les valeurs du tableau");
         assertEquals(18, Methodes.valeurLaPlusProche(tab, 999),"cas positif plus grand que toutes les valeurs du tableau" );
+
+        int[] tab = {};
+        assertEquals(-1, Methodes.valeurLaPlusProche(tab, 8), "cas tableau vide");
     }
     
     @Test
@@ -26,5 +29,8 @@ class MethodesTest {
         assertEquals(20, Methodes.valeurLaPlusProche(tab, 999), "cas positif plus grand que toutes les valeurs du tableau" );
         assertEquals(20, Methodes.valeurLaPlusProche(tab, 20), "cas limite valeur présente, la plus à droite");
         assertEquals(1, Methodes.valeurLaPlusProche(tab, 1), "cas limite valeur présente, la plus à gauche" );
+
+        int[] tab = {};
+        assertEquals(-1, Methodes.valeurLaPlusProche(tab, 8), "cas tableau vide");
     }
 }
