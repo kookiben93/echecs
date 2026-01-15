@@ -91,7 +91,7 @@ public class Methodes {
         int indFin = tab.length - 1;        //indice du début de la partie du tableau dans laquelle on cherche initialisé à taille du tableau -1
         int indMilieu;            //indice de la valeur du milieu de la partie du tableau dans laquelle on cherche
         int plusProche = tab[0];        //valeur la plus proche qu'on trouve au fur et à mesure des recherches, initialisée à la première valeur du tableau
-
+        
         while (indDebut <= indFin) {        //tant que indDebut et indFin se sont pas croisés
             indMilieu = (indDebut + indFin) / 2;        //initialisation de indMilieu actuel
             int distanceActuelle = Math.abs(tab[indMilieu] - valeur);        //distance entre valeur et tab[i] actuel
