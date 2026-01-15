@@ -3,6 +3,10 @@ import java.util.Random;
 public class Methodes {
 
     public static void triInsertion(int[] tab) {
+        if(tab.length==0){        //si le tableau est vide
+            return -1;            //retourner -1
+        }
+        
         int temp;
         int j;
         for (int i = 1; i < tab.length - 1; i++) {
@@ -65,12 +69,12 @@ public class Methodes {
     //renvoie la valeur si elle est présente 
     //si 2 valeurs sont à égales distance, renvoi la valeur la plus grande
     public static int valeurLaPlusProche(int[] tab, int valeur) {
-        int plusProche = tab[0];        //initialisation de la valeur la plus proche à la première valeur du tableau
-        int i = 1;               //initialisation du compteur du while à 1
-
         if(tab.length==0){        //si le tableau est vide
             return -1;            //retourner -1
         }
+        
+        int plusProche = tab[0];        //initialisation de la valeur la plus proche à la première valeur du tableau
+        int i = 1;               //initialisation du compteur du while à 1
 
         while (i < tab.length && plusProche != valeur) {        //boucle tant que le tableau entier n'est pas parcouru et qu'un nombre égale à la valeur n'a pas été trouvée
             int distanceActuelle = Math.abs(tab[i] - valeur);        //distance entre valeur et tab[i] actuel
@@ -91,14 +95,14 @@ public class Methodes {
     //renvoie la valeur si elle est présente 
     //si 2 valeurs sont à égales distance, renvoi la valeur la plus grande
     public static int valeurLaPlusProcheDichotomique(int[] tab, int valeur) {
+        if(tab.length==0){        //si le tableau est vide
+            return -1;            //retourner -1
+        }
+        
         int indDebut = 0;        //indice du début de la partie du tableau dans laquelle on cherche initialisé à 0
         int indFin = tab.length - 1;        //indice du début de la partie du tableau dans laquelle on cherche initialisé à taille du tableau -1
         int indMilieu;            //indice de la valeur du milieu de la partie du tableau dans laquelle on cherche
         int plusProche = tab[0];        //valeur la plus proche qu'on trouve au fur et à mesure des recherches, initialisée à la première valeur du tableau
-
-        if(tab.length==0){        //si le tableau est vide
-            return -1;            //retourner -1
-        }
         
         while (indDebut <= indFin) {        //tant que indDebut et indFin se sont pas croisés
             indMilieu = (indDebut + indFin) / 2;        //initialisation de indMilieu actuel
