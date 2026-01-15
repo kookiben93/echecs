@@ -2,8 +2,8 @@ import java.util.Random;
 
 public class Methodes {
 
-    public static void triInsertion(int[] tab) {
 
+    public static void triInsertion(int[] tab) {
         int temp;
         int j;
         for (int i = 1; i < tab.length - 1; i++) {
