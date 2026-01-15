@@ -1,13 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#define TAILLE 20000
 
 void triInsertion(int tab[], int longueur);
 
 int main() {
-    int tab[] = {3, 7, 2, 9, 4};
+    int tab[TAILLE];
+    int i;
+    int max=50;
 
-    triInsertion(tab, 5);
+    srand(time(NULL));
 
-    for(int i = 0; i < 5; i++){
+    for (i = 0; i < TAILLE; i++) {
+        tab[i] = rand() % (max+1);
+    }
+
+    triInsertion(tab, TAILLE);
+
+    for(int i = 0; i < TAILLE; i++){
         printf("%d ", tab[i]);
     }
 }
