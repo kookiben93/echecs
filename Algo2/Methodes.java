@@ -4,10 +4,6 @@ public class Methodes {
 
     //fonction qui prend un tableau en paramètre et le trie en ordre croissant
     public static void triInsertion(int[] tab) {
-        if(tab.length==0){        //si le tableau est vide
-            return -1;            //retourner -1
-        }
-        
         int temp;
         int j;
         for (int i = 1; i < tab.length - 1; i++) {
