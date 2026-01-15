@@ -61,7 +61,9 @@ public class Methodes {
     }
 
     //La question 3.a
-    //
+    //Méthode qui trouve la valeur la plus proche à celle recherchée dans un tableau de int pas trié
+    //renvoie la valeur si elle est présente 
+    //si 2 valeurs sont à égales distance, renvoi la valeur la plus grande
     public static int valeurLaPlusProche(int[] tab, int valeur) {
         int plusProche = tab[0];        //initialisation de la valeur la plus proche à la première valeur du tableau
         int i = 1;               //initialisation du compteur du while à 1
@@ -80,31 +82,38 @@ public class Methodes {
     }
 
     //La questions 3.b
+    //Méthode qui trouve la valeur la plus proche à celle recherchée dans un tableau de int trié
+    //par recherche dichoomique
+    //renvoie la valeur si elle est présente 
+    //si 2 valeurs sont à égales distance, renvoi la valeur la plus grande
     public static int valeurLaPlusProcheDichotomique(int[] tab, int valeur) {
-        int indDebut = 0;
-        int indFin = tab.length - 1;
-        int indMilieu;
-        int plusProche = tab[0];
+        int indDebut = 0;        //indice du début de la partie du tableau dans laquelle on cherche initialisé à 0
+        int indFin = tab.length - 1;        //indice du début de la partie du tableau dans laquelle on cherche initialisé à taille du tableau -1
+        int indMilieu;            //indice de la valeur du milieu de la partie du tableau dans laquelle on cherche
+        int plusProche = tab[0];        //valeur la plus proche qu'on trouve au fur et à mesure des recherches, initialisée à la première valeur du tableau
 
-        while (indDebut <= indFin) {
-            indMilieu = (indDebut + indFin) / 2;
-            int distanceActuelle = Math.abs(tab[indMilieu] - valeur);
-            int distancePlusProche = Math.abs(plusProche - valeur);
+        while (indDebut <= indFin) {        //tant que indDebut et indFin se sont pas croisés
+            indMilieu = (indDebut + indFin) / 2;        //initialisation de indMilieu actuel
+            int distanceActuelle = Math.abs(tab[indMilieu] - valeur);        //distance entre valeur et tab[i] actuel
+            int distancePlusProche = Math.abs(plusProche - valeur);        //distance entre valeur et le dernier nombre le plus proche trouvé
 
-            if (distanceActuelle < distancePlusProche) {
-                plusProche = tab[indMilieu];
-            } else if (distanceActuelle == distancePlusProche && tab[indMilieu] > plusProche) {
+            if (distanceActuelle < distancePlusProche) {        //si la distance avec le nombre du milieu est plus courte que celle avec le dernier nombre le plus proche
+                plusProche = tab[indMilieu];                 //remplacer la valeur du nombre le plus proche par le nombre du milieu
+            } 
+            else if (distanceActuelle == distancePlusProche && tab[indMilieu] > plusProche) {     //si la distance est égale entre les 2, on prend le plus grand des 2
                 plusProche = tab[indMilieu];
             }
 
-            if (tab[indMilieu] == valeur) {
-                return tab[indMilieu];
-            } else if (valeur > tab[indMilieu]) {
-                indDebut = indMilieu + 1;
-            } else {
-                indFin = indMilieu - 1;
+            if (tab[indMilieu] == valeur) {        //si la valeur du milieu actuel est égale à la valeur
+                return tab[indMilieu];            //on retourne la valeur directement
+            }
+            else if (valeur > tab[indMilieu]) {        //si la valeur du milieu actuel est plus petite que valeur
+                indDebut = indMilieu + 1;            //on continue la recherche dans la partie droite du tableau
+            } 
+            else {                //si la valeur du milieu actuel est plus grande que valeur
+                indFin = indMilieu - 1;            //on continue la recherche dans la partie gauche du tableau
             }
         }
-        return plusProche;
+        return plusProche;            //retourne le nombre le plus proche
     }
 }
