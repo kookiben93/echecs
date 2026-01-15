@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class Methodes {
 
-
     public static void triInsertion(int[] tab) {
         int temp;
         int j;
@@ -62,21 +61,22 @@ public class Methodes {
     }
 
     //La question 3.a
+    //
     public static int valeurLaPlusProche(int[] tab, int valeur) {
-        int plusProche = tab[0];
-        int i = 0;
+        int plusProche = tab[0];        //initialisation de la valeur la plus proche à la première valeur du tableau
+        int i = 1;               //initialisation du compteur du while à 1
 
-        while (i < tab.length && plusProche != valeur) {
-            int distanceActuelle = Math.abs(tab[i] - valeur);
-            int distancePlusProche = Math.abs(plusProche - valeur);
+        while (i < tab.length && plusProche != valeur) {        //boucle tant que le tableau entier n'est pas parcouru et qu'un nombre égale à la valeur n'a pas été trouvée
+            int distanceActuelle = Math.abs(tab[i] - valeur);        //distance entre valeur et tab[i] actuel
+            int distancePlusProche = Math.abs(plusProche - valeur);        //distance entre valeur et le dernier nombre le plus proche trouvé
 
-            if (distanceActuelle < distancePlusProche)
-                plusProche = tab[i];
-            else if (distanceActuelle == distancePlusProche && plusProche < tab[i])
+            if (distanceActuelle < distancePlusProche)        //si la distance avec le nombre actuel est plus courte que celle avec le dernier nombre le plus proche
+                plusProche = tab[i];                    //remplacer la valeur du nombre le plus proche par le nombre actuel
+            else if (distanceActuelle == distancePlusProche && plusProche < tab[i])        //si la distance est égale entre les 2, on prend le plus grand des 2
                 plusProche = tab[i];
             i++;
         }
-        return plusProche;
+        return plusProche;        //retourne le nombre le plus proche
     }
 
     //La questions 3.b
