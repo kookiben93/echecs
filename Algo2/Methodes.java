@@ -2,6 +2,7 @@ import java.util.Random;
 
 public class Methodes {
 
+    //fonction qui prend un tableau en paramètre et le trie en ordre croissant
     public static void triInsertion(int[] tab) {
         if(tab.length==0){        //si le tableau est vide
             return -1;            //retourner -1
@@ -20,6 +21,8 @@ public class Methodes {
         }
     }
 
+    //méthode qui prend une longueur et renvoie un tableau de cette longueur de
+    //0 à longueur (tri croissant)
     public static int[] trierCroissant(int longueur) {
         int[] t = new int[longueur];
         for (int i = 0; i < t.length; i++)
@@ -27,6 +30,8 @@ public class Methodes {
         return t;
     }
 
+    //méthode qui prend une longueur et renvoie un tableau de cette longueur de
+    //longueur à 0 (tri décroissant)
     public static int[] trierDecroissant(int longueur) {
         int[] t = new int[longueur];
         for (int i = 0; i < t.length; i++)
